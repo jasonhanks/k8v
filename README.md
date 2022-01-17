@@ -142,7 +142,7 @@ Here are a few various examples of how to use the container to run the utility:
     # view the usage for the tool using specified KUBECONFIG file
     docker run -it --rm -v /etc/rancher/k3s/k3s.yaml:/app/.kube/config jasonhanks/k8v:latest
 
-    # view *brief* listing of all deafult resources all namespaces
+    # view *brief* listing of all default resources all namespaces
     docker run -it --rm -v ~/.kube:/app/.kube jasonhanks/k8v:latest -A -d brief
 
     # view all *services* and *ingress* resources in the specified namespace
