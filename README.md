@@ -12,13 +12,16 @@ visibility into a Kubernetes cluster.
 
 In order to run the tool directly you need to clone the repository and install the dependencies:
 
-    # default environment
-    pip install -r requirements.txt
-
-    # alternatively using virtualenv
+    # clone the repository and navigate to the project folder
+    git clone git@github.com:jasonhanks/k8v.git
+    cd k8v
+    
+    # optional: setup virtualenv for the project (recommended)
     python3 -mvenv .env
     source .env/bin/activate
-    pip install -r requirements.txt
+
+    # install the dependencies
+    pip3 install -r requirements.txt
 
 
 
