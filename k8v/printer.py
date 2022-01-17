@@ -39,26 +39,20 @@ class Printer:
         Returns:
             str: friendly name for the specified api_type
         """
-        if api_type == "V1ConfigMap":
-            return "configmap"
-        elif api_type == "V1Deployment":
-            return "deployment"
-        elif api_type == "V1Ingress":
-            return "ingress"
-        elif api_type == "V1Secret":
-            return "secret"
-        elif api_type == "V1ReplicaSet":
-            return "replicaset"
-        elif api_type == "V1DaemonSet":
-            return "daemonset"
-        elif api_type == "V1Pod":
-            return "pod"
-        elif api_type == "V1PersistentVolume":
-            return "persistentvolume"
-        elif api_type == "V1PersistentVolumeClaim":
-            return "persistentvolumeclaim"
-        elif api_type == "V1Service":
-            return "service"
+        mapped_values = {
+            "V1ConfigMap": "configmap",
+            "V1Deployment": "deployment",
+            "V1Ingress": "ingress",
+            "V1Secret": "secret",
+            "V1ReplicaSet": "replicaset",
+            "V1DaemonSet": "daemonset",
+            "V1Pod": "pod",
+            "V1PersistentVolume": "persistentvolume",
+            "V1PersistentVolumeClaim": "persistentvolumeclaim",
+            "V1Service": "service",
+        }
+        if api_type in mapped_values:
+            return mapped_values[api_type]
         else:
             return api_type
 
