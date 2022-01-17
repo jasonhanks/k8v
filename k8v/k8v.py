@@ -339,13 +339,13 @@ def usage() -> None:
     print("other command line arguments. Otherwise the container will only display this message.")
     print()
     print("     # Example: run with default view")
-    print("     docker run -it --rm -v ~/.kube:/app/.kube k8v:latest --")
+    print("     docker run -it --rm -v ~/.kube:/app/.kube jasonhanks/k8v:latest --")
     print()
     print("     # Example: run with brief view for a specific namespace")
-    print("     docker run -it --rm -v ~/.kube:/app/.kube k8v:latest -d brief -n metallb")
+    print("     docker run -it --rm -v ~/.kube:/app/.kube jasonhanks/k8v:latest -d brief -n metallb")
     print()
     print("     # Example: run while searching for a specific search term")
-    print("     docker run -it --rm -v ~/.kube:/app/.kube k8v:latest heimdall")
+    print("     docker run -it --rm -v ~/.kube:/app/.kube jasonhanks/k8v:latest heimdall")
     print()
 
 
