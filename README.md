@@ -24,7 +24,7 @@ In order to run the tool directly you need to clone the repository and install t
 
 ## Kubernetes configuration
 
-By default the tool reads the *KUBECONFIG* environment variable for the location of the configuratio to use, or
+By default the tool reads the *KUBECONFIG* environment variable for the location of the configuration to use, or
 will default to *~/.kube/config* otherwise.
 
 
