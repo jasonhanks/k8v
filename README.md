@@ -44,7 +44,7 @@ This output is generated in such a way that it can be used to drive scripted or 
 only report individual resources that match the input search criteria and nothing else. 
 
     # list each default resource in the *metallb* namespace
-    $ python3 k8v/k8v.py -n metallb -d brief
+    $ python3 k8v/k8v.py -n metallb -o brief
     configmap/metallb/kube-root-ca.crt
     configmap/metallb/metallb
     secret/metallb/default-token-cbsxv
@@ -105,7 +105,7 @@ Here are a few various examples of how to use the utility:
     KUBECONFIG=/etc/rancher/k3s/k3s.yaml python3 k3s/k3s.py
 
     # view *brief* listing of all deafult resources all namespaces
-    python3 k8v/k8v.py -A -d brief
+    python3 k8v/k8v.py -A -o brief
     
     # view all *services* and *ingress* resources in the specified namespace
     python3 k8v/k8v.py -n heimdall -r ingress -r service
@@ -145,7 +145,7 @@ Here are a few various examples of how to use the container to run the utility:
     docker run -it --rm -v /etc/rancher/k3s/k3s.yaml:/app/.kube/config jasonhanks/k8v:latest
 
     # view *brief* listing of all default resources all namespaces
-    docker run -it --rm -v ~/.kube:/app/.kube jasonhanks/k8v:latest -A -d brief
+    docker run -it --rm -v ~/.kube:/app/.kube jasonhanks/k8v:latest -A -o brief
 
     # view all *services* and *ingress* resources in the specified namespace
     docker run -it --rm -v ~/.kube:/app/.kube jasonhanks/k8v:latest -n heimdall -r ingress -r service
