@@ -26,7 +26,7 @@ This allows you to see a lot of information in a hierarchy quickly with filterin
     # list all resources matching *heimdall* using the default view
     $ python3 k8v/k8v.py heimdall
     service/default/heimdall (type=LoadBalancer cluster_ip=10.43.39.132  ports=[80:80/TCP nodeport=30242:443/TCP])
-    ingress/default/heimdall (host=heimdall.example.com (/ => heimdall:80) )
+    ingress/default/heimdall (host=heimdall.example.com [/=heimdall:80])
     deployment/default/heimdall (labels=[app=heimdall] replicas=1/1 (upd=1 avail=1) strategy=Recreate generation=14)
             replicaset/default/heimdall-9864f4f59 (labels=[app=heimdall pod-template-hash=9864f4f59] replicas=1/1 (avail=1) generation=3)
                     pod/default/heimdall-9864f4f59-8m5ls (labels=[app=heimdall pod-template-hash=9864f4f59] sa=default config_maps= secrets= pvc=heimdall)
