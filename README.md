@@ -2,7 +2,7 @@
 
 k8v is a command line utility used to view various information about a Kubernetes cluster at a glance. 
 
-Note: this tool is not intended as a replacement for **kubectl** and is only intended to provide more flexible 
+Note: this tool is not intended as a replacement for *kubectl* and is only intended to provide more flexible 
 visibility into a Kubernetes cluster.
 
 
@@ -24,8 +24,8 @@ In order to run the tool directly you need to clone the repository and install t
 
 ## Kubernetes configuration
 
-By default the tool reads the KUBECONFIG environment variable for the location of the configuratio to use, or
-will default to ~/.kube/config otherwise.
+By default the tool reads the *KUBECONFIG* environment variable for the location of the configuratio to use, or
+will default to *~/.kube/config* otherwise.
 
 
 
