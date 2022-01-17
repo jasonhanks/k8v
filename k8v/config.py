@@ -26,4 +26,5 @@ class Config:
     # resource types
     resources: list = dataclasses.field(default_factory=list)
 
+    # verbose logging
     verbose: bool = False

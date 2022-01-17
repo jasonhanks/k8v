@@ -7,20 +7,23 @@ import searcher
 class Viewer:
     """The Viewer is the main logic that will query the Kubernetes system and display the results."""
 
-    def __init__(self, config: config.Config = config.Config(), delim: str = "        ") -> None:
+    def __init__(
+        self, config: config.Config = config.Config(), delim: str = "        "
+    ) -> None:
         self.config: config.Config = config
         self.delim: str = delim
 
         self.printer: printer.Printer = printer.Printer(self)
         self.searcher: searcher.Searcher = searcher.Searcher(self)
 
-
     def view(self) -> None:
         """Use the input parameters to create a View of the desired resources and their relationships."""
 
         # show the input parameters
         if self.config.verbose:
-            print(f"Display mode={self.config.display_type}, namespaces={self.config.namespaces}, resources={self.config.resources}, filters={self.config.includes}, selectors={self.config.selectors}")
+            print(
+                f"Display mode={self.config.display_type}, namespaces={self.config.namespaces}, resources={self.config.resources}, filters={self.config.includes}, selectors={self.config.selectors}"
+            )
 
         # setup the API handlers
         self.printer.connect()
