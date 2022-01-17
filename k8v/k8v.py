@@ -17,6 +17,7 @@ def usage() -> None:
     print("resources by type (default: deploy, daemonsets, replicasets, pods) and display various information about them.")
     print()
     print("display mode:")
+    print("     -c | --colors <scheme>          use the named color scheme (specified in k8s/color-scheme.json) or use 'none' for plain text")
     print("     -d | --display                  display mode used to display matches (default|brief|full)\n"
           "                                         default - shows most important resources on separate lines but summarizes others\n"
           "                                         brief   - shows one liner per resources with summary of related resources\n"
@@ -63,7 +64,7 @@ def main(argv) -> None:
 
     viewer: Viewer = Viewer()
     try:
-        opts, args = getopt.getopt(argv, "Avhd:f:e:i:n:r:s:", ["display", "all-namespaces", "exclude", "filter", "help" "include", "namespace",  "resource",  "selector", "verbose"])
+        opts, args = getopt.getopt(argv, "Acvhd:f:e:i:n:r:s:", ["colors", "display", "all-namespaces", "exclude", "filter", "help" "include", "namespace",  "resource",  "selector", "verbose"])
     except getopt.GetoptError as e:
         usage()
         print(f"ERROR: {e}")
@@ -77,6 +78,8 @@ def main(argv) -> None:
             sys.exit()
 
         # display modes
+        elif opt in ("-c", "--colors"):
+            viewer.config.colors = arg
         elif opt in ("-d", "--display"):
             viewer.config.display_type = arg
         elif opt in ("-v", "--verbose"):
