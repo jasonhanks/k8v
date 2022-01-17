@@ -46,6 +46,65 @@ Here are a few various examples of how to use the utility:
 
 
 
+## Sample output
+
+This section includes some sample output from the different views to get an idea of what
+the output looks like.
+
+
+
+### Brief view
+
+The brief view will simply list each of the matching resources one per line.
+
+    # list each default resource in the *metallb* namespace
+    $ python3 k8v/k8v.py -n metallb -d brief
+    configmap/metallb/kube-root-ca.crt
+    configmap/metallb/metallb
+    secret/metallb/default-token-cbsxv
+    secret/metallb/metallb-controller-token-jfqhf
+    secret/metallb/metallb-memberlist
+    secret/metallb/metallb-speaker-token-rnqh9
+    secret/metallb/sh.helm.release.v1.metallb.v1
+    daemonset/metallb/metallb-speaker
+    deployment/metallb/metallb-controller
+    pod/metallb/metallb-controller-7cb7dd579d-zvcts
+    pod/metallb/metallb-speaker-ffwcc
+    pod/metallb/metallb-speaker-hgvpd
+    pod/metallb/metallb-speaker-r9kv6
+    pod/metallb/metallb-speaker-s6ps5
+    pod/metallb/metallb-speaker-vmpcr
+    pod/metallb/metallb-speaker-zxr8l
+
+
+### Default view
+
+The default view will show each resource with one line per resource that includes various information about
+that resources. Additionally some resources will also display related *children* resources on a separate
+line including their own details.
+
+This allows the user to see a low of information quickly by using various filtering capabilities.
+
+    # list all resources matching *heimdall* using the default view
+    $ python3 k8v/k8v.py heimdall
+    service/default/heimdall (type=LoadBalancer cluster_ip=10.43.39.132  ports=[80:80/TCP nodeport=30242443:443/TCP nodeport=32661])
+    ingress/default/heimdall (host=heimdall.example.com (/ => heimdall:80) )
+    deployment/default/heimdall (labels=[app=heimdall] replicas=1/1 (upd=1 avail=1) strategy=Recreate generation=14)
+            replicaset/default/heimdall-9864f4f59 (labels=[app=heimdall pod-template-hash=9864f4f59] replicas=1/1 (avail=1) generation=3)
+                    pod/default/heimdall-9864f4f59-8m5ls (labels=[app=heimdall pod-template-hash=9864f4f59] sa=default config_maps= secrets= pvc=heimdall)
+    pod/default/heimdall-9864f4f59-8m5ls (labels=[app=heimdall pod-template-hash=9864f4f59] sa=default config_maps= secrets= pvc=heimdall)
+
+
+Note: this view will eventually have ANSI color support to make it more visually appealing.
+
+
+### Full view
+
+The full view is currently the same as the default view but will eventually show more *children* resources instead of 
+simply summarizing them.
+
+
+
 # Docker Container
 
 This project maintains a publicly availble container image on the Docker Hub. 
