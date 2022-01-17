@@ -1,6 +1,7 @@
 # k8v (Kubernetes Viewer)
 
-k8v is a command line utility used to view various information about a Kubernetes cluster at a glance. 
+k8v is a command line utility used to view information about a Kubernetes cluster. It allows the user to view 
+multiple resources at once, optionally in a hierarchy, as well as provide filtering capabilities.
 
 Note: this tool is not intended as a replacement for *kubectl* and is only intended to provide more flexible 
 visibility into a Kubernetes cluster.
