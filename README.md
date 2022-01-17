@@ -104,7 +104,7 @@ Here are a few various examples of how to use the utility:
     # view the usage for the tool using specified KUBECONFIG file
     KUBECONFIG=/etc/rancher/k3s/k3s.yaml python3 k3s/k3s.py
 
-    # view *brief* listing of all deafult resources all namespaces
+    # view *brief* listing of all default resources for all namespaces
     python3 k8v/k8v.py -A -o brief
     
     # view all *services* and *ingress* resources in the specified namespace
@@ -125,9 +125,8 @@ Multiple schemes are supported and non-default schemes can be specified at runti
 
 # Docker Container
 
-This project maintains a publicly availble container image on the Docker Hub. 
-
-
+This project maintains a publicly availble container image on the Docker Hub. The official container for
+the latest version is: jasonhanks/k8s:latest
 
 ## Kubernetes configuration
 
