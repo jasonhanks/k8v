@@ -9,9 +9,13 @@ class ResourceType(enum.Enum):
     SECRETS     = ["secret", "secrets"]
 
     # workloads
+    SERVICES    = ["service", "services", "svc", "svcs"]
+    INGRESS     = ["ingress", "ingresses", "ing"]
     REPLICA_SETS = ["replicaset", "replicasets", "rs"]
     DAEMON_SETS = ["daemonset", "daemonsets", "ds"]
     DEPLOYMENTS = ["deployment", "deployments", "deploy", "deploys"]
-    SERVICES    = ["service", "services", "svc", "svcs"]
     PODS        = ["pod", "pods", "po"]
-    INGRESS     = ["ingress", "ingresses", "ing"]
+
+    # volumes
+    PERSISTENT_VOLUME = ["persistentvolume", "persistentvolumes", "pv"]
+    PERSISTENT_VOLUME_CLAIM = ["persistentvolumeclaim", "persistentvolumeclaims", "pvc"]

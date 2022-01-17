@@ -88,12 +88,13 @@ This allows the user to see a low of information quickly by using various filter
 
     # list all resources matching *heimdall* using the default view
     $ python3 k8v/k8v.py heimdall
-    service/default/heimdall (type=LoadBalancer cluster_ip=10.43.39.132  ports=[80:80/TCP nodeport=30242443:443/TCP nodeport=32661])
+    service/default/heimdall (type=LoadBalancer cluster_ip=10.43.39.132  ports=[80:80/TCP nodeport=30242:443/TCP])
     ingress/default/heimdall (host=heimdall.example.com (/ => heimdall:80) )
     deployment/default/heimdall (labels=[app=heimdall] replicas=1/1 (upd=1 avail=1) strategy=Recreate generation=14)
             replicaset/default/heimdall-9864f4f59 (labels=[app=heimdall pod-template-hash=9864f4f59] replicas=1/1 (avail=1) generation=3)
                     pod/default/heimdall-9864f4f59-8m5ls (labels=[app=heimdall pod-template-hash=9864f4f59] sa=default config_maps= secrets= pvc=heimdall)
     pod/default/heimdall-9864f4f59-8m5ls (labels=[app=heimdall pod-template-hash=9864f4f59] sa=default config_maps= secrets= pvc=heimdall)
+    persistentvolumeclaim/default/heimdall (storage_class=nfs-client access_modes=['ReadWriteMany'] capacity=1Gi volume=pvc-8c5af527-cd3f-4a37-88fa-89d0d7523c81 phase=Bound)
 
 
 Note: this view will eventually have ANSI color support to make it more visually appealing.

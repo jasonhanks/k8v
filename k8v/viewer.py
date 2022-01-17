@@ -54,6 +54,10 @@ class Viewer:
             return self.api_core_v1.list_secret_for_all_namespaces if self.config.namespaces is None else self.api_core_v1.list_namespaced_secret
         elif type == ResourceType.INGRESS:
             return self.api_network_v1.list_ingress_for_all_namespaces if self.config.namespaces is None else self.api_network_v1.list_namespaced_ingress
+        elif type == ResourceType.PERSISTENT_VOLUME:
+            return self.api_core_v1.list_persistent_volume  if self.config.namespaces is None else None
+        elif type == ResourceType.PERSISTENT_VOLUME_CLAIM:
+            return self.api_core_v1.list_persistent_volume_claim_for_all_namespaces if self.config.namespaces is None else self.api_core_v1.list_namespaced_persistent_volume_claim
         elif type == ResourceType.SERVICES:
             return self.api_core_v1.list_service_for_all_namespaces if self.config.namespaces is None else self.api_core_v1.list_namespaced_service
         else:
@@ -76,6 +80,10 @@ class Viewer:
             return "daemonset"
         elif api_type == "V1Pod":
             return "pod"
+        elif api_type == "V1PersistentVolume":
+            return "persistentvolume"
+        elif api_type == "V1PersistentVolumeClaim":
+            return "persistentvolumeclaim"
         elif api_type == "V1Service":
             return "service"
         else:
@@ -146,6 +154,12 @@ class Viewer:
         if type in [ResourceType.CONFIG_MAP, ResourceType.SECRETS] and resource.data is not None and len(resource.data) > 0:
             extended_info += f"{'data='+ ', '.join(resource.data)}"
 
+        elif type == ResourceType.PERSISTENT_VOLUME:
+            extended_info += f"storage_class={resource.spec.storage_class_name} access_modes={resource.spec.access_modes} reclaim={resource.spec.persistent_volume_reclaim_policy} capacity={resource.spec.capacity['storage']}"
+
+        elif type == ResourceType.PERSISTENT_VOLUME_CLAIM:
+            extended_info += f"storage_class={resource.spec.storage_class_name} access_modes={resource.spec.access_modes} capacity={resource.status.capacity['storage']} volume={resource.spec.volume_name} phase={resource.status.phase}"
+
         elif type == ResourceType.PODS:
             pod_data = self.get_pod_data(resource)
             extended_info += f"config_maps={', '.join(pod_data['configmaps']) if len(pod_data['configmaps']) > 0 else ''} "
@@ -183,7 +197,7 @@ class Viewer:
         extended_info = '('+extended_info+')' if len(extended_info) > 0 else extended_info
         if post_info != "":
             post_info = "\n"+ post_info
-        print(f"{delim}{self.map_api_type(resource.__class__.__name__)}/{resource.metadata.namespace}/{resource.metadata.name} {extended_info}{post_info}")
+        print(f"{delim}{self.map_api_type(resource.__class__.__name__)}{'/'+resource.metadata.namespace if resource.metadata.namespace else ''}/{resource.metadata.name} {extended_info}{post_info}")
 
         for related in self.search_for_related(resource, type):
             if type == ResourceType.DEPLOYMENTS:
@@ -283,6 +297,8 @@ class Viewer:
                 ResourceType.DAEMON_SETS,
                 ResourceType.DEPLOYMENTS,
                 ResourceType.PODS,
+                ResourceType.PERSISTENT_VOLUME,
+                ResourceType.PERSISTENT_VOLUME_CLAIM,
             ]
 
         # search for matching (and filtered) resources and print them out
