@@ -64,7 +64,7 @@ def main(argv) -> None:
 
     viewer: Viewer = Viewer()
     try:
-        opts, args = getopt.getopt(argv, "Acvhd:f:e:i:n:r:s:", ["colors", "display", "all-namespaces", "exclude", "filter", "help" "include", "namespace",  "resource",  "selector", "verbose"])
+        opts, args = getopt.getopt(argv, "Avhc:d:f:e:i:n:r:s:", ["colors", "display", "all-namespaces", "exclude", "filter", "help" "include", "namespace",  "resource",  "selector", "verbose"])
     except getopt.GetoptError as e:
         usage()
         print(f"ERROR: {e}")
