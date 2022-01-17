@@ -6,7 +6,7 @@ class Config:
     """Configuration variables used for the Viewer."""
 
     # color scheme
-    colors: str = "default"
+    colors: str = "none"
 
     # excludes list
     excludes: list = dataclasses.field(default_factory=list)
