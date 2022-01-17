@@ -326,10 +326,26 @@ def usage() -> None:
     print("Note: by default only the default namespace is searched unless --all-namespaces or --namespace option is specified.")
     print()
     print("search criteria:")
-    print("     -e | --exclude <query>          exclude resources by name matches (can be specified more than once)")
+    print("     -e | --exclude <query>          exclude resources by name substring matches (can be specified more than once)")
+    print("     -i | --include <query>          include resources by name substring matches (can be specified more than once)")
     print("     -r | --resource <type>          specify resource types to search (can be specified more than once)")
     print("     -s | --selector <label=value>   select resources using labels (can be specified more than once)")
-    print("     <query>                         extra arguments will be used to search for specific resources by name")
+    print("     <query>                         same functionality as --include")
+    print()
+    print()
+    print("Docker Usage")
+    print()
+    print("Docker users will need to use the following syntax to pass their Kubernetes configuration as well as")
+    print("other command line arguments. Otherwise the container will only display this message.")
+    print()
+    print("     # Example: run with default view")
+    print("     docker run -it --rm -v ~/.kube:/app/.kube k8v:latest --")
+    print()
+    print("     # Example: run with brief view for a specific namespace")
+    print("     docker run -it --rm -v ~/.kube:/app/.kube k8v:latest -d brief -n metallb")
+    print()
+    print("     # Example: run while searching for a specific search term")
+    print("     docker run -it --rm -v ~/.kube:/app/.kube k8v:latest heimdall")
     print()
 
 
@@ -339,7 +355,7 @@ def main(argv) -> None:
 
     viewer: Viewer = Viewer(config.Config())
     try:
-        opts, args = getopt.getopt(argv, "Avd:f:e:i:n:r:s:", ["display", "all-namespaces", "exclude", "filter", "include", "namespace",  "resource",  "selector", "verbose"])
+        opts, args = getopt.getopt(argv, "Avhd:f:e:i:n:r:s:", ["display", "all-namespaces", "exclude", "filter", "help" "include", "namespace",  "resource",  "selector", "verbose"])
     except getopt.GetoptError as e:
         usage()
         print(f"ERROR: {e}")
@@ -347,7 +363,8 @@ def main(argv) -> None:
         sys.exit(2)
 
     for opt, arg in opts:
-        if opt == "-h":
+        # display the help
+        if opt in ("-h", "--help"):
             usage()
             sys.exit()
 
