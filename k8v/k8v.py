@@ -303,9 +303,9 @@ class Viewer:
 
 def usage() -> None:
     print()
-    print("k8s viewer")
+    print("k8v - kubernetes viewer")
     print()
-    print("Usage: viewer.py [-v|--verbose] [-d|--display <default|brief|full>] [-A|--all-namespaces] [-n|--namespace <ns>] [-e|--exclude <query>] [-r|--resource <type>] [-s|--selector <label=value>] [<search query>]")
+    print("Usage: k8v.py [-vA] [-d <default|brief|full>] [-n <ns>] [-e <query>] [-r <type>] [-s <label=value>] [<query>]")
     print()
     print("This utility is used to quickly see a lot of information about a Kubernetes context "
           "(default namespace is: default). This will display all the desired ")
