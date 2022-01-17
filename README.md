@@ -97,14 +97,16 @@ This allows the user to see a low of information quickly by using various filter
     persistentvolumeclaim/default/heimdall (storage_class=nfs-client access_modes=['ReadWriteMany'] capacity=1Gi volume=pvc-8c5af527-cd3f-4a37-88fa-89d0d7523c81 phase=Bound)
 
 
-Note: this view will eventually have ANSI color support to make it more visually appealing.
-
-
 ### Full view
 
 The full view is currently the same as the default view but will eventually show more *children* resources instead of 
 simply summarizing them.
 
+
+## ANSI color schemes
+
+Basic ANSI support has been added and can be configured by editing the k8s/color-schemes.json file. Multiple schemes are 
+supported and a default can be changed, as well as picked at runtime using the *-c* or *--colors* option.
 
 
 # Docker Container

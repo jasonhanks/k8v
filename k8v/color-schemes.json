@@ -1,0 +1,15 @@
+{
+    "schemes": {
+        "default": {
+            "type": [[ "fg", "cyan"], [ "fx", "faint"]],
+            "namespace": [[ "fg", "cyan"], [ "fx", "normal"]],
+            "name": [[ "fg", "cyan"], [ "fx", "bold"]],
+            "attr_name": [[ "fg", "cyan"], [ "fx", "faint"]],
+            "attr_delim": [[ "fg", "cyan"], [ "fx", "normal"]],
+            "attr_value": [[ "fg", "cyan"], [ "fx", "bold"]],
+            "attr2_name": [[ "fg", "magenta"], [ "fx", "normal"]],
+            "attr2_delim": [[ "fg", "magenta"], [ "fx", "bold"]],
+            "attr2_value": [[ "fg", "magenta"], [ "fx", "normal"]]
+        }
+    }
+}
