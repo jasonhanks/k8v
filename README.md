@@ -69,7 +69,8 @@ only report individual resources that match the input search criteria and nothin
 The full view is currently the same as the default view but will show more detailed *related* resources 
 visually indented below the resource instead of summarizing them.
 
-This will includes many resource types such as ConfigMap, Ingress, NetworkPolicy, Secret, Service, etc.
+This will includes many resource types such as ConfigMap, Ingress, NetworkPolicy, Secret, Service, etc. 
+that are currently only summarized for the parent resource.
 
 
 
