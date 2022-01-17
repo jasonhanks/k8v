@@ -26,7 +26,7 @@ def usage() -> None:
         "     -c | --colors <scheme>          use the named color scheme (specified in k8s/color-scheme.json) or use 'none' for plain text"
     )
     print(
-        "     -d | --display                  display mode used to display matches (default|brief|full)\n"
+        "     -o | --output                   output mode used to display matching resources (default|brief|full)\n"
         "                                         default - shows most important resources on separate lines but summarizes others\n"
         "                                         brief   - shows one liner per resources with summary of related resources\n"
         "                                         full    - shows each resources as well as each related resources on a separate line"
@@ -95,15 +95,16 @@ def main(argv) -> None:
     try:
         opts, args = getopt.getopt(
             argv,
-            "Avhc:d:f:e:i:n:r:s:",
+            "Avhc:f:e:i:n:o:r:s:",
             [
                 "colors",
-                "display",
                 "all-namespaces",
                 "exclude",
                 "filter",
-                "help" "include",
+                "help",
+                "include",
                 "namespace",
+                "output",
                 "resource",
                 "selector",
                 "verbose",
@@ -124,8 +125,8 @@ def main(argv) -> None:
         # display modes
         elif opt in ("-c", "--colors"):
             viewer.config.colors = arg
-        elif opt in ("-d", "--display"):
-            viewer.config.display_type = arg
+        elif opt in ("-o", "--output"):
+            viewer.config.output = arg
         elif opt in ("-v", "--verbose"):
             viewer.config.verbose = True
 

@@ -12,6 +12,14 @@ class Printer:
         self.config = viewer.config
 
     def connect(self) -> None:
+        """Setup the Printer so that is it ready to begin printing objects.
+
+        This will load the color-schemes.json file and setup the appropriate
+        scheme that will be used by the Printer.
+
+        Raises:
+            e: Any IO related Exceptions raised during
+        """
         try:
             schemes = json.load(open("k8v/color-schemes.json"))["schemes"]
             if self.config.colors in schemes:
@@ -23,7 +31,14 @@ class Printer:
             raise e
 
     def map_api_type(self, api_type: str) -> str:
-        """Map the API class names to a more user friendly string to display."""
+        """Map the API class names to a more user friendly string to display.
+
+        Args:
+            api_type (str): Class name of the API object we need a friendly name for
+
+        Returns:
+            str: friendly name for the specified api_type
+        """
         if api_type == "V1ConfigMap":
             return "configmap"
         elif api_type == "V1Deployment":
@@ -48,7 +63,14 @@ class Printer:
             return api_type
 
     def get_label_text(self, resource) -> str:
-        """Get the text that should be dispalyed for labels in all resources."""
+        """Get the text that should be dispalyed for labels in all resources.
+
+        Args:
+            resource (dict): Dictionary containing JSON representation of API response.
+
+        Returns:
+            str: A str with information about the labels this resource has.
+        """
         if resource.metadata.labels is None:
             return ""
 
@@ -65,9 +87,9 @@ class Printer:
 
     def print(self, resource, type: ResourceType, delim: str = "") -> None:
         """Print out a resources and its information along with related resources."""
-        if self.config.display_type == "brief":
+        if self.config.output == "brief":
             self.print_brief(resource, type, delim)
-        elif self.config.display_type == "default":
+        elif self.config.output == "default":
             self.print_default(resource, type, delim)
         else:
             self.print_full(resource, type, delim)

@@ -8,23 +8,23 @@ class Config:
     # color scheme
     colors: str = "default"
 
-    # namespaces to search
-    namespaces: list = dataclasses.field(default_factory=list)
-
-    # display mode
-    display_type: str = "default"
-
     # excludes list
     excludes: list = dataclasses.field(default_factory=list)
 
     # includes list
     includes: list = dataclasses.field(default_factory=list)
 
-    # label selectors
-    selectors: dict = dataclasses.field(default_factory=dict)
+    # namespaces to search
+    namespaces: list = dataclasses.field(default_factory=list)
+
+    # output mode
+    output: str = "default"
 
     # resource types
     resources: list = dataclasses.field(default_factory=list)
+
+    # label selectors
+    selectors: dict = dataclasses.field(default_factory=dict)
 
     # verbose logging
     verbose: bool = False
