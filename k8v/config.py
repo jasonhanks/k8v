@@ -5,6 +5,9 @@ import dataclasses
 class Config:
     """Configuration variables used for the Viewer."""
 
+    # color scheme
+    colors: str = "default"
+
     # namespaces to search
     namespaces: list = dataclasses.field(default_factory=list)
 
