@@ -7,11 +7,9 @@ from resource_types import ResourceType
 
 
 class Printer:
-
     def __init__(self, viewer):
         self.viewer = viewer
         self.config = viewer.config
-
 
     def connect(self) -> None:
         """Setup the Printer so that is it ready to begin printing objects.
@@ -32,8 +30,7 @@ class Printer:
             print(f"Exception occurred loading color schemes: {e}")
             raise e
 
-
-    def map_api_type(self, api_type: str) -> str:
+    def get_api_type(self, api_type: str) -> str:
         """Map the API class names to a more user friendly string to display.
 
         Args:
@@ -55,7 +52,6 @@ class Printer:
             "V1Service": "service",
         }
         return mapped_values[api_type] if api_type in mapped_values else api_type
-
 
     def get_label_text(self, resource) -> str:
         """Get the text that should be dispalyed for labels in all resources.
@@ -80,7 +76,6 @@ class Printer:
         message += self.get_ansi_text("attr2_delim", "] ")
         return message
 
-
     def print(self, resource, type: ResourceType, delim: str = "") -> None:
         """Print out a resources and its information along with related resources."""
         if self.config.output == "brief":
@@ -89,7 +84,6 @@ class Printer:
             self.print_default(resource, type, delim)
         else:
             self.print_full(resource, type, delim)
-
 
     def get_ansi_text(self, key: str, text: str) -> str:
         """Format a message with the specified text before resetting the ANSI code."""
@@ -112,18 +106,16 @@ class Printer:
         message.append(fx.reset)
         return "".join(map(str, message))
 
-
     def print_brief(self, resource, type: ResourceType, delim: str = "") -> None:
         """Print the **brief** display version of a resource."""
         message = delim + self.get_ansi_text(
-            "type", self.map_api_type(resource.__class__.__name__)
+            "type", self.get_api_type(resource.__class__.__name__)
         )
         message += "/"
         message += self.get_ansi_text("namespace", resource.metadata.namespace)
         message += "/"
         message += self.get_ansi_text("name", resource.metadata.name)
         print(message)
-
 
     def print_default(self, resource, type: ResourceType, delim: str = "") -> None:
         """Print the **default** display version of a resource."""
@@ -191,7 +183,7 @@ class Printer:
             post_info = "\n" + post_info
 
         message = delim + self.get_ansi_text(
-            "type", self.map_api_type(resource.__class__.__name__)
+            "type", self.get_api_type(resource.__class__.__name__)
         )
         message += "/"
         if resource.metadata.namespace:
@@ -210,7 +202,6 @@ class Printer:
                 self.print(related, ResourceType.PODS, delim=self.viewer.delim + delim)
             elif type == ResourceType.REPLICA_SETS:
                 self.print(related, ResourceType.PODS, delim=self.viewer.delim + delim)
-
 
     def print_full(self, resource, type: ResourceType, delim: str = "") -> None:
         """Print the resource using the **full** display mode including related resources (configmaps, secrets, volumes, etc.) as children."""
