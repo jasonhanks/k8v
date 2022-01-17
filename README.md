@@ -36,13 +36,13 @@ Here are a few various examples of how to use the utility:
     KUBECONFIG=/etc/rancher/k3s/k3s.yaml python3 k3s/k3s.py
 
     # view *brief* listing of all deafult resources all namespaces
-    python3 k3s/k3s.py -A -d brief
+    python3 k8v/k8v.py -A -d brief
     
     # view all *services* and *ingress* resources in the specified namespace
-    python3 k3s/k3s.py -n heimdall -r ingress -r service
+    python3 k8v/k8v.py -n heimdall -r ingress -r service
 
     # view all default resources matching the specififed search query
-    python3 k3s/k3s.py nginx
+    python3 k8v/k8v.py nginx
 
 
 
