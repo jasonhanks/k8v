@@ -54,8 +54,8 @@ This project maintains a publicly availble container image on the Docker Hub.
 
 ## Kubernetes configuration
 
-In order to specify the Kubernetes configuration with the Docker container you must pass a volume into the 
-container containing the desired cluster configuration. 
+In order to specify the Kubernetes configuration with the Docker container you must pass it a volume 
+with the desired cluster configuration overriding /app/.kube/config inside the container. 
 
 See the Usage section for examples.
 
