@@ -122,6 +122,7 @@ Basic ANSI support has been added and schemes can be configured by editing the k
 Multiple schemes are supported and non-default schemes can be specified at runtime using the *-c* or 
 *--colors* option.
 
+By default all ANSI color schemes are *disabled*. In order to enable them try passing **-c default** or **--colors default** as a parameter to the utility.
 
 
 # Docker Container
