@@ -14,7 +14,6 @@ In order to run the tool directly you need to clone the repository and install t
     # default environment
     pip install -r requirements.txt
 
-
     # alternatively using virtualenv
     python3 -mvenv .env
     source .env/bin/activate
