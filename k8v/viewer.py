@@ -175,10 +175,10 @@ class Viewer:
 
         elif type == ResourceType.INGRESS:
             for rule in resource.spec.rules:
-                extended_info += f"host={rule.host} ("
+                extended_info += f"host={rule.host} ["
                 for path in rule.http.paths:
-                    extended_info += f"{path.path} => {path.backend.service.name}:{path.backend.service.port.number}"
-                extended_info += ") "
+                    extended_info += f"{path.path}={path.backend.service.name}:{path.backend.service.port.number}"
+                extended_info += "] "
 
         extended_info = '('+extended_info+')' if len(extended_info) > 0 else extended_info
         if post_info != "":
