@@ -80,8 +80,8 @@ The brief view will simply list each of the matching resources one per line.
 ### Default view
 
 The default view will show each resource with one line per resource that includes various information about
-that resources. Additionally some resources will also display related *children* resources on a separate
-line including their own details.
+those resources. Additionally some resources will also display related resources on a separate
+line including their own details with indention to visually see the relationships.
 
 This allows the user to see a low of information quickly by using various filtering capabilities.
 
