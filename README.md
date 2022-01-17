@@ -33,18 +33,14 @@ will default to *~/.kube/config* otherwise.
 
 Here are a few various examples of how to use the utility:
 
-
     # view the usage for the tool using specified KUBECONFIG file
     KUBECONFIG=/etc/rancher/k3s/k3s.yaml python3 k3s/k3s.py
 
-
     # view *brief* listing of all deafult resources all namespaces
     python3 k3s/k3s.py -A -d brief
-
     
     # view all *services* and *ingress* resources in the specified namespace
     python3 k3s/k3s.py -n heimdall -r ingress -r service
-
 
     # view all default resources matching the specififed search query
     python3 k3s/k3s.py nginx
@@ -69,18 +65,14 @@ See the Usage section for examples.
 
 Here are a few various examples of how to use the container to run the utility:
 
-
     # view the usage for the tool using specified KUBECONFIG file
     docker run -it --rm -v /etc/rancher/k3s/k3s.yaml:/app/.kube/config jasonhanks/k8v:latest
-
 
     # view *brief* listing of all deafult resources all namespaces
     docker run -it --rm -v ~/.kube:/app/.kube jasonhanks/k8v:latest -A -d brief
 
-    
     # view all *services* and *ingress* resources in the specified namespace
     docker run -it --rm -v ~/.kube:/app/.kube jasonhanks/k8v:latest -n heimdall -r ingress -r service
-
 
     # view all default resources matching the specififed search query
     docker run -it --rm -v ~/.kube:/app/.kube jasonhanks/k8v:latest nginx
