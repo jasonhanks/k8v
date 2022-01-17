@@ -321,7 +321,7 @@ def usage() -> None:
     print()
     print("namespaces to search:")
     print("     -A | --all-namespaces           search for resources in all namespaces")
-    print("     -n | --namespace <ns>           search for resources in the specified namespace (can be specified more than once). Note: default namespace must be specified if desired when using this option.")
+    print("     -n | --namespace <ns>           search for resources in the specified namespace (can be specified more than once)")
     print()
     print("Note: by default only the default namespace is searched unless --all-namespaces or --namespace option is specified.")
     print()
