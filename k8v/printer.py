@@ -40,16 +40,16 @@ class Printer:
             str: friendly name for the specified api_type
         """
         mapped_values = {
-            "V1ConfigMap": "configmap",
-            "V1Deployment": "deployment",
-            "V1Ingress": "ingress",
-            "V1Secret": "secret",
-            "V1ReplicaSet": "replicaset",
-            "V1DaemonSet": "daemonset",
-            "V1Pod": "pod",
-            "V1PersistentVolume": "persistentvolume",
-            "V1PersistentVolumeClaim": "persistentvolumeclaim",
-            "V1Service": "service",
+            "V1ConfigMap": ResourceType.CONFIG_MAP.value[0],
+            "V1Deployment": ResourceType.DEPLOYMENTS.value[0],
+            "V1Ingress": ResourceType.INGRESS.value[0],
+            "V1Secret": ResourceType.SECRETS.value[0],
+            "V1ReplicaSet": ResourceType.REPLICA_SETS.value[0],
+            "V1DaemonSet": ResourceType.DAEMON_SETS.value[0],
+            "V1Pod": ResourceType.PODS.value[0],
+            "V1PersistentVolume": ResourceType.PERSISTENT_VOLUME.value[0],
+            "V1PersistentVolumeClaim": ResourceType.PERSISTENT_VOLUME_CLAIM.value[0],
+            "V1Service": ResourceType.SERVICES.value[0],
         }
         return mapped_values[api_type] if api_type in mapped_values else api_type
 
