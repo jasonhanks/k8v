@@ -1,11 +1,12 @@
 import getopt
 import sys
 
-from resource_types import ResourceType
-from viewer import Viewer
+import k8v
 
 
 def usage() -> None:
+    """Display the command line usage help screen."""
+
     print()
     print("k8v - kubernetes viewer")
     print()
@@ -91,7 +92,7 @@ def usage() -> None:
 def main(argv) -> None:
     """Main execution to setup the Viewer."""
 
-    viewer: Viewer = Viewer()
+    viewer: k8v.viewer.Viewer = k8v.viewer.Viewer()
     try:
         opts, args = getopt.getopt(
             argv,
@@ -144,7 +145,7 @@ def main(argv) -> None:
         elif opt in ("-i", "--include"):
             viewer.config.includes.append(arg)
         elif opt in ("-r", "--resource"):
-            for type in ResourceType:
+            for type in k8v.resource_types.ResourceType:
                 if arg in type.value:
                     viewer.config.resources.append(type)
         elif opt in ("-s", "--selector"):

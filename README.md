@@ -24,7 +24,7 @@ their own details with indention to visually represent a relationship between th
 This allows you to see a lot of information in a hierarchy quickly with filtering capabilities as needed.
 
     # list all resources matching *heimdall* using the default view
-    $ python3 k8v/k8v.py heimdall
+    $ ./k8v.sh heimdall
     service/default/heimdall (type=LoadBalancer cluster_ip=10.43.39.132  ports=[80:80/TCP nodeport=30242:443/TCP])
     ingress/default/heimdall (host=heimdall.example.com [/=heimdall:80])
     deployment/default/heimdall (labels=[app=heimdall] replicas=1/1 (upd=1 avail=1) strategy=Recreate generation=14)
@@ -44,7 +44,7 @@ This output is generated in such a way that it can be used to drive scripted or 
 only report individual resources that match the input search criteria and nothing else. 
 
     # list each default resource in the *metallb* namespace
-    $ python3 k8v/k8v.py -n metallb -o brief
+    $ ./k8v.sh -n metallb -o brief
     configmap/metallb/kube-root-ca.crt
     configmap/metallb/metallb
     secret/metallb/default-token-cbsxv
@@ -103,16 +103,16 @@ will default to *~/.kube/config* otherwise.
 Here are a few various examples of how to use the utility:
 
     # view the usage for the tool using specified KUBECONFIG file
-    KUBECONFIG=/etc/rancher/k3s/k3s.yaml python3 k3s/k3s.py
+    KUBECONFIG=/etc/rancher/k3s/k3s.yaml ./k8v.sh
 
     # view *brief* listing of all default resources for all namespaces
-    python3 k8v/k8v.py -A -o brief
+    ./k8v.sh -A -o brief
     
     # view all *services* and *ingress* resources in the specified namespace
-    python3 k8v/k8v.py -n heimdall -r ingress -r service
+    ./k8v.sh -n heimdall -r ingress -r service
 
     # view all default resources matching the specififed search query
-    python3 k8v/k8v.py nginx
+    ./k8v.sh nginx
 
 
 

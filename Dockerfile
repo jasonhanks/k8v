@@ -27,5 +27,5 @@ COPY . .
 
 
 # Execute the utility and display the usage by default
-ENTRYPOINT [ "python3", "k8v/k8v.py"]
+ENTRYPOINT [ "./k8v.sh"]
 CMD ["-h"]

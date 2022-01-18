@@ -1,8 +1,7 @@
 import kubernetes
 
-import config
-from resource_types import ResourceType
-import viewer
+
+from k8v.resource_types import ResourceType
 
 
 class Searcher:

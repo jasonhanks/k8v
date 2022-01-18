@@ -3,7 +3,7 @@ import json
 from ansi.color import fg, bg
 import ansi.color.fx as fx
 
-from resource_types import ResourceType
+from k8v.resource_types import ResourceType
 
 
 class Printer:
@@ -196,12 +196,18 @@ class Printer:
         for related in self.viewer.searcher.search_for_related(resource, type):
             if type == ResourceType.DEPLOYMENTS:
                 self.print(
-                    related, ResourceType.REPLICA_SETS, delim=self.viewer.delim + delim
+                    related,
+                    ResourceType.REPLICA_SETS,
+                    delim=self.config.delimeter + delim,
                 )
             elif type == ResourceType.DAEMON_SETS:
-                self.print(related, ResourceType.PODS, delim=self.viewer.delim + delim)
+                self.print(
+                    related, ResourceType.PODS, delim=self.config.delimeter + delim
+                )
             elif type == ResourceType.REPLICA_SETS:
-                self.print(related, ResourceType.PODS, delim=self.viewer.delim + delim)
+                self.print(
+                    related, ResourceType.PODS, delim=self.config.delimeter + delim
+                )
 
     def print_full(self, resource, type: ResourceType, delim: str = "") -> None:
         """Print the resource using the **full** display mode including related resources (configmaps, secrets, volumes, etc.) as children."""

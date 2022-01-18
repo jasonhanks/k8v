@@ -8,6 +8,9 @@ class Config:
     # color scheme
     colors: str = "none"
 
+    # delimeter to use for related resources
+    delimeter: str = "    "
+
     # excludes list
     excludes: list = dataclasses.field(default_factory=list)
 
