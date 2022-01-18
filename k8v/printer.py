@@ -112,8 +112,7 @@ class Printer:
             "type", self.get_api_type(resource.__class__.__name__)
         )
         message += "/"
-        message += self.get_ansi_text("namespace", resource.metadata.namespace)
-        message += "/"
+        message += f"{self.get_ansi_text('namespace', resource.metadata.namespace) +'/' if resource.metadata.namespace else ''}"
         message += self.get_ansi_text("name", resource.metadata.name)
         print(message)
 

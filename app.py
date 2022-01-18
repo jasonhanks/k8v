@@ -11,7 +11,7 @@ def usage() -> None:
     print("k8v - kubernetes viewer")
     print()
     print(
-        "Usage: k8v.py [-vA] [-d <default|brief|full>] [-n <ns>] [-e <query>] [-r <type>] [-s <label=value>] [<query>]"
+        "Usage: k8v.py [-vA] [-o <default|brief|full>] [-n <ns>] [-e <query>] [-r <type>] [-s <label=value>] [<query>]"
     )
     print()
     print(
