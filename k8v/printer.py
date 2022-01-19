@@ -1,18 +1,42 @@
+from typing import Protocol
 import json
+import jsons
+import sys
 
 from ansi.color import fg, bg
 import ansi.color.fx as fx
 
+import kubernetes
+
 from k8v.resource_types import ResourceType
 
 
-class Printer:
+class Printer(Protocol):
+    """Printers are used to display resources depending on the user's configuration."""
+
+    def begin() -> None:
+        """Start the Printer so it can begin printing resources."""
+
+    def end() -> None:
+        """Stop the Printer and cleanup anything if needed."""
+
+    def print(self, resource: object, **kwargs) -> None:
+        """Print the specified resource out to the STDOUT.
+
+        Args:
+            resource (object): Kubernetes resource to be printed out.
+        """
+
+
+class PrinterBase(Printer):
+    """The base class used by Printers that contain common behavior."""
+
     def __init__(self, viewer):
         self.viewer = viewer
         self.config = viewer.config
 
-    def connect(self) -> None:
-        """Setup the Printer so that is it ready to begin printing objects.
+    def begin(self) -> None:
+        """Start the Printer so that is it ready to begin printing objects.
 
         This will load the color-schemes.json file and setup the appropriate
         scheme that will be used by the Printer.
@@ -29,6 +53,10 @@ class Printer:
         except Exception as e:
             print(f"Exception occurred loading color schemes: {e}")
             raise e
+
+    def end(self) -> None:
+        """Stop the Printer and cleanup anything if needed."""
+        pass
 
     def get_api_type(self, api_type: str) -> str:
         """Map the API class names to a more user friendly string to display.
@@ -53,6 +81,27 @@ class Printer:
         }
         return mapped_values[api_type] if api_type in mapped_values else api_type
 
+    def get_ansi_text(self, key: str, text: str) -> str:
+        """Format a message with the specified text before resetting the ANSI code."""
+
+        # work with no schema selected
+        if self.colors == None:
+            return text
+
+        message = []
+        for data in self.colors[key]:
+            src = None
+            if data[0] == "fg":
+                src = fg
+            elif data[0] == "bg":
+                src = bg
+            elif data[0] == "fx":
+                src = fx
+            message.append(getattr(src, data[1]))
+        message.append(text)
+        message.append(fx.reset)
+        return "".join(map(str, message))
+
     def get_label_text(self, resource) -> str:
         """Get the text that should be dispalyed for labels in all resources.
 
@@ -76,39 +125,13 @@ class Printer:
         message += self.get_ansi_text("attr2_delim", "] ")
         return message
 
-    def print(self, resource, type: ResourceType, delim: str = "") -> None:
+
+class BriefPrinter(PrinterBase):
+    """The Printer that is used for the *brief* output type."""
+
+    def print(self, resource, **kwargs) -> None:
         """Print out a resources and its information along with related resources."""
-        if self.config.output == "brief":
-            self.print_brief(resource, type, delim)
-        elif self.config.output == "default":
-            self.print_default(resource, type, delim)
-        else:
-            self.print_full(resource, type, delim)
-
-    def get_ansi_text(self, key: str, text: str) -> str:
-        """Format a message with the specified text before resetting the ANSI code."""
-
-        # work with no schema selected
-        if self.colors == None:
-            return text
-
-        message = []
-        for data in self.colors[key]:
-            src = None
-            if data[0] == "fg":
-                src = fg
-            elif data[0] == "bg":
-                src = bg
-            elif data[0] == "fx":
-                src = fx
-            message.append(getattr(src, data[1]))
-        message.append(text)
-        message.append(fx.reset)
-        return "".join(map(str, message))
-
-    def print_brief(self, resource, type: ResourceType, delim: str = "") -> None:
-        """Print the **brief** display version of a resource."""
-        message = delim + self.get_ansi_text(
+        message = kwargs["delim"] + self.get_ansi_text(
             "type", self.get_api_type(resource.__class__.__name__)
         )
         message += "/"
@@ -116,7 +139,11 @@ class Printer:
         message += self.get_ansi_text("name", resource.metadata.name)
         print(message)
 
-    def print_default(self, resource, type: ResourceType, delim: str = "") -> None:
+
+class DefaultPrinter(PrinterBase):
+    """The Printer that is used by default."""
+
+    def print(self, resource, **kwargs) -> None:
         """Print the **default** display version of a resource."""
         extended_info: str = ""
         post_info: str = ""
@@ -124,35 +151,35 @@ class Printer:
         extended_info += self.get_label_text(resource)
         extended_info += f"{'sa='+ resource.spec.service_account +' ' if hasattr(resource, 'spec') and hasattr(resource.spec, 'service_account') else ''}"
         if (
-            type in [ResourceType.CONFIG_MAP, ResourceType.SECRETS]
+            resource.type in [ResourceType.CONFIG_MAP, ResourceType.SECRETS]
             and resource.data is not None
             and len(resource.data) > 0
         ):
             extended_info += f"{'data='+ ', '.join(resource.data)}"
 
-        elif type == ResourceType.PERSISTENT_VOLUME:
+        elif resource.type == ResourceType.PERSISTENT_VOLUME:
             extended_info += f"storage_class={resource.spec.storage_class_name} access_modes={resource.spec.access_modes} reclaim={resource.spec.persistent_volume_reclaim_policy} capacity={resource.spec.capacity['storage']}"
 
-        elif type == ResourceType.PERSISTENT_VOLUME_CLAIM:
+        elif resource.type == ResourceType.PERSISTENT_VOLUME_CLAIM:
             extended_info += f"storage_class={resource.spec.storage_class_name} access_modes={resource.spec.access_modes} capacity={resource.status.capacity['storage']} "
             extended_info += (
                 f"volume={resource.spec.volume_name} phase={resource.status.phase}"
             )
 
-        elif type == ResourceType.PODS:
+        elif resource.type == ResourceType.PODS:
             pod_data = self.viewer.searcher.get_pod_data(resource)
             extended_info += f"config_maps={', '.join(pod_data['configmaps']) if len(pod_data['configmaps']) > 0 else ''} "
             extended_info += f"secrets={', '.join(pod_data['secrets']) if len(pod_data['secrets']) > 0 else ''} "
             extended_info += f"pvc={', '.join(pod_data['pvcs']) if len(pod_data['pvcs']) > 0 else ''}"
 
-        elif type == ResourceType.DEPLOYMENTS:
+        elif resource.type == ResourceType.DEPLOYMENTS:
             if resource.status.replicas is not None and resource.status.replicas > 0:
                 extended_info += f"replicas={resource.status.ready_replicas}/{resource.spec.replicas} (upd={resource.status.updated_replicas} avail={resource.status.available_replicas}) strategy={resource.spec.strategy.type}"
             if resource.spec.strategy.type == "RollingUpdate":
                 extended_info += f" (max_surge={resource.spec.strategy.rolling_update.max_surge} max_unavailable={resource.spec.strategy.rolling_update.max_unavailable})"
             extended_info += f" generation={resource.metadata.generation}"
 
-        elif type == ResourceType.SERVICES:
+        elif resource.type == ResourceType.SERVICES:
             extended_info += (
                 f"type={resource.spec.type} cluster_ip={resource.spec.cluster_ip}"
             )
@@ -163,12 +190,12 @@ class Printer:
                 extended_info += f"{str(port.port)}:{str(port.target_port)}/{port.protocol} {'nodeport='+str(port.node_port) if port.node_port is not None else ''}"
             extended_info += f"]"
 
-        elif type == ResourceType.REPLICA_SETS:
+        elif resource.type == ResourceType.REPLICA_SETS:
             if resource.status.replicas is not None and resource.status.replicas > 0:
                 extended_info += f"replicas={resource.status.ready_replicas}/{resource.spec.replicas} (avail={resource.status.available_replicas}) "
             extended_info += f"generation={resource.metadata.generation}"
 
-        elif type == ResourceType.INGRESS:
+        elif resource.type == ResourceType.INGRESS:
             for rule in resource.spec.rules:
                 extended_info += f"host={rule.host} ["
                 for path in rule.http.paths:
@@ -181,7 +208,7 @@ class Printer:
         if post_info != "":
             post_info = "\n" + post_info
 
-        message = delim + self.get_ansi_text(
+        message = kwargs["delim"] + self.get_ansi_text(
             "type", self.get_api_type(resource.__class__.__name__)
         )
         message += "/"
@@ -192,22 +219,57 @@ class Printer:
         message += " "
         print(f"{message}{extended_info}{post_info}")
 
-        for related in self.viewer.searcher.search_for_related(resource, type):
-            if type == ResourceType.DEPLOYMENTS:
+        kwargs["delim"] = kwargs["delim"] + self.config.delimeter
+        for related in self.viewer.searcher.search_for_related(resource, resource.type):
+            if resource.type == ResourceType.DEPLOYMENTS:
+                self.print(related, **kwargs)
+            elif resource.type == ResourceType.DAEMON_SETS:
                 self.print(
                     related,
-                    ResourceType.REPLICA_SETS,
-                    delim=self.config.delimeter + delim,
+                    **kwargs,
                 )
-            elif type == ResourceType.DAEMON_SETS:
+            elif resource.type == ResourceType.REPLICA_SETS:
                 self.print(
-                    related, ResourceType.PODS, delim=self.config.delimeter + delim
-                )
-            elif type == ResourceType.REPLICA_SETS:
-                self.print(
-                    related, ResourceType.PODS, delim=self.config.delimeter + delim
+                    related,
+                    **kwargs,
                 )
 
-    def print_full(self, resource, type: ResourceType, delim: str = "") -> None:
-        """Print the resource using the **full** display mode including related resources (configmaps, secrets, volumes, etc.) as children."""
-        self.print_default(resource, type, delim)
+
+class JsonPrinter(PrinterBase):
+    def begin(self):
+        super().begin()
+        jsons.set_serializer(
+            lambda o, **_: "", kubernetes.client.configuration.Configuration
+        )
+        jsons.set_serializer(lambda o, **_: "", ResourceType)
+        print("[")
+
+    def end(self):
+        print("]")
+
+    def print(
+        self,
+        resource,
+        delim: str = "",
+        index: int = 1,
+        total: int = 1,
+    ) -> None:
+        """Print the resource out as JSON."""
+
+        print(
+            "    "
+            + delim
+            + jsons.dumps(
+                resource,
+                strip_privates=True,
+                strip_nulls=True,
+                strip_class_variables=True,
+            )
+            + ("," if index < total else "")
+        )
+
+
+class FullPrinter(DefaultPrinter):
+    """The Printer that is used for the *full* output type."""
+
+    pass

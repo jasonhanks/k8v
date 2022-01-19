@@ -31,6 +31,7 @@ def usage() -> None:
         "                                         default - shows most important resources on separate lines but summarizes others\n"
         "                                         brief   - shows one liner per resources with summary of related resources\n"
         "                                         full    - shows each resources as well as each related resources on a separate line"
+        "                                         json    - shows the list of matching resources as JSON"
     )
     print("     -v | --verbose                  display verbose logging messages")
     print()

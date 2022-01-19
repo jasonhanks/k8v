@@ -1,9 +1,6 @@
 import k8v
 
-# import k8v.config
-# from k8v.resource_types import ResourceType
-# import k8v.printer
-# import k8v.searcher
+from typing import NamedTuple
 
 
 class Viewer:
@@ -11,7 +8,6 @@ class Viewer:
 
     def __init__(self, config: k8v.config.Config = k8v.config.Config()) -> None:
         self.config: config.Config = config
-        self.printer: k8v.printer.Printer = k8v.printer.Printer(self)
         self.searcher: k8v.searcher.Searcher = k8v.searcher.Searcher(self)
 
     def view(self) -> None:
@@ -20,12 +16,22 @@ class Viewer:
         # show the input parameters
         if self.config.verbose:
             print(
-                f"Display mode={self.config.output}, namespaces={self.config.namespaces}, resources={self.config.resources}, filters={self.config.includes}, selectors={self.config.selectors}"
+                f"Display output={self.config.output}, namespaces={self.config.namespaces}, resources={self.config.resources}, filters={self.config.includes}, selectors={self.config.selectors}"
             )
 
-        # setup the API handlers
-        self.printer.connect()
-        self.searcher.connect()
+        # setup the Printer to be used
+        if self.config.output in ["brief", "b"]:
+            self.printer: k8v.printer.Printer = k8v.printer.BriefPrinter(self)
+        elif self.config.output in ["full", "f"]:
+            self.printer: k8v.printer.Printer = k8v.printer.FullPrinter(self)
+        elif self.config.output in ["json", "j"]:
+            self.printer: k8v.printer.Printer = k8v.printer.JsonPrinter(self)
+        else:
+            self.printer: k8v.printer.Printer = k8v.printer.DefaultPrinter(self)
+
+        # start the Printer and Searcher
+        self.printer.begin()
+        self.searcher.begin()
 
         # setup default namespace if no overrides specified
         if self.config.namespaces is not None and len(self.config.namespaces) == 0:
@@ -47,6 +53,14 @@ class Viewer:
 
         # search for matching (and filtered) resources and print them out
         # using the desired display_mode.
+        resources = []
         for type in self.config.resources:
             for resource in self.searcher.filter_resources(self.searcher.search(type)):
-                self.printer.print(resource, type)
+                resources.append(resource)
+
+        for num, resource in enumerate(resources):
+            self.printer.print(resource, delim="", index=num, total=len(resources) - 1)
+
+        # stop the Printer and Searcher
+        self.printer.end()
+        self.searcher.end()

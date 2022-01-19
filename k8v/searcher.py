@@ -1,5 +1,6 @@
 import kubernetes
-
+import collections
+import json
 
 from k8v.resource_types import ResourceType
 
@@ -9,13 +10,17 @@ class Searcher:
         self.viewer = viewer
         self.config = viewer.config
 
-    def connect(self):
+    def begin(self):
         """Load the Kubernetes configuration and setup API endpoint connections."""
         self.kubernetes_config = kubernetes.config.load_kube_config()
         self.api_client = kubernetes.client.ApiClient(self.kubernetes_config)
         self.api_core_v1 = kubernetes.client.CoreV1Api()
         self.api_apps_v1 = kubernetes.client.AppsV1Api(self.api_client)
         self.api_network_v1 = kubernetes.client.NetworkingV1Api()
+
+    def end(self):
+        """Stop the Searcher and cleanup anything if needed."""
+        pass
 
     def filter_resources(self, resources):
         """Apply filtering logic to the specified resources."""
@@ -187,11 +192,13 @@ class Searcher:
             if self.config.namespaces is None:
                 api_response = handler(**kwargs)
                 for d in api_response.items:
+                    d.type = type
                     resources.append(d)
             else:
                 for ns in self.config.namespaces:
                     api_response = handler(ns, **kwargs)
                     for d in api_response.items:
+                        d.type = type
                         resources.append(d)
         except Exception as e:
             print(
