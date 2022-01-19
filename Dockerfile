@@ -27,5 +27,5 @@ COPY . .
 
 
 # Execute the utility and display the usage by default
-ENTRYPOINT [ "./k8v.sh"]
+ENTRYPOINT [ "bin/k8v"]
 CMD ["-h"]
