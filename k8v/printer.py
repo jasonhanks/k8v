@@ -45,7 +45,7 @@ class PrinterBase(Printer):
             e: Any IO related Exceptions raised during
         """
         try:
-            schemes = json.load(open("k8v/color-schemes.json"))["schemes"]
+            schemes = json.load(open("etc/color-schemes.json"))["schemes"]
             if self.config.colors in schemes:
                 self.colors = schemes[self.config.colors]
             else:
