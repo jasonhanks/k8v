@@ -47,6 +47,9 @@ def usage() -> None:
     print()
     print("search criteria:")
     print(
+        "     -a | --all-related              include any resources that are related to this resource in the output"
+    )
+    print(
         "     -e | --exclude <query>          exclude resources by name substring matches (can be specified more than once)"
     )
     print(
@@ -97,8 +100,9 @@ def main(argv) -> None:
     try:
         opts, args = getopt.getopt(
             argv,
-            "Avhc:f:e:i:n:o:r:s:",
+            "Aavhc:f:e:i:n:o:r:s:",
             [
+                "all-related",
                 "colors",
                 "all-namespaces",
                 "exclude",
@@ -141,6 +145,8 @@ def main(argv) -> None:
             viewer.config.namespaces.append(arg)
 
         # search criteria
+        elif opt in ("-a", "--all-related"):
+            viewer.config.related = True
         elif opt in ("-e", "--exclude"):
             viewer.config.excludes.append(arg)
         elif opt in ("-i", "--include"):

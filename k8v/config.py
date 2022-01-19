@@ -23,6 +23,9 @@ class Config:
     # output mode
     output: str = "default"
 
+    # include related resources in results
+    related: bool = False
+
     # resource types
     resources: list = dataclasses.field(default_factory=list)
 

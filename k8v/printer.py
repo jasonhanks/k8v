@@ -139,6 +139,14 @@ class BriefPrinter(PrinterBase):
         message += self.get_ansi_text("name", resource.metadata.name)
         print(message)
 
+        # Ignore related resources unless they are needed
+        if self.config.related == False:
+            return
+
+        kwargs["delim"] = kwargs["delim"] + self.config.delimeter
+        for related in self.viewer.searcher.search_for_related(resource, resource.type):
+            self.print(related, **kwargs)
+
 
 class DefaultPrinter(PrinterBase):
     """The Printer that is used by default."""
@@ -219,6 +227,10 @@ class DefaultPrinter(PrinterBase):
         message += " "
         print(f"{message}{extended_info}{post_info}")
 
+        # Ignore related resources unless they are needed
+        if self.config.related == False:
+            return
+
         kwargs["delim"] = kwargs["delim"] + self.config.delimeter
         for related in self.viewer.searcher.search_for_related(resource, resource.type):
             if resource.type == ResourceType.DEPLOYMENTS:
@@ -250,23 +262,29 @@ class JsonPrinter(PrinterBase):
     def print(
         self,
         resource,
-        delim: str = "",
-        index: int = 1,
-        total: int = 1,
+        **kwargs,
     ) -> None:
         """Print the resource out as JSON."""
 
         print(
             "    "
-            + delim
+            + kwargs["delim"]
             + jsons.dumps(
                 resource,
                 strip_privates=True,
                 strip_nulls=True,
                 strip_class_variables=True,
             )
-            + ("," if index < total else "")
+            + ("," if kwargs["index"] < kwargs["total"] else "")
         )
+
+        # Ignore related resources unless they are needed
+        if self.config.related == False:
+            return
+
+        kwargs["delim"] = kwargs["delim"] + self.config.delimeter
+        for related in self.viewer.searcher.search_for_related(resource, resource.type):
+            self.print(related, **kwargs)
 
 
 class FullPrinter(DefaultPrinter):

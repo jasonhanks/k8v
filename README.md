@@ -8,23 +8,29 @@ visibility into a Kubernetes cluster.
 
 
 
-## Sample output
+## Output formats
 
-Here are some basic scenarios and their generated output to get a general idea of how to tool works and what 
+Here are some basic scenarios and their formatted output to get a general idea of how to tool works and what 
 kind of output it will produce.
 
+The following output types are supported:
+* brief - one line per matched resource
+* default - one line per resource including details, as well as related resources one line per resource with details
+* full - one line per resource including details, as well as ALL related resources one line per resource with details
+* json - a JSON formatted list of matching resources that can be processed by other tools that can parse JSON
 
 
-### Default view
 
-The default view will show each resource with one line per resource that includes useful information about
-that resource. Additionally some resources will also display related resources on a separate line including 
-their own details with indention to visually represent a relationship between the resources.
+### Default output
+
+The default output will show each resource with one line per resource that includes useful information about
+that resource. If the *-a* or *--all-related* parameter is specified then each related resource will show up with
+indentation to represent a relationship between them.
 
 This allows you to see a lot of information in a hierarchy quickly with filtering capabilities as needed.
 
     # list all resources matching *heimdall* using the default view
-    $ ./k8v.sh heimdall
+    $ bin/k8v -a heimdall
     service/default/heimdall (type=LoadBalancer cluster_ip=10.43.39.132  ports=[80:80/TCP nodeport=30242:443/TCP])
     ingress/default/heimdall (host=heimdall.example.com [/=heimdall:80])
     deployment/default/heimdall (labels=[app=heimdall] replicas=1/1 (upd=1 avail=1) strategy=Recreate generation=14)
@@ -35,16 +41,16 @@ This allows you to see a lot of information in a hierarchy quickly with filterin
 
 
 
-### Brief view
+### Brief output
 
-The brief view will simply list each of the matching resources one per line and can be used to quickly find
+The brief output will simply list each of the matching resources one per line and can be used to quickly find
 a set of resources that match some specific criteria (namespace, search query, excluded query, etc.).
 
 This output is generated in such a way that it can be used to drive scripted or automated processes and will 
 only report individual resources that match the input search criteria and nothing else. 
 
     # list each default resource in the *metallb* namespace
-    $ ./k8v.sh -n metallb -o brief
+    $ bin/k8v -n metallb -o brief
     configmap/metallb/kube-root-ca.crt
     configmap/metallb/metallb
     secret/metallb/default-token-cbsxv
@@ -63,14 +69,72 @@ only report individual resources that match the input search criteria and nothin
     pod/metallb/metallb-speaker-zxr8l
 
 
+Note: if you are including all related resources you may need to deal with whitespace or parse accordingly if
+using another tool to process the output:
 
-### Full view
+    bin/k8v -c default -i heimdall -a -o brief
+    service/default/heimdall
+    ingress/default/heimdall
+    deployment/default/heimdall
+        replicaset/default/heimdall-9864f4f59
+            pod/default/heimdall-9864f4f59-8m5ls
+    pod/default/heimdall-9864f4f59-8m5ls
+    persistentvolumeclaim/default/heimdall
 
-The full view is currently the same as the default view but will show more detailed *related* resources 
+
+
+### Full output
+
+The full output is currently the same as the default view but will show more detailed *related* resources 
 visually indented below the resource instead of summarizing them.
 
 This will includes many resource types such as ConfigMap, Ingress, NetworkPolicy, Secret, Service, etc. 
 that are currently only summarized for the parent resource.
+
+
+
+### JSON output
+
+The JSON output will generate a valid JSON list containing each matching resources within the list. This 
+output can then be used by various tools that understand the JSON format.
+
+
+    bin/k8v -c default -a -i heimdall -o json | jq '.[0].spec'
+    {
+    "cluster_i_ps": [
+        "10.43.39.132"
+    ],
+    "cluster_ip": "10.43.39.132",
+    "external_traffic_policy": "Cluster",
+    "ip_families": [
+        "IPv4"
+    ],
+    "ip_family_policy": "SingleStack",
+    "local_vars_configuration": "",
+    "ports": [
+        {
+        "local_vars_configuration": "",
+        "name": "http",
+        "node_port": 30242,
+        "port": 80,
+        "protocol": "TCP",
+        "target_port": 80
+        },
+        {
+        "local_vars_configuration": "",
+        "name": "https",
+        "node_port": 32661,
+        "port": 443,
+        "protocol": "TCP",
+        "target_port": 443
+        }
+    ],
+    "selector": {
+        "app": "heimdall"
+    },
+    "session_affinity": "None",
+    "type": "LoadBalancer"
+    }
 
 
 
@@ -103,16 +167,16 @@ will default to *~/.kube/config* otherwise.
 Here are a few various examples of how to use the utility:
 
     # view the usage for the tool using specified KUBECONFIG file
-    KUBECONFIG=/etc/rancher/k3s/k3s.yaml ./k8v.sh
+    KUBECONFIG=/etc/rancher/k3s/k3s.yaml bin/k8v
 
     # view *brief* listing of all default resources for all namespaces
-    ./k8v.sh -A -o brief
+    bin/k8v -A -o brief
     
     # view all *services* and *ingress* resources in the specified namespace
-    ./k8v.sh -n heimdall -r ingress -r service
+    bin/k8v -n heimdall -r ingress -r service
 
     # view all default resources matching the specififed search query
-    ./k8v.sh nginx
+    bin/k8v nginx
 
 
 
