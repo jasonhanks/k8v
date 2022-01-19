@@ -99,6 +99,7 @@ The JSON output will generate a valid JSON list containing each matching resourc
 output can then be used by various tools that understand the JSON format.
 
 
+    # example using jq utility to parse generated output
     bin/k8v -c default -a -i heimdall -o json | jq '.[0].spec'
     {
     "cluster_i_ps": [
