@@ -8,6 +8,67 @@ visibility into a Kubernetes cluster.
 
 
 
+## Filtering capabilities
+
+This tool provides a number of ways to search for specific resources and filter them as desired. This includes 
+the ability to search for resources across all namespaces, or a list of specified namespaces, match labels that
+are specified for selectors, or simple search the *name* of the resource for a specific string that should be
+included in the results.
+
+Filtering strings for a *name* can be specified using the -i | --include option or simply passing arguments
+on the command line after you specifiy all other options:
+
+    # search all namespaces for resources that have *heimdall* in their name
+    $ bin/k8v -A -o brief -i heimdall
+    service/default/heimdall
+    ingress/default/heimdall
+    deployment/default/heimdall
+    pod/default/heimdall-9864f4f59-8m5ls
+    persistentvolumeclaim/default/heimdall
+
+    # this is equivalent to the example above (note: the search criteria is specifed after all other options)
+    $ bin/k8v -A -o brief heimdall
+    service/default/heimdall
+    ingress/default/heimdall
+    deployment/default/heimdall
+    pod/default/heimdall-9864f4f59-8m5ls
+    persistentvolumeclaim/default/heimdall
+
+
+Specific matches can also be excluded from the matched results using the -e | --exclude option:
+
+    # search all namespaces for resources that have *heimdall* in their name
+    $ bin/k8v -A -o brief -i heimdall -e 9864f4f59-8m5ls
+    service/default/heimdall
+    ingress/default/heimdall
+    deployment/default/heimdall
+    persistentvolumeclaim/default/heimdall
+
+
+## Resource types
+
+The tool is able to specify a list of supported resource types that should be searched, or will default to a 
+specific set if not requested at runtime. These are the resources types currently included by default:
+
+  * ConfigMap
+  * Secret
+  * Services
+  * Ingress
+  * Deployment
+  * Pods
+  * PersistentVolume (only displayed when using -A | --all-namespaces option)
+  * PersistentVolumeClaim
+
+If you want a specific set of resource types to search you can do that using the -r | --resource option.
+These resources will be displayed in the order they are requested on the command line:
+
+    # show all services and ingresses in the default namespace with names matching "heimdall" in a specific order
+    $ bin/k8v -r service -r ingress heimdall
+    service/default/heimdall (type=LoadBalancer cluster_ip=10.43.39.132  ports=[80:80/TCP nodeport=30242443:443/TCP nodeport=32661])
+    ingress/default/heimdall (host=dashboard.k.hazil.net [/=heimdall:80] )
+
+
+
 ## Output formats
 
 Here are some basic scenarios and their formatted output to get a general idea of how to tool works and what 
@@ -72,7 +133,7 @@ only report individual resources that match the input search criteria and nothin
 Note: if you are including all related resources you may need to deal with whitespace or parse accordingly if
 using another tool to process the output:
 
-    bin/k8v -c default -i heimdall -a -o brief
+    $ bin/k8v -c default -i heimdall -a -o brief
     service/default/heimdall
     ingress/default/heimdall
     deployment/default/heimdall
@@ -100,7 +161,7 @@ output can then be used by various tools that understand the JSON format.
 
 
     # example using jq utility to parse generated output
-    bin/k8v -c default -a -i heimdall -o json | jq '.[0].spec'
+    $ bin/k8v -c default -a -i heimdall -o json | jq '.[0].spec'
     {
     "cluster_i_ps": [
         "10.43.39.132"
