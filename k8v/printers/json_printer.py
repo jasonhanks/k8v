@@ -1,6 +1,7 @@
 import jsons
 import kubernetes
 
+from kubernetes.client.configuration import Configuration 
 from k8v.printers.printer import PrinterBase
 from k8v.resource_types import ResourceType
 
@@ -8,9 +9,7 @@ from k8v.resource_types import ResourceType
 class JsonPrinter(PrinterBase):
     def begin(self):
         super().begin()
-        jsons.set_serializer(
-            lambda o, **_: "", kubernetes.client.configuration.Configuration
-        )
+        jsons.set_serializer(lambda o, **_: "", Configuration)
         jsons.set_serializer(lambda o, **_: "", ResourceType)
         print("[")
 
