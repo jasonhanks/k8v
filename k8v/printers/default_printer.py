@@ -46,7 +46,6 @@ class DefaultPrinter(PrinterBase):
             extended.write(
                 f"pvc={', '.join(pod_data['pvcs']) if len(pod_data['pvcs']) > 0 else ''}"
             )
-
         elif resource.type == ResourceType.DEPLOYMENTS:
             if resource.status.replicas is not None and resource.status.replicas > 0:
                 extended.write(
@@ -57,19 +56,16 @@ class DefaultPrinter(PrinterBase):
                     f" (max_surge={resource.spec.strategy.rolling_update.max_surge} max_unavailable={resource.spec.strategy.rolling_update.max_unavailable})"
                 )
             extended.write(f" generation={resource.metadata.generation}")
-
         elif resource.type == ResourceType.SERVICE_ACCOUNTS:
-            extended.write(f"secrets=[")
-            extended.write(", ".join(map(lambda x: f"{x.name}", resource.secrets)))
-            extended.write("]")
-
+            extended.write(
+                f"secrets=[{', '.join(map(lambda x: x.name, resource.secrets))}]"
+            )
         elif resource.type == ResourceType.STATEFUL_SETS:
             if resource.status.replicas is not None and resource.status.replicas > 0:
                 extended.write(
                     f"replicas={resource.status.ready_replicas}/{resource.spec.replicas} (upd={resource.status.updated_replicas} avail={resource.status.current_replicas}) strategy={resource.spec.update_strategy.type}"
                 )
             extended.write(f" generation={resource.metadata.generation}")
-
         elif resource.type == ResourceType.SERVICES:
             extended.write(
                 f"type={resource.spec.type} cluster_ip={resource.spec.cluster_ip}"
@@ -86,14 +82,12 @@ class DefaultPrinter(PrinterBase):
                     f"{str(port.port)}:{str(port.target_port)}/{port.protocol} {'nodeport='+str(port.node_port) if port.node_port is not None else ''}"
                 )
             extended.write(f"]")
-
         elif resource.type == ResourceType.REPLICA_SETS:
             if resource.status.replicas is not None and resource.status.replicas > 0:
                 extended.write(
                     f"replicas={resource.status.ready_replicas}/{resource.spec.replicas} (avail={resource.status.available_replicas}) "
                 )
             extended.write(f"generation={resource.metadata.generation}")
-
         elif resource.type == ResourceType.INGRESS:
             for rule in resource.spec.rules:
                 extended.write(f"host={rule.host} [")
@@ -102,10 +96,6 @@ class DefaultPrinter(PrinterBase):
                         f"{path.path}={path.backend.service.name}:{path.backend.service.port.number}"
                     )
                 extended.write("] ")
-
-        # extended_info = "(" + extended.write(
-        #     +")" if len(extended_info) > 0 else extended_info
-        # )
         if post.read() != "":
             post.write("\n")
 
