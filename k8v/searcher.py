@@ -87,6 +87,12 @@ class Searcher:
                 if self.config.namespaces is None
                 else self.api_core_v1.list_namespaced_secret
             )
+        elif type == ResourceType.SERVICE_ACCOUNTS:
+            return (
+                self.api_core_v1.list_service_account_for_all_namespaces
+                if self.config.namespaces is None
+                else self.api_core_v1.list_namespaced_service_account
+            )
         elif type == ResourceType.INGRESS:
             return (
                 self.api_network_v1.list_ingress_for_all_namespaces

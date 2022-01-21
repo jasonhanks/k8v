@@ -69,16 +69,17 @@ class PrinterBase(Printer):
         """
         mapped_values = {
             "V1ConfigMap": ResourceType.CONFIG_MAP.value[0],
+            "V1DaemonSet": ResourceType.DAEMON_SETS.value[0],
             "V1Deployment": ResourceType.DEPLOYMENTS.value[0],
             "V1Ingress": ResourceType.INGRESS.value[0],
-            "V1Secret": ResourceType.SECRETS.value[0],
-            "V1ReplicaSet": ResourceType.REPLICA_SETS.value[0],
-            "V1DaemonSet": ResourceType.DAEMON_SETS.value[0],
-            "V1StatefulSet": ResourceType.STATEFUL_SETS.value[0],
-            "V1Pod": ResourceType.PODS.value[0],
             "V1PersistentVolume": ResourceType.PERSISTENT_VOLUME.value[0],
             "V1PersistentVolumeClaim": ResourceType.PERSISTENT_VOLUME_CLAIM.value[0],
+            "V1Pod": ResourceType.PODS.value[0],
+            "V1ReplicaSet": ResourceType.REPLICA_SETS.value[0],
+            "V1Secret": ResourceType.SECRETS.value[0],
             "V1Service": ResourceType.SERVICES.value[0],
+            "V1ServiceAccount": ResourceType.SERVICE_ACCOUNTS.value[0],
+            "V1StatefulSet": ResourceType.STATEFUL_SETS.value[0],
         }
         return mapped_values[api_type] if api_type in mapped_values else api_type
 
@@ -187,6 +188,11 @@ class DefaultPrinter(PrinterBase):
             if resource.spec.strategy.type == "RollingUpdate":
                 extended_info += f" (max_surge={resource.spec.strategy.rolling_update.max_surge} max_unavailable={resource.spec.strategy.rolling_update.max_unavailable})"
             extended_info += f" generation={resource.metadata.generation}"
+
+        elif resource.type == ResourceType.SERVICE_ACCOUNTS:
+            extended_info += f"secrets=["
+            extended_info += ", ".join(map(lambda x: f"{x.name}", resource.secrets))
+            extended_info += "]"
 
         elif resource.type == ResourceType.STATEFUL_SETS:
             if resource.status.replicas is not None and resource.status.replicas > 0:
