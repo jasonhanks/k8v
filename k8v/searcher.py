@@ -47,14 +47,22 @@ class Searcher:
 
     def get_api_handler(self, type: ResourceType) -> str:
         """Retrieve the API handler function to use for the specified namespace(s) and ResourceType."""
+        # do we understand this resource type?
         data = self.handlers[type.value[0]]
+        if data is None:
+            return None
+
+        # do we have a proper source for the handler?
         src = vars(self)[data["src"]]
-        handler = (
+        if src is None:
+            return None
+
+        # return the "all" or "namespace" specific handler as needed
+        return (
             getattr(src, data["all"])
             if self.config.namespaces is None
             else getattr(src, data["ns"])
         )
-        return handler
 
     def get_pod_data(self, resource) -> [list, list]:
         """Get any related configmap or secrets related to this resource."""
