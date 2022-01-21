@@ -45,6 +45,8 @@ class Viewer:
                 k8v.resource_types.ResourceType.SERVICES,
                 k8v.resource_types.ResourceType.INGRESS,
                 k8v.resource_types.ResourceType.DAEMON_SETS,
+                k8v.resource_types.ResourceType.STATEFUL_SETS,
+                k8v.resource_types.ResourceType.REPLICA_SETS,
                 k8v.resource_types.ResourceType.DEPLOYMENTS,
                 k8v.resource_types.ResourceType.PODS,
                 k8v.resource_types.ResourceType.PERSISTENT_VOLUME,

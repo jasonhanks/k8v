@@ -74,6 +74,7 @@ class PrinterBase(Printer):
             "V1Secret": ResourceType.SECRETS.value[0],
             "V1ReplicaSet": ResourceType.REPLICA_SETS.value[0],
             "V1DaemonSet": ResourceType.DAEMON_SETS.value[0],
+            "V1StatefulSet": ResourceType.STATEFUL_SETS.value[0],
             "V1Pod": ResourceType.PODS.value[0],
             "V1PersistentVolume": ResourceType.PERSISTENT_VOLUME.value[0],
             "V1PersistentVolumeClaim": ResourceType.PERSISTENT_VOLUME_CLAIM.value[0],
@@ -187,6 +188,11 @@ class DefaultPrinter(PrinterBase):
                 extended_info += f" (max_surge={resource.spec.strategy.rolling_update.max_surge} max_unavailable={resource.spec.strategy.rolling_update.max_unavailable})"
             extended_info += f" generation={resource.metadata.generation}"
 
+        elif resource.type == ResourceType.STATEFUL_SETS:
+            if resource.status.replicas is not None and resource.status.replicas > 0:
+                extended_info += f"replicas={resource.status.ready_replicas}/{resource.spec.replicas} (upd={resource.status.updated_replicas} avail={resource.status.current_replicas}) strategy={resource.spec.update_strategy.type}"
+            extended_info += f" generation={resource.metadata.generation}"
+
         elif resource.type == ResourceType.SERVICES:
             extended_info += (
                 f"type={resource.spec.type} cluster_ip={resource.spec.cluster_ip}"
@@ -235,12 +241,7 @@ class DefaultPrinter(PrinterBase):
         for related in self.viewer.searcher.search_for_related(resource, resource.type):
             if resource.type == ResourceType.DEPLOYMENTS:
                 self.print(related, **kwargs)
-            elif resource.type == ResourceType.DAEMON_SETS:
-                self.print(
-                    related,
-                    **kwargs,
-                )
-            elif resource.type == ResourceType.REPLICA_SETS:
+            else:
                 self.print(
                     related,
                     **kwargs,
@@ -265,7 +266,6 @@ class JsonPrinter(PrinterBase):
         **kwargs,
     ) -> None:
         """Print the resource out as JSON."""
-
         print(
             "    "
             + kwargs["delim"]

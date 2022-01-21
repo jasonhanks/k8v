@@ -69,6 +69,12 @@ class Searcher:
                 if self.config.namespaces is None
                 else self.api_apps_v1.list_namespaced_replica_set
             )
+        elif type == ResourceType.STATEFUL_SETS:
+            return (
+                self.api_apps_v1.list_stateful_set_for_all_namespaces
+                if self.config.namespaces is None
+                else self.api_apps_v1.list_namespaced_stateful_set
+            )
         elif type == ResourceType.PODS:
             return (
                 self.api_core_v1.list_pod_for_all_namespaces
@@ -173,14 +179,18 @@ class Searcher:
             resources = self.search(ResourceType.PODS, label_selector=label_expr)
         elif type == ResourceType.REPLICA_SETS:
             resources = self.search(ResourceType.PODS, label_selector=label_expr)
-
+        elif type == ResourceType.STATEFUL_SETS:
+            resources = filter(
+                lambda x: resource.metadata.name in x.metadata.name,
+                self.search(ResourceType.PODS),
+            )
         return resources
 
     def search(self, type: ResourceType, **kwargs) -> list:
         """Search for matching resources for the specified type."""
         resources = []
 
-        # deterine which API call to use
+        # deterine which API handler to use
         handler = self.get_api_handler(type)
         if handler is None:
             return resources
@@ -206,5 +216,5 @@ class Searcher:
             )
             raise e
 
-        # apply filtering logic to matching resources
+        # sort the resources by their names and return them
         return sorted(resources, key=lambda x: x.metadata.name)

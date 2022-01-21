@@ -13,6 +13,7 @@ class ResourceType(enum.Enum):
     INGRESS = ["ingress", "ingresses", "ing"]
     REPLICA_SETS = ["replicaset", "replicasets", "rs"]
     DAEMON_SETS = ["daemonset", "daemonsets", "ds"]
+    STATEFUL_SETS = ["statefulset", "statefulsets"]
     DEPLOYMENTS = ["deployment", "deployments", "deploy", "deploys"]
     PODS = ["pod", "pods", "po"]
 

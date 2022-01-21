@@ -71,8 +71,7 @@ These resources will be displayed in the order they are requested on the command
 
 ## Output formats
 
-Here are some basic scenarios and their formatted output to get a general idea of how to tool works and what 
-kind of output it will produce.
+A variety of output formats are supported by the tool. 
 
 The following output types are supported:
 * brief - one line per matched resource
