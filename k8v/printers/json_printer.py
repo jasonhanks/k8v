@@ -1,12 +1,15 @@
 import jsons
-import kubernetes
 
-from kubernetes.client.configuration import Configuration 
+import kubernetes
+from kubernetes.client.configuration import Configuration
+
 from k8v.printers.printer import PrinterBase
 from k8v.resource_types import ResourceType
 
 
 class JsonPrinter(PrinterBase):
+    """The Printer used to display results as JSON output. This output should be valid JSON."""
+
     def begin(self):
         super().begin()
         jsons.set_serializer(lambda o, **_: "", Configuration)
@@ -16,12 +19,9 @@ class JsonPrinter(PrinterBase):
     def end(self):
         print("]")
 
-    def print(
-        self,
-        resource,
-        **kwargs,
-    ) -> None:
+    def print(self, resource, **kwargs) -> None:
         """Print the resource out as JSON."""
+
         print(
             self.config.delimeter
             + kwargs["delim"]
@@ -34,8 +34,8 @@ class JsonPrinter(PrinterBase):
             + ("," if kwargs["index"] < kwargs["total"] else "")
         )
 
-        # Ignore related resources unless they are needed
-        if self.config.related == False:
+        # Ignore related resources unless they are requested
+        if not self.config.related:
             return
 
         kwargs["delim"] = kwargs["delim"] + self.config.delimeter

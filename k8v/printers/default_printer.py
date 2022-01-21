@@ -111,7 +111,7 @@ class DefaultPrinter(PrinterBase):
         print(f"{message}{extended.getvalue()}{post}")
 
         # Ignore related resources unless they are needed
-        if self.config.related == False:
+        if not self.config.related:
             return
 
         kwargs["delim"] = kwargs["delim"] + self.config.delimeter
