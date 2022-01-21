@@ -12,6 +12,8 @@ class Searcher:
 
     def begin(self):
         """Load the Kubernetes configuration and setup API endpoint connections."""
+        self.handlers = json.load(open("etc/handlers.json"))
+
         self.kubernetes_config = kubernetes.config.load_kube_config()
         self.api_client = kubernetes.client.ApiClient(self.kubernetes_config)
         self.api_core_v1 = kubernetes.client.CoreV1Api()
@@ -45,80 +47,14 @@ class Searcher:
 
     def get_api_handler(self, type: ResourceType) -> str:
         """Retrieve the API handler function to use for the specified namespace(s) and ResourceType."""
-        if type == ResourceType.CONFIG_MAP:
-            return (
-                self.api_core_v1.list_config_map_for_all_namespaces
-                if self.config.namespaces is None
-                else self.api_core_v1.list_namespaced_config_map
-            )
-        elif type == ResourceType.DEPLOYMENTS:
-            return (
-                self.api_apps_v1.list_deployment_for_all_namespaces
-                if self.config.namespaces is None
-                else self.api_apps_v1.list_namespaced_deployment
-            )
-        elif type == ResourceType.DAEMON_SETS:
-            return (
-                self.api_apps_v1.list_daemon_set_for_all_namespaces
-                if self.config.namespaces is None
-                else self.api_apps_v1.list_namespaced_daemon_set
-            )
-        elif type == ResourceType.REPLICA_SETS:
-            return (
-                self.api_apps_v1.list_replica_set_for_all_namespaces
-                if self.config.namespaces is None
-                else self.api_apps_v1.list_namespaced_replica_set
-            )
-        elif type == ResourceType.STATEFUL_SETS:
-            return (
-                self.api_apps_v1.list_stateful_set_for_all_namespaces
-                if self.config.namespaces is None
-                else self.api_apps_v1.list_namespaced_stateful_set
-            )
-        elif type == ResourceType.PODS:
-            return (
-                self.api_core_v1.list_pod_for_all_namespaces
-                if self.config.namespaces is None
-                else self.api_core_v1.list_namespaced_pod
-            )
-        elif type == ResourceType.SECRETS:
-            return (
-                self.api_core_v1.list_secret_for_all_namespaces
-                if self.config.namespaces is None
-                else self.api_core_v1.list_namespaced_secret
-            )
-        elif type == ResourceType.SERVICE_ACCOUNTS:
-            return (
-                self.api_core_v1.list_service_account_for_all_namespaces
-                if self.config.namespaces is None
-                else self.api_core_v1.list_namespaced_service_account
-            )
-        elif type == ResourceType.INGRESS:
-            return (
-                self.api_network_v1.list_ingress_for_all_namespaces
-                if self.config.namespaces is None
-                else self.api_network_v1.list_namespaced_ingress
-            )
-        elif type == ResourceType.PERSISTENT_VOLUME:
-            return (
-                self.api_core_v1.list_persistent_volume
-                if self.config.namespaces is None
-                else None
-            )
-        elif type == ResourceType.PERSISTENT_VOLUME_CLAIM:
-            return (
-                self.api_core_v1.list_persistent_volume_claim_for_all_namespaces
-                if self.config.namespaces is None
-                else self.api_core_v1.list_namespaced_persistent_volume_claim
-            )
-        elif type == ResourceType.SERVICES:
-            return (
-                self.api_core_v1.list_service_for_all_namespaces
-                if self.config.namespaces is None
-                else self.api_core_v1.list_namespaced_service
-            )
-        else:
-            return None
+        data = self.handlers[type.value[0]]
+        src = vars(self)[data["src"]]
+        handler = (
+            getattr(src, data["all"])
+            if self.config.namespaces is None
+            else getattr(src, data["ns"])
+        )
+        return handler
 
     def get_pod_data(self, resource) -> [list, list]:
         """Get any related configmap or secrets related to this resource."""
