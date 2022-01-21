@@ -37,8 +37,12 @@ class Viewer:
         if self.config.namespaces is not None and len(self.config.namespaces) == 0:
             self.config.namespaces.append("default")
 
-        # default resources to search
-        if len(self.config.resources) == 0:
+        # determine which resource types to search through
+        if self.config.resources == None:
+            self.config.resources = []
+            for type in k8v.resource_types.ResourceType:
+                self.config.resources.append(type)
+        elif len(self.config.resources) == 0:
             self.config.resources = [
                 k8v.resource_types.ResourceType.CONFIG_MAP,
                 k8v.resource_types.ResourceType.SECRETS,

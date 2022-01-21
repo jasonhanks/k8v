@@ -47,8 +47,9 @@ class Searcher:
 
     def get_api_handler(self, type: ResourceType) -> str:
         """Retrieve the API handler function to use for the specified namespace(s) and ResourceType."""
+
         # do we understand this resource type?
-        data = self.handlers[type.value[0]]
+        data = self.handlers.get(type.value[0])
         if data is None:
             return None
 

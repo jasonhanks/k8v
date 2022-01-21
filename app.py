@@ -59,6 +59,9 @@ def usage() -> None:
         "     -r | --resource <type>          specify resource types to search (can be specified more than once)"
     )
     print(
+        "     -R | --all-resources            search across all understood resource types"
+    )
+    print(
         "     -s | --selector <label=value>   select resources using labels (can be specified more than once)"
     )
     print("     <query>                         same functionality as --include")
@@ -100,9 +103,10 @@ def main(argv) -> None:
     try:
         opts, args = getopt.getopt(
             argv,
-            "Aavhc:f:e:i:n:o:r:s:",
+            "ARavhc:f:e:i:n:o:r:s:",
             [
                 "all-related",
+                "all-resources",
                 "colors",
                 "all-namespaces",
                 "exclude",
@@ -151,6 +155,8 @@ def main(argv) -> None:
             viewer.config.excludes.append(arg)
         elif opt in ("-i", "--include"):
             viewer.config.includes.append(arg)
+        elif opt in ("-R", "--all-resources"):
+            viewer.config.resources = None
         elif opt in ("-r", "--resource"):
             for type in k8v.resource_types.ResourceType:
                 if arg in type.value:
