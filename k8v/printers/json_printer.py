@@ -1,4 +1,8 @@
+import jsons
+import kubernetes
+
 from k8v.printers.printer import PrinterBase
+from k8v.resource_types import ResourceType
 
 
 class JsonPrinter(PrinterBase):
@@ -13,10 +17,14 @@ class JsonPrinter(PrinterBase):
     def end(self):
         print("]")
 
-    def print(self, resource, **kwargs,) -> None:
+    def print(
+        self,
+        resource,
+        **kwargs,
+    ) -> None:
         """Print the resource out as JSON."""
         print(
-            "    "
+            self.config.delimeter
             + kwargs["delim"]
             + jsons.dumps(
                 resource,
