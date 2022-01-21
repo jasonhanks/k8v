@@ -21,13 +21,21 @@ class Viewer:
 
         # setup the Printer to be used
         if self.config.output in ["brief", "b"]:
-            self.printer: k8v.printer.Printer = k8v.printer.BriefPrinter(self)
+            self.printer: k8v.printer.Printer = k8v.printers.brief_printer.BriefPrinter(
+                self
+            )
         elif self.config.output in ["full", "f"]:
-            self.printer: k8v.printer.Printer = k8v.printer.FullPrinter(self)
+            self.printer: k8v.printer.Printer = k8v.printers.full_printer.FullPrinter(
+                self
+            )
         elif self.config.output in ["json", "j"]:
-            self.printer: k8v.printer.Printer = k8v.printer.JsonPrinter(self)
+            self.printer: k8v.printer.Printer = k8v.printers.json_printer.JsonPrinter(
+                self
+            )
         else:
-            self.printer: k8v.printer.Printer = k8v.printer.DefaultPrinter(self)
+            self.printer: k8v.printer.Printer = (
+                k8v.printers.default_printer.DefaultPrinter(self)
+            )
 
         # start the Printer and Searcher
         self.printer.begin()

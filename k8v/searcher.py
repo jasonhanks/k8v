@@ -59,11 +59,12 @@ class Searcher:
             return None
 
         # return the "all" or "namespace" specific handler as needed
-        return (
-            getattr(src, data["all"])
-            if self.config.namespaces is None
-            else getattr(src, data["ns"])
-        )
+        if self.config.namespaces is None:
+            return getattr(src, data["all"])
+        elif data.get("ns") and hasattr(src, data["ns"]):
+            return getattr(src, data["ns"])
+        else:
+            return None
 
     def get_pod_data(self, resource) -> [list, list]:
         """Get any related configmap or secrets related to this resource."""
