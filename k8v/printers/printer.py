@@ -72,7 +72,7 @@ class PrinterBase(Printer):
                 return k
         return None
 
-    def get_ansi_text(self, key: str, text: str) -> str:
+    def get_text(self, key: str, text: str) -> str:
         """Format a message with the specified text before resetting the ANSI code."""
 
         # work with no schema selected
@@ -92,26 +92,3 @@ class PrinterBase(Printer):
         message.append(text)
         message.append(fx.reset)
         return "".join(map(str, message))
-
-    def get_label_text(self, resource) -> str:
-        """Get the text that should be dispalyed for labels in all resources.
-
-        Args:
-            resource (dict): Dictionary containing JSON representation of API response.
-
-        Returns:
-            str: A str with information about the labels this resource has.
-        """
-        if resource.metadata.labels is None:
-            return ""
-
-        message: str = self.get_ansi_text("attr2_name", "labels")
-        message += self.get_ansi_text("attr2_delim", "=[")
-        for num, (label, value) in enumerate(resource.metadata.labels.items()):
-            message += self.get_ansi_text("attr_name", label)
-            message += self.get_ansi_text("attr_delim", "=")
-            message += self.get_ansi_text("attr_value", value)
-            if num < len(resource.metadata.labels) - 1:
-                message += ", "
-        message += self.get_ansi_text("attr2_delim", "] ")
-        return message

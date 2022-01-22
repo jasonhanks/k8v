@@ -8,91 +8,197 @@ from k8v.printers.printer import PrinterBase
 class DefaultPrinter(PrinterBase):
     """The Printer that is used by default."""
 
+    def format(self, name, value, **kwargs):
+        # defaults for kwargs
+        key = kwargs["key"] if "key" in kwargs else "attr2"
+        start = kwargs["start"] if "start" in kwargs else "="
+        end = kwargs["end"] if "end" in kwargs else ""
+        msg: StringIO = StringIO("")
+        msg.write(self.get_text(f"{key}_name", name))
+        msg.write(self.get_text(f"{key}_delim", start))
+        msg.write(self.get_text(f"{key}_value", value))
+        msg.write(self.get_text(f"{key}_delim", end))
+        return msg.getvalue()
+
     def format_configmap(self, cm):
+        pairs: list = list()
         if cm.data is not None and len(cm.data) > 0:
-            return f"{'data='+ ', '.join(cm.data)}"
-        return ""
+            pairs.append(self.format("data", ", ".join(cm.data), start="=[", end="]"))
+        return " ".join(pairs)
 
     def format_deployment(self, deploy):
-        msg = StringIO("")
+        pairs: list = []
         if deploy.status.replicas is not None and deploy.status.replicas > 0:
-            msg.write(
-                f"replicas={deploy.status.ready_replicas}/{deploy.spec.replicas} (upd={deploy.status.updated_replicas} avail={deploy.status.available_replicas}) strategy={deploy.spec.strategy.type}"
+            pairs.append(
+                self.format(
+                    "replicas",
+                    f"{deploy.status.ready_replicas}/{deploy.spec.replicas}",
+                )
             )
+            pairs.append(self.format("upd", deploy.status.updated_replicas))
+            pairs.append(self.format("avail", deploy.status.available_replicas))
+            pairs.append(self.format("strategy", deploy.spec.strategy.type))
+
         if deploy.spec.strategy.type == "RollingUpdate":
-            msg.write(
-                f" (max_surge={deploy.spec.strategy.rolling_update.max_surge} max_unavailable={deploy.spec.strategy.rolling_update.max_unavailable})"
+            pairs.append(
+                self.format("max_surge", deploy.spec.strategy.rolling_update.max_surge)
             )
-        msg.write(f" generation={deploy.metadata.generation}")
-        return msg.getvalue()
+            pairs.append(
+                self.format(
+                    "max_unavailable",
+                    deploy.spec.strategy.rolling_update.max_unavailable,
+                )
+            )
+        pairs.append(self.format("generation", deploy.metadata.generation))
+        return " ".join(pairs)
 
     def format_ingress(self, ingress):
-        msg = StringIO("")
-        for rule in ingress.spec.rules:
-            msg.write(f"host={rule.host} [")
-            for path in rule.http.paths:
-                msg.write(
-                    f"{path.path}={path.backend.service.name}:{path.backend.service.port.number}"
+        pairs: list = []
+        if "kubernetes.io/ingress.class" in ingress.metadata.annotations:
+            pairs.append(
+                self.format(
+                    "class",
+                    ingress.metadata.annotations["kubernetes.io/ingress.class"],
                 )
-            msg.write("] ")
-        return msg.getvalue()
+            )
+        else:
+            pairs.append(self.format("class", ingress.spec.ingressClassName))
+        for rule in ingress.spec.rules:
+            paths: list = list()
+            for path in rule.http.paths:
+                paths.append(
+                    self.format(
+                        path.path,
+                        f"{path.backend.service.name}:{path.backend.service.port.number}",
+                    )
+                )
+            pairs.append(self.format(rule.host, " ".join(paths), start="=[", end="]"))
+        return " ".join(pairs)
+
+    def format_labels(self, resource) -> str:
+        if resource.metadata.labels is None:
+            return ""
+        labels: list = list()
+        for label, value in resource.metadata.labels.items():
+            labels.append(self.format(label, value))
+        return self.format("labels", " ".join(labels), start="=[", end="]") + " "
 
     def format_replicaset(self, rs):
-        msg = StringIO("")
+        pairs: list = list()
         if rs.status.replicas is not None and rs.status.replicas > 0:
-            msg.write(f"replicas=({rs.status.ready_replicas}/{rs.spec.replicas}) ")
-            msg.write(f"avail={rs.status.available_replicas} ")
-        msg.write(f"generation={rs.metadata.generation}")
-        return msg.getvalue()
+            pairs.append(
+                self.format(
+                    "replicas", f"{rs.status.ready_replicas}/{rs.spec.replicas}"
+                )
+            )
+            pairs.append(self.format("avail", rs.status.available_replicas))
+
+        pairs.append(self.format("generation", rs.metadata.generation))
+        return " ".join(pairs)
 
     def format_secret(self, secret):
         return self.format_configmap(secret)
 
     def format_service(self, service):
-        msg = StringIO("")
-        msg.write(f"type={service.spec.type} cluster_ip={service.spec.cluster_ip}")
+        pairs: list = list()
+        ports: list = list()
+
+        pairs.append(self.format("type", service.spec.type))
+        pairs.append(self.format("cluster_ip", service.spec.cluster_ip))
+
         if service.spec.external_i_ps is not None:
-            msg.write(f"{'external_ip=' + service.spec.external_i_ps} ")
+            pairs.append(self.format("external_ip", service.spec.external_i_ps))
         if service.spec.load_balancer_ip is not None:
-            msg.write(f"{'loadbalancer_ip=' + service.spec.load_balancer_ip} ")
-        msg.write(f"ports=[")
+            pairs.append(self.format("loadbalancer_ip", service.spec.load_balancer_ip))
         for port in service.spec.ports:
-            msg.write(
-                f"{str(port.port)}:{str(port.target_port)}/{port.protocol} {'nodeport='+str(port.node_port) if port.node_port is not None else ''}"
+            ports.append(
+                self.format(
+                    str(port.port),
+                    f"{str(port.target_port)}/{port.protocol} {self.format('nodeport', str(port.node_port)) if port.node_port is not None else ''}",
+                )
             )
-        msg.write(f"]")
-        return msg.getvalue()
+        pairs.append(self.format("ports", ", ".join(ports), start="=[", end="]"))
+        return " ".join(pairs)
 
     def format_serviceaccount(self, sa):
-        return f"secrets=[{', '.join(map(lambda x: x.name, sa.secrets))}]"
+        if sa.secrets is not None and len(sa.secrets) > 0:
+            return self.format(
+                "secrets",
+                " ".join(map(lambda o: o.name, sa.secrets)),
+                start="=[",
+                end="]",
+            )
+        return ""
 
     def format_persistentvolume(self, pv):
-        return f"storage_class={pv.spec.storage_class_name} access_modes={pv.spec.access_modes} reclaim={pv.spec.persistent_volume_reclaim_policy} capacity={pv.spec.capacity['storage']}"
+        pairs: list = list()
+        pairs.append(self.format("storage_class", pv.spec.storage_class_name))
+        pairs.append(self.format("access_modes", pv.spec.access_modes))
+        pairs.append(self.format("capacity", pv.spec.capacity["storage"]))
+        pairs.append(self.format("reclaim", pv.spec.persistent_volume_reclaim_policy))
+        return " ".join(pairs)
 
     def format_persistentvolumeclaim(self, pvc):
-        return f"storage_class={pvc.spec.storage_class_name} access_modes={pvc.spec.access_modes} capacity={pvc.status.capacity['storage']} volume={pvc.spec.volume_name} phase={pvc.status.phase}"
+        pairs: list = list()
+        pairs.append(self.format("access_modes", pvc.spec.storage_class_name))
+        pairs.append(self.format("storage_class", pvc.spec.access_modes))
+        pairs.append(self.format("capacity", pvc.status.capacity["storage"]))
+        pairs.append(self.format("volume", pvc.spec.volume_name))
+        pairs.append(self.format("phase", pvc.status.phase))
+        return " ".join(pairs)
 
     def format_pod(self, pod):
-        pod_data = self.viewer.searcher.get_pod_data(pod)
-        return f"config_maps={', '.join(pod_data['configmaps']) if len(pod_data['configmaps']) > 0 else ''} secrets={', '.join(pod_data['secrets']) if len(pod_data['secrets']) > 0 else ''} pvc={', '.join(pod_data['pvcs']) if len(pod_data['pvcs']) > 0 else ''}"
-
-    def format_statefulsets(self, ss):
-        msg = StringIO("")
-        if ss.status.replicas is not None and ss.status.replicas > 0:
-            msg.write(
-                f"replicas={ss.status.ready_replicas}/{ss.spec.replicas} (upd={ss.status.updated_replicas} avail={ss.status.current_replicas}) strategy={ss.spec.update_strategy.type}"
+        data = self.viewer.searcher.get_pod_data(pod)
+        pairs: list = list()
+        if len(data["configmaps"]) > 0:
+            pairs.append(
+                self.format("configmaps", data["configmaps"], start="=[", end="]")
             )
-        msg.write(f"generation={ss.metadata.generation}")
-        return msg.getvalue()
+        if len(data["secrets"]) > 0:
+            pairs.append(self.format("secrets", data["secrets"], start="=[", end="]"))
+        if len(data["pvcs"]) > 0:
+            pairs.append(self.format("pvcs", data["pvcs"], start="=[", end="]"))
+        return " ".join(pairs)
+
+    def format_statefulset(self, ss):
+        pairs: list = list()
+        pairs.append(self.format("strategy", ss.spec.update_strategy.type))
+        pairs.append(self.format("generation", ss.metadata.generation))
+        if ss.status.replicas is not None and ss.status.replicas > 0:
+            pairs.append(
+                self.format(
+                    "replicas",
+                    f"{ss.status.ready_replicas}/{ss.spec.replicas}",
+                    start="(",
+                    end=")",
+                )
+            )
+            pairs.append(
+                self.format(
+                    "upd",
+                    ss.status.updated_replicas,
+                    start="(",
+                    end=")",
+                )
+            )
+            pairs.append(
+                self.format(
+                    "avail",
+                    ss.status.current_replicas,
+                    start="(",
+                    end=")",
+                )
+            )
+        return " ".join(pairs)
 
     def print(self, resource, **kwargs) -> None:
         """Print the **default** display version of a resource."""
         details = StringIO("")
 
         # write common things first
-        details.write(self.get_label_text(resource))
+        details.write(self.format_labels(resource))
         if hasattr(resource, "spec") and hasattr(resource.spec, "service_account"):
-            details.write(f"sa={resource.spec.service_account} ")
+            details.write(self.format("sa", resource.spec.service_account) + " ")
 
         # Use format_<type> methods if they exist
         if hasattr(self, f"format_{resource.type.value[0]}"):
@@ -101,12 +207,12 @@ class DefaultPrinter(PrinterBase):
         type_text = self.get_api_type(resource.__class__.__name__)
         message = StringIO("")
         message.write(kwargs["delim"])
-        message.write(self.get_ansi_text("type", type_text))
+        message.write(self.get_text("type", type_text))
         message.write("/")
         if resource.metadata.namespace:
-            message.write(self.get_ansi_text("namespace", resource.metadata.namespace))
+            message.write(self.get_text("namespace", resource.metadata.namespace))
             message.write("/")
-        message.write(self.get_ansi_text("name", resource.metadata.name))
+        message.write(self.get_text("name", resource.metadata.name))
         message.write(" ")
         print(f"{message.getvalue()}({details.getvalue()})")
 
