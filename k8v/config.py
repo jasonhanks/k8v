@@ -6,7 +6,7 @@ class Config:
     """Configuration variables used for the Viewer."""
 
     # color scheme
-    colors: str = "none"
+    colors: str = "default"
 
     # delimeter to use for related resources
     delimeter: str = "    "
