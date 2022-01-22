@@ -41,9 +41,6 @@ def usage() -> None:
     print(
         "                output mode used to display matching resources; TYPE can be 'wide' (default if omitted), 'brief' for list of resource, or 'json' for full information\n"
     )
-    print("        -v, --verbose")
-    print("                display verbose logging messages")
-    print()
     print("        -A, --all-namespaces")
     print("                search for matching resources that exist in all namespaces")
     print()
@@ -77,6 +74,9 @@ def usage() -> None:
     print()
     print("         -t, --all-related")
     print("                display related resources in a hierachy structure")
+    print()
+    print("        -v, --verbose")
+    print("                display verbose logging messages")
     print()
     print("KUBERNETES:")
     print(

@@ -25,6 +25,7 @@ class ResourceType(enum.Enum):
 
     # NetworkingV1Api
     INGRESS = ["ingress", "ingresses", "ing"]
+    NETWORK_POLICY = ["networkpolicy", "networkpolicies", "netpol"]
 
     # RbacAuthorizationV1Api
     CLUSTER_ROLES = ["clusterrole", "clusterroles"]

@@ -67,9 +67,10 @@ class PrinterBase(Printer):
         Returns:
             str: friendly name for the specified api_type
         """
-        for k, v in self.handlers.items():
-            if v["type"] == api_type:
-                return k
+        for k, v in self.viewer.searcher._handler_config.items():
+            for t, d in v.items():
+                if d["type"] == api_type:
+                    return t
         return None
 
     def get_text(self, key: str, text: str) -> str:

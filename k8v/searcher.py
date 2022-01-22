@@ -9,17 +9,22 @@ class Searcher:
     def __init__(self, viewer):
         self.viewer = viewer
         self.config = viewer.config
+        self._handlers = {}
 
     def begin(self):
         """Load the Kubernetes configuration and setup API endpoint connections."""
-        self.handlers = json.load(open("etc/handlers.json"))
+        self._handler_config = json.load(open("etc/handlers.json"))
 
         self.kubernetes_config = kubernetes.config.load_kube_config()
         self.api_client = kubernetes.client.ApiClient(self.kubernetes_config)
-        self.api_core_v1 = kubernetes.client.CoreV1Api()
-        self.api_apps_v1 = kubernetes.client.AppsV1Api(self.api_client)
-        self.api_network_v1 = kubernetes.client.NetworkingV1Api()
-        self.api_rbac_v1 = kubernetes.client.RbacAuthorizationV1Api()
+
+        for group, data in self._handler_config.items():
+            if hasattr(kubernetes.client, group):
+                self._handlers[group] = getattr(kubernetes.client, group)(
+                    self.api_client
+                )
+            else:
+                raise Exception(f"invalid resource handler{group}")
 
     def end(self):
         """Stop the Searcher and cleanup anything if needed."""
@@ -50,22 +55,18 @@ class Searcher:
         """Retrieve the API handler function to use for the specified namespace(s) and ResourceType."""
 
         # do we understand this resource type?
-        data = self.handlers.get(type.value[0])
-        if data is None:
-            return None
-
-        # do we have a proper source for the handler?
-        src = vars(self)[data["src"]]
-        if src is None:
-            return None
-
-        # return the "all" or "namespace" specific handler as needed
-        if self.config.namespaces is None:
-            return getattr(src, data["all"])
-        elif data.get("ns") and hasattr(src, data["ns"]):
-            return getattr(src, data["ns"])
-        else:
-            return None
+        for group, data in self._handler_config.items():
+            if type.value[0] in data:
+                # return the "all" or "namespace" specific handler as needed
+                if self.config.namespaces is None:
+                    return getattr(self._handlers[group], data[type.value[0]]["all"])
+                elif data.get("ns") and hasattr(
+                    self._handlers[group], data[type.value[0]]["ns"]
+                ):
+                    return getattr(self._handlers[group], data[type.value[0]]["ns"])
+                else:
+                    return None
+        return None
 
     def get_pod_data(self, resource) -> [list, list]:
         """Get any related configmap or secrets related to this resource."""
