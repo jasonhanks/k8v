@@ -4,29 +4,30 @@ import enum
 class ResourceType(enum.Enum):
     """Definitions of the various resource types that can be displayed."""
 
-    # configuration
+    # CoreV1Api
     CONFIG_MAP = ["configmap", "configmaps", "cm", "cms"]
+    PERSISTENT_VOLUME = ["persistentvolume", "persistentvolumes", "pv"]
+    PERSISTENT_VOLUME_CLAIM = ["persistentvolumeclaim", "persistentvolumeclaims", "pvc"]
+    PODS = ["pod", "pods", "po"]
     SECRETS = ["secret", "secrets"]
-
-    # workloads
     SERVICES = ["service", "services", "svc", "svcs"]
-    INGRESS = ["ingress", "ingresses", "ing"]
+    SERVICE_ACCOUNTS = ["serviceaccount", "serviceaccounts", "sa"]
+
+    # AppsV1Api
     REPLICA_SETS = ["replicaset", "replicasets", "rs"]
     DAEMON_SETS = ["daemonset", "daemonsets", "ds"]
     STATEFUL_SETS = ["statefulset", "statefulsets", "sts"]
     DEPLOYMENTS = ["deployment", "deployments", "deploy", "deploys"]
-    PODS = ["pod", "pods", "po"]
 
-    # volumes
-    PERSISTENT_VOLUME = ["persistentvolume", "persistentvolumes", "pv"]
-    PERSISTENT_VOLUME_CLAIM = ["persistentvolumeclaim", "persistentvolumeclaims", "pvc"]
+    # BatchV1Api
+    JOBS = ["job", "jobs"]
+    CRONJOBS = ["cronjob", "cronjobs"]
 
-    # Security resources
-    SERVICE_ACCOUNTS = ["serviceaccount", "serviceaccounts", "sa"]
+    # NetworkingV1Api
+    INGRESS = ["ingress", "ingresses", "ing"]
 
-    # RBAC resources
+    # RbacAuthorizationV1Api
     CLUSTER_ROLES = ["clusterrole", "clusterroles"]
     CLUSTER_ROLE_BINDINGS = ["clusterrolebinding", "clusterrolebindings"]
-
     ROLES = ["role", "roles"]
     ROLE_BINDINGS = ["rolebinding", "rolebindings"]

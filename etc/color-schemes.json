@@ -3,7 +3,7 @@
         "default": {
             "type": [[ "fg", "cyan"], [ "fx", "normal"]],
             "namespace": [[ "fg", "cyan"], [ "fx", "normal"]],
-            "name": [[ "fg", "cyan"], [ "fx", "normal"]],
+            "name": [[ "fg", "cyan"], [ "fx", "bold"]],
 
             "attr_name": [[ "fg", "cyan"], [ "fx", "faint"]],
             "attr_delim": [[ "fg", "cyan"], [ "fx", "normal"]],

@@ -8,6 +8,5 @@ import k8v.viewer
 import k8v.printers
 import k8v.printers.brief_printer
 import k8v.printers.default_printer
-import k8v.printers.full_printer
 import k8v.printers.json_printer
 import k8v.printers.printer

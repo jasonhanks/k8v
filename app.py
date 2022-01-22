@@ -8,109 +8,133 @@ def usage() -> None:
     """Display the command line usage help screen."""
 
     print()
-    print("k8v - kubernetes viewer")
+    print("NAME")
+    print("        k8v - view Kubernetes cluster resources")
     print()
-    print(
-        "Usage: k8v.py [-vA] [-o <default|brief|full>] [-n <ns>] [-e <query>] [-r <type>] [-s <label=value>] [<query>]"
-    )
+    print("SYNOPSIS")
+    print("        k8v [OPTION]... [QUERY]...")
     print()
+    print("DESCRIPTION")
     print(
-        "This utility is used to quickly see a lot of information about a Kubernetes context "
+        "        This utility is used to quickly see a lot of information about a Kubernetes context "
         "(default namespace is: default). This will display all the desired "
     )
     print(
-        "resources by type (default: deploy, daemonsets, replicasets, pods) and display various information about them."
-    )
-    print()
-    print("display mode:")
-    print(
-        "     -c | --colors <scheme>          use the named color scheme (specified in k8s/color-scheme.json) or use 'none' for plain text"
+        "        resources by type (default: configmap, deployments, daemonsets, ingresses, persistentvolume, persistentvolumeclaim, replicasets, pods, secrets, "
     )
     print(
-        "     -o | --output                   output mode used to display matching resources (default|brief|full)\n"
-        "                                         default - shows most important resources on separate lines but summarizes others\n"
-        "                                         brief   - shows one liner per resources with summary of related resources\n"
-        "                                         full    - shows each resources as well as each related resources on a separate line"
-        "                                         json    - shows the list of matching resources as JSON"
-    )
-    print("     -v | --verbose                  display verbose logging messages")
-    print()
-    print("namespaces to search:")
-    print("     -A | --all-namespaces           search for resources in all namespaces")
-    print(
-        "     -n | --namespace <ns>           search for resources in the specified namespace (can be specified more than once)"
+        "        services, and statefulset) and display various information about them."
     )
     print()
     print(
-        "Note: by default only the default namespace is searched unless --all-namespaces or --namespace option is specified."
+        "        Filtering capabilities are provided which can either exclude or include matching resources as needed. By default any arguments that are not available "
+    )
+    print(
+        "        options below will be used as search criteria (same behavior as --include option)."
     )
     print()
-    print("search criteria:")
+    print("        -c, --colors=SCHEME")
     print(
-        "     -a | --all-related              include any resources that are related to this resource in the output"
+        "                colorize the output; SCHEME can be 'default' (default if omitted), or 'none' for no color output\n"
     )
+    print("        -o, --output=TYPE")
     print(
-        "     -e | --exclude <query>          exclude resources by name substring matches (can be specified more than once)"
+        "                output mode used to display matching resources; TYPE can be 'wide' (default if omitted), 'brief' for list of resource, or 'json' for full information\n"
     )
-    print(
-        "     -i | --include <query>          include resources by name substring matches (can be specified more than once)"
-    )
-    print(
-        "     -r | --resource <type>          specify resource types to search (can be specified more than once)"
-    )
-    print(
-        "     -R | --all-resources            search across all understood resource types"
-    )
-    print(
-        "     -s | --selector <label=value>   select resources using labels (can be specified more than once)"
-    )
-    print("     <query>                         same functionality as --include")
+    print("        -v, --verbose")
+    print("                display verbose logging messages")
     print()
+    print("        -A, --all-namespaces")
+    print("                search for matching resources that exist in all namespaces")
     print()
-    print("Kubernetes Configuration:")
+    print("        -n, --namespace=NAMESPACE")
     print(
-        "By default k8v uses the KUBECONFIG environment variable for the Kubernetes cluster configuration. If not specified"
-    )
-    print("it will default to ~/.kube/config.")
-    print()
-    print("Docker Usage:")
-    print(
-        "Docker users will need to use the following syntax to pass their Kubernetes configuration as well as"
-    )
-    print(
-        "other command line arguments. Otherwise the container will only display this message."
+        "                search for resources in the specified namespace; NAMESPACE can be any valid namespace ('default' if omitted); can be specified more than once"
     )
     print()
-    print("     # Example: run with default view")
-    print("     docker run -it --rm -v ~/.kube:/app/.kube jasonhanks/k8v:latest --")
+    print("        -R, --all-resources")
+    print("                search for matching resources with any supported type")
     print()
-    print("     # Example: run with brief view for a specific namespace")
+    print("        -r, --resource=TYPE")
     print(
-        "     docker run -it --rm -v ~/.kube:/app/.kube jasonhanks/k8v:latest -d brief -n metallb"
+        "                search for matching resources with the specified type; can be specified more than once"
     )
     print()
-    print("     # Example: run while searching for a specific search term")
+    print("        -e, --exclude=QUERY")
     print(
-        "     docker run -it --rm -v ~/.kube:/app/.kube jasonhanks/k8v:latest heimdall"
+        "                exclude any matching resources who's name includes the specified QUERY; can be specified more than once"
+    )
+    print()
+    print("        -i, --include=QUERY")
+    print(
+        "                include any matching resources who's name includes the specified QUERY; can be specified more than once"
+    )
+    print()
+    print("        -s, --selector=SELECTOR")
+    print(
+        "                include any matching resources who have a matching label matching the SELECTOR (e.g. LABEL=value); can be specified more than once"
+    )
+    print()
+    print("         -t, --all-related")
+    print("                display related resources in a hierachy structure")
+    print()
+    print("KUBERNETES:")
+    print(
+        "        By default k8v uses the KUBECONFIG environment variable for the Kubernetes cluster configuration. If not specified it will default to ~/.kube/config."
+    )
+    print()
+    print("DOCKER")
+    print(
+        "        Docker users will need to use the following syntax to pass their Kubernetes configuration as well as other command line arguments, otherwise the "
+    )
+    print("        container will only display this message.")
+    print()
+    print("        # Example: run with default view")
+    print("        docker run -it --rm -v ~/.kube:/app/.kube jasonhanks/k8v:latest --")
+    print()
+    print("        # Example: run with brief view for a specific namespace")
+    print(
+        "        docker run -it --rm -v ~/.kube:/app/.kube jasonhanks/k8v:latest -o brief -n metallb"
+    )
+    print()
+    print("        # Example: run while searching for a specific search term")
+    print(
+        "        docker run -it --rm -v ~/.kube:/app/.kube jasonhanks/k8v:latest heimdall"
+    )
+    print()
+    print("    Exit status:")
+    print("        0      if OK,")
+    print(
+        "        1      if problems are encountered (e.g., cannot connect to Kubernetes cluster, cannot locate color scheme, etc.)"
+    )
+    print()
+    print("AUTHOR:")
+    print("        Written by Jason Hanks.")
+    print()
+    print("REPORTING BUGS:")
+    print("        GitHub Project: https://github.com/jasonhanks/k8v.")
+    print()
+    print("LICENSE:")
+    print(
+        "        This project is distributed under an MIT License. See included LICENSE file for details."
     )
     print()
 
 
-def main(argv) -> None:
+def main(argv: list) -> None:
     """Main execution to setup the Viewer."""
 
     viewer: k8v.viewer.Viewer = k8v.viewer.Viewer()
     try:
         opts, args = getopt.getopt(
             argv,
-            "ARavhc:f:e:i:n:o:r:s:",
+            "ARtvhc:e:i:n:o:r:s:",
             [
                 "all-related",
                 "all-resources",
                 "colors",
                 "all-namespaces",
                 "exclude",
-                "filter",
                 "help",
                 "include",
                 "namespace",
@@ -149,7 +173,7 @@ def main(argv) -> None:
             viewer.config.namespaces.append(arg)
 
         # search criteria
-        elif opt in ("-a", "--all-related"):
+        elif opt in ("-t", "--all-related"):
             viewer.config.related = True
         elif opt in ("-e", "--exclude"):
             viewer.config.excludes.append(arg)
