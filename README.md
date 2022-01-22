@@ -55,6 +55,9 @@ specific set if not requested at runtime. These are the resources types currentl
   * Services
   * Ingress
   * Deployment
+  * DaemonSet
+  * ReplicaSet
+  * StatefulSet
   * Pods
   * PersistentVolume (only displayed when using -A | --all-namespaces option)
   * PersistentVolumeClaim
