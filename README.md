@@ -19,7 +19,7 @@ Filtering strings for a *name* can be specified using the -i | --include option 
 on the command line after you specifiy all other options:
 
     # search all namespaces for resources that have *heimdall* in their name
-    $ bin/k8v -A -o brief -i heimdall
+    $ k8v -A -o brief -i heimdall
     service/default/heimdall
     ingress/default/heimdall
     deployment/default/heimdall
@@ -27,7 +27,7 @@ on the command line after you specifiy all other options:
     persistentvolumeclaim/default/heimdall
 
     # this is equivalent to the example above (note: the search criteria is specifed after all other options)
-    $ bin/k8v -A -o brief heimdall
+    $ k8v -A -obrief heimdall
     service/default/heimdall
     ingress/default/heimdall
     deployment/default/heimdall
@@ -37,8 +37,8 @@ on the command line after you specifiy all other options:
 
 Specific matches can also be excluded from the matched results using the -e | --exclude option:
 
-    # search all namespaces for resources that have *heimdall* in their name
-    $ bin/k8v -A -o brief -i heimdall -e 9864f4f59-8m5ls
+    # search all namespaces for resources that have *heimdall* in their name but exclude those with *9864f4f59-8m5ls* in their name
+    $ k8v -A -o brief -i heimdall -e 9864f4f59-8m5ls
     service/default/heimdall
     ingress/default/heimdall
     deployment/default/heimdall
@@ -66,7 +66,7 @@ If you want a specific set of resource types to search you can do that using the
 These resources will be displayed in the order they are requested on the command line:
 
     # show all services and ingresses in the default namespace with names matching "heimdall" in a specific order
-    $ bin/k8v -r service -r ingress heimdall
+    $ k8v -r service -r ingress heimdall
     service/default/heimdall (type=LoadBalancer cluster_ip=10.43.39.132  ports=[80:80/TCP nodeport=30242443:443/TCP nodeport=32661])
     ingress/default/heimdall (host=dashboard.k.hazil.net [/=heimdall:80] )
 
@@ -77,10 +77,9 @@ These resources will be displayed in the order they are requested on the command
 A variety of output formats are supported by the tool. 
 
 The following output types are supported:
-* brief - one line per matched resource
-* default - one line per resource including details, as well as related resources one line per resource with details
-* full - one line per resource including details, as well as ALL related resources one line per resource with details
-* json - a JSON formatted list of matching resources that can be processed by other tools that can parse JSON
+* *brief* - one line per matched resource
+* *wide* - one line per resource including informative details
+* *json* - a JSON formatted list of matching resources that can be processed by other tools that can parse JSON
 
 
 
@@ -93,7 +92,7 @@ indentation to represent a relationship between them.
 This allows you to see a lot of information in a hierarchy quickly with filtering capabilities as needed.
 
     # list all resources matching *heimdall* using the default view
-    $ bin/k8v -a heimdall
+    $ k8v -a heimdall
     service/default/heimdall (type=LoadBalancer cluster_ip=10.43.39.132  ports=[80:80/TCP nodeport=30242:443/TCP])
     ingress/default/heimdall (host=heimdall.example.com [/=heimdall:80])
     deployment/default/heimdall (labels=[app=heimdall] replicas=1/1 (upd=1 avail=1) strategy=Recreate generation=14)
@@ -113,7 +112,7 @@ This output is generated in such a way that it can be used to drive scripted or 
 only report individual resources that match the input search criteria and nothing else. 
 
     # list each default resource in the *metallb* namespace
-    $ bin/k8v -n metallb -o brief
+    $ k8v -n metallb -o brief
     configmap/metallb/kube-root-ca.crt
     configmap/metallb/metallb
     secret/metallb/default-token-cbsxv
@@ -135,7 +134,7 @@ only report individual resources that match the input search criteria and nothin
 Note: if you are including all related resources you may need to deal with whitespace or parse accordingly if
 using another tool to process the output:
 
-    $ bin/k8v -c default -i heimdall -a -o brief
+    $ k8v -c default -i heimdall -a -o brief
     service/default/heimdall
     ingress/default/heimdall
     deployment/default/heimdall
@@ -159,7 +158,7 @@ that are currently only summarized for the parent resource.
 ### JSON output
 
 The JSON output will generate a valid JSON list containing each matching resources within the list. This 
-output can then be used by various tools that understand the JSON format.
+output can then be used by various tools that understand the JSON format (such as *jq* shown below).
 
 
     # example using jq utility to parse generated output
@@ -230,17 +229,17 @@ will default to *~/.kube/config* otherwise.
 
 Here are a few various examples of how to use the utility:
 
-    # view the usage for the tool using specified KUBECONFIG file
-    KUBECONFIG=/etc/rancher/k3s/k3s.yaml bin/k8v
+    # view the default resources using the specified KUBECONFIG file
+    KUBECONFIG=/etc/rancher/k3s/k3s.yaml k8v
 
-    # view *brief* listing of all default resources for all namespaces
-    bin/k8v -A -o brief
+    # view *brief* listing of all default resource types in all namespaces
+    k8v -A -o brief
     
     # view all *services* and *ingress* resources in the specified namespace
-    bin/k8v -n heimdall -r ingress -r service
+    k8v -n heimdall -r ingress -r service
 
     # view all default resources matching the specififed search query
-    bin/k8v nginx
+    k8v nginx
 
 
 
@@ -250,7 +249,7 @@ Basic ANSI support has been added and schemes can be configured by editing the k
 Multiple schemes are supported and non-default schemes can be specified at runtime using the *-c* or 
 *--colors* option.
 
-By default all ANSI color schemes are *disabled*. In order to enable them try passing **-c default** or **--colors default** as a parameter to the utility.
+By default the ANSI color schemes are *enabled*. In order to disable ANSI output specify the **-c none** or **-cnone** option.
 
 
 # Docker Container
