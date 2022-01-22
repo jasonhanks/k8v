@@ -99,16 +99,17 @@ class DefaultPrinter(PrinterBase):
         if post.read() != "":
             post.write("\n")
 
-        message = kwargs["delim"] + self.get_ansi_text(
-            "type", self.get_api_type(resource.__class__.__name__)
-        )
-        message += "/"
+        type_text = self.get_api_type(resource.__class__.__name__)
+        message = StringIO("")
+        message.write(kwargs["delim"])
+        message.write(self.get_ansi_text("type", type_text))
+        message.write("/")
         if resource.metadata.namespace:
-            message += self.get_ansi_text("namespace", resource.metadata.namespace)
-            message += "/"
-        message += self.get_ansi_text("name", resource.metadata.name)
-        message += " "
-        print(f"{message}{extended.getvalue()}{post}")
+            message.write(self.get_ansi_text("namespace", resource.metadata.namespace))
+            message.write("/")
+        message.write(self.get_ansi_text("name", resource.metadata.name))
+        message.write(" ")
+        print(f"{message.getvalue()}{extended.getvalue()}{post.getvalue()}")
 
         # Ignore related resources unless they are needed
         if not self.config.related:
@@ -116,10 +117,4 @@ class DefaultPrinter(PrinterBase):
 
         kwargs["delim"] = kwargs["delim"] + self.config.delimeter
         for related in self.viewer.searcher.search_for_related(resource, resource.type):
-            if resource.type == ResourceType.DEPLOYMENTS:
-                self.print(related, **kwargs)
-            else:
-                self.print(
-                    related,
-                    **kwargs,
-                )
+            self.print(related, **kwargs)

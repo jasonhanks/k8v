@@ -1,3 +1,5 @@
+from io import StringIO
+
 from k8v.printers.printer import PrinterBase
 
 
@@ -6,16 +8,19 @@ class BriefPrinter(PrinterBase):
 
     def print(self, resource, **kwargs) -> None:
         """Print out a resources and its information along with related resources."""
-        message = kwargs["delim"] + self.get_ansi_text(
-            "type", self.get_api_type(resource.__class__.__name__)
-        )
-        message += "/"
-        message += f"{self.get_ansi_text('namespace', resource.metadata.namespace) +'/' if resource.metadata.namespace else ''}"
-        message += self.get_ansi_text("name", resource.metadata.name)
-        print(message)
+        type_text = self.get_api_type(resource.__class__.__name__)
+        message = StringIO("")
+        message.write(kwargs["delim"])
+        message.write(self.get_ansi_text("type", type_text))
+        message.write("/")
+        if resource.metadata.namespace:
+            message.write(self.get_ansi_text("namespace", resource.metadata.namespace))
+            message.write("/")
+        message.write(self.get_ansi_text("name", resource.metadata.name))
+        print(message.getvalue())
 
         # Ignore related resources unless they are needed
-        if self.config.related == False:
+        if not self.config.related:
             return
 
         kwargs["delim"] = kwargs["delim"] + self.config.delimeter
