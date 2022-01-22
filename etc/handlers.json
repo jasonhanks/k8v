@@ -1,4 +1,6 @@
 {
+    "clusterrole": { "src": "api_rbac_v1", "type": "V1ClusterRole", "all": "list_cluster_role" },
+    "clusterrolebinding": { "src": "api_rbac_v1", "type": "V1ClusterRoleBinding", "all": "list_cluster_role_binding" },
     "configmap": { "src": "api_core_v1", "type": "V1ConfigMap", "all": "list_config_map_for_all_namespaces", "ns": "list_namespaced_config_map" },
     "daemonset": { "src": "api_apps_v1", "type": "V1DaemonSet", "all": "list_daemon_set_for_all_namespaces", "ns": "list_namespaced_daemon_set" },
     "deployment": { "src": "api_apps_v1", "type": "V1Deployment", "all": "list_deployment_for_all_namespaces", "ns": "list_namespaced_deployment" },
@@ -7,6 +9,8 @@
     "persistentvolumeclaim": { "src": "api_core_v1", "type": "V1PersistentVolumeClaim", "all": "list_persistent_volume_claim_for_all_namespaces", "ns": "list_namespaced_persistent_volume_claim" },
     "pod": { "src": "api_core_v1", "type": "V1Pod", "all": "list_pod_for_all_namespaces", "ns": "list_namespaced_pod" },
     "replicaset": { "src": "api_apps_v1", "type": "V1ReplicaSet", "all": "list_replica_set_for_all_namespaces", "ns": "list_namespaced_replica_set" },
+    "role": { "src": "api_rbac_v1", "type": "V1Role", "all": "list_role_for_all_namespaces", "ns": "list_namespaced_role" },
+    "rolebinding": { "src": "api_rbac_v1", "type": "V1RoleBinding", "all": "list_role_binding_for_all_namespaces", "ns": "list_namespaced_role_binding" },
     "statefulset": { "src": "api_apps_v1", "type": "V1StatefulSet", "all": "list_stateful_set_for_all_namespaces", "ns": "list_namespaced_stateful_set" },
     "secret": { "src": "api_core_v1", "type": "V1Secret", "all": "list_secret_for_all_namespaces", "ns": "list_namespaced_secret" },
     "service": { "src": "api_core_v1", "type": "V1Service", "all": "list_service_for_all_namespaces", "ns": "list_namespaced_service" },

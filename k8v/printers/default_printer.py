@@ -10,15 +10,36 @@ class DefaultPrinter(PrinterBase):
 
     def format(self, name, value, **kwargs):
         # defaults for kwargs
-        key = kwargs["key"] if "key" in kwargs else "attr2"
-        start = kwargs["start"] if "start" in kwargs else "="
-        end = kwargs["end"] if "end" in kwargs else ""
+        if "key" not in kwargs:
+            kwargs["key"] = "attr2"
+        if "start" not in kwargs:
+            kwargs["start"] = "="
+        if "end" not in kwargs:
+            kwargs["end"] = ""
+
         msg: StringIO = StringIO("")
-        msg.write(self.get_text(f"{key}_name", name))
-        msg.write(self.get_text(f"{key}_delim", start))
-        msg.write(self.get_text(f"{key}_value", value))
-        msg.write(self.get_text(f"{key}_delim", end))
+        msg.write(self.get_text(f"{kwargs['key']}_name", name))
+        msg.write(self.get_text(f"{kwargs['key']}_delim", kwargs["start"]))
+        msg.write(self.get_text(f"{kwargs['key']}_value", str(value)))
+        msg.write(self.get_text(f"{kwargs['key']}_delim", kwargs["end"]))
         return msg.getvalue()
+
+    def format_clusterrole(self, cr):
+        pairs: list = list()
+        pairs.append(self.format("aggregation_rule", cr.aggregation_rule is not None))
+        pairs.append(self.format("rules", len(cr.rules)))
+        return " ".join(pairs)
+
+    def format_clusterrolebinding(self, crb):
+        pairs: list = list()
+        pairs.append(self.format("role_ref", crb.role_ref.name))
+        if crb.subjects is not None:
+            pairs.append(
+                self.format(
+                    "subjects", list(map(lambda o: f"{o.kind}={o.name}", crb.subjects))
+                )
+            )
+        return " ".join(pairs)
 
     def format_configmap(self, cm):
         pairs: list = list()
@@ -96,6 +117,20 @@ class DefaultPrinter(PrinterBase):
         pairs.append(self.format("generation", rs.metadata.generation))
         return " ".join(pairs)
 
+    def format_role(self, cr):
+        return self.format("rules", len(cr.rules))
+
+    def format_rolebinding(self, rb):
+        pairs: list = list()
+        pairs.append(self.format("role_ref", rb.role_ref.name))
+        if rb.subjects is not None:
+            pairs.append(
+                self.format(
+                    "subjects", list(map(lambda o: f"{o.kind}={o.name}", rb.subjects))
+                )
+            )
+        return " ".join(pairs)
+
     def format_secret(self, secret):
         return self.format_configmap(secret)
 
@@ -163,7 +198,7 @@ class DefaultPrinter(PrinterBase):
     def format_statefulset(self, ss):
         pairs: list = list()
         pairs.append(self.format("strategy", ss.spec.update_strategy.type))
-        pairs.append(self.format("generation", ss.metadata.generation))
+        pairs.append(self.format("generation", str(ss.metadata.generation)))
         if ss.status.replicas is not None and ss.status.replicas > 0:
             pairs.append(
                 self.format(
@@ -176,7 +211,7 @@ class DefaultPrinter(PrinterBase):
             pairs.append(
                 self.format(
                     "upd",
-                    ss.status.updated_replicas,
+                    str(ss.status.updated_replicas),
                     start="(",
                     end=")",
                 )
@@ -184,7 +219,7 @@ class DefaultPrinter(PrinterBase):
             pairs.append(
                 self.format(
                     "avail",
-                    ss.status.current_replicas,
+                    str(ss.status.current_replicas),
                     start="(",
                     end=")",
                 )

@@ -23,3 +23,10 @@ class ResourceType(enum.Enum):
 
     # Security resources
     SERVICE_ACCOUNTS = ["serviceaccount", "serviceaccounts", "sa"]
+
+    # RBAC resources
+    CLUSTER_ROLES = ["clusterrole", "clusterroles"]
+    CLUSTER_ROLE_BINDINGS = ["clusterrolebinding", "clusterrolebindings"]
+
+    ROLES = ["role", "roles"]
+    ROLE_BINDINGS = ["rolebinding", "rolebindings"]

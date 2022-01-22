@@ -19,6 +19,7 @@ class Searcher:
         self.api_core_v1 = kubernetes.client.CoreV1Api()
         self.api_apps_v1 = kubernetes.client.AppsV1Api(self.api_client)
         self.api_network_v1 = kubernetes.client.NetworkingV1Api()
+        self.api_rbac_v1 = kubernetes.client.RbacAuthorizationV1Api()
 
     def end(self):
         """Stop the Searcher and cleanup anything if needed."""
