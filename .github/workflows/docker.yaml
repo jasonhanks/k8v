@@ -48,6 +48,7 @@ jobs:
         shell: 'script --return --quiet --command "bash {0}"'
         run: |
           ls -alF ~/.kube
+          docker run --rm -it -v ~/.kube:/app/.kube --entrypoint=sh k8v -c "ls -alF /app/.kube"
           docker run --rm -it -v ~/.kube:/app/.kube k8v -R -t
           docker run --rm -it --entrypoint=/app/bin/run_tests k8v
 
