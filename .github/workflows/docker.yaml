@@ -40,16 +40,15 @@ jobs:
       - name: Create test resources from manifests
         run: |
           echo "current-context:" $(kubectl config current-context)
-          echo "environment-kubeconfig:" ${KUBECONFIG}
           kubectl cluster-info
 
           kubectl create -f tests/manifests
-          kubectl describe pod nginx-deployment
-          sleep 30
-          kubectl get pods -owide
 
-          echo "Waiting for PODs to be Ready"
-          kubectl wait --for=condition=Ready pod -l app=nginx --timeout=60s
+          echo "Waiting for all PODs to be Ready"
+          kubectl wait --for=condition=Ready pod -l app --timeout=60s
+
+          kubectl get svc -owide
+          kubectl get deploy -owide
           kubectl get pods -owide
 
   publish:
