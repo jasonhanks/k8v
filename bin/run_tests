@@ -3,7 +3,7 @@
 
 # navigate to the project root folder
 SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
-cd $SCRIPT_DIR/../tests
+cd $SCRIPT_DIR/../
 
 
 # Load the virtualenv if it exists
@@ -11,4 +11,4 @@ cd $SCRIPT_DIR/../tests
 
 
 # Run the application interface
-python3 -m pytest "$@"
+python3 -m pytest tests "$@"
