@@ -46,7 +46,7 @@ jobs:
           kubectl create -f tests/manifests
           kubectl get deploy -owide
           sleep 10
-          kubectl wait --for=condition=Ready pod -l app=nginx --timeout=60
+          kubectl wait --for=condition=Ready pod -l app=nginx --timeout=60s
           kubectl get pods -owide
 
   publish:
