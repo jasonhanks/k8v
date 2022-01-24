@@ -63,8 +63,7 @@ jobs:
           password: ${{ secrets.DOCKER_HUB_TOKEN }}
 
       # push the Docker image to the official Docker Hub
-      - name: Build and push to Docker Hub
-        uses: docker/build-push-action@v2
-        with:
-          push: true
-          tags: jasonhanks/k8v:latest
+      - name: Tag and push image to Docker Hub
+        run: |
+          docker image tag k8v jasonhanks/k8v:latest
+          docker image push jasonhanks/k8v:latest
