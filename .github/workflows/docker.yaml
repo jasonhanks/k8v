@@ -43,14 +43,14 @@ jobs:
           echo "current-context:" $(kubectl config current-context)
           echo "environment-kubeconfig:" ${KUBECONFIG}
           kubectl cluster-info
-          kubectl get storageclass -owide
 
       # create all resources we need for testing the tool 
       - name: Create test resources from manifests
         run: |
           kubectl create -f tests/manifests
           sleep 10
-          kubectl get pods
+          kubectl get deploy -owide
+          kubectl get pods -owide
 
       # login to the official Docker Hub      
       - name: Login to DockerHub
