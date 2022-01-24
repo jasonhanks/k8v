@@ -11,4 +11,5 @@ cd $SCRIPT_DIR/..
 
 
 # Run the application interface
+PATH=~/.local/bin:$PATH
 pytest -s /app/tests "$@"
