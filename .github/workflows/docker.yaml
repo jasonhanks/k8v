@@ -43,12 +43,11 @@ jobs:
           kubectl get deploy -owide
           kubectl get pods -owide
 
-          docker run --rm -it k8v -R -a
-
       # execute the pytests
       - name: Run tests using Docker container
         shell: 'script --return --quiet --command "bash {0}"'
         run: |
+          docker run --rm -it k8v -R -a
           docker run --rm -it --entrypoint=/app/bin/run_tests k8v
 
   publish:
