@@ -51,10 +51,6 @@ jobs:
           docker run --rm -it --network="host" -v ~/.kube:/root/.kube k8v -R -A
           docker run --rm -it --network="host" -v ~/.kube:/root/.kube --entrypoint=/app/bin/run_tests k8v
 
-  publish:
-    runs-on: ubuntu-latest
-    needs: [build]
-    steps:
       # login to the official Docker Hub      
       - name: Login to DockerHub
         uses: docker/login-action@v1 
