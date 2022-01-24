@@ -48,10 +48,14 @@ jobs:
       - name: Create test resources from manifests
         run: |
           kubectl create -f tests/manifests
-          sleep 10
           kubectl get deploy -owide
+          kubectl wait --for=condition=ready pod -l app=nginx
           kubectl get pods -owide
 
+  publish:
+    runs-on: ubuntu-latest
+    needs: [build]
+    steps:
       # login to the official Docker Hub      
       - name: Login to DockerHub
         uses: docker/login-action@v1 
