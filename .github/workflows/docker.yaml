@@ -34,8 +34,8 @@ jobs:
 
       # create a Kubernetes cluster in Docker to use for testing
       - name: Setup Kubernetes in Docker cluster
+        uses: helm/kind-action@v1.2.0        
         run: |
-          kind create cluster
           echo "current-context:" $(kubectl config current-context)
           echo "environment-kubeconfig:" ${KUBECONFIG}
           kubectl cluster-info
