@@ -11,4 +11,4 @@ cd $SCRIPT_DIR/..
 
 
 # Run the application interface
-pytests -s /app/tests "$@"
+pytest -s /app/tests "$@"
