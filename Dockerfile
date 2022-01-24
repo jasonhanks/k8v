@@ -9,12 +9,12 @@ FROM python:3.10.1-slim
 #USER k8v
 
 
-# Use the home directory for the app
-WORKDIR /app
-
-
 # Create directory for Kubeconfig file / volume mappings
 RUN mkdir -p /app/.kube
+
+
+# Use the home directory for the app
+WORKDIR /app
 
 
 # Install Python pip based dependencies
