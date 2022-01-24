@@ -47,7 +47,8 @@ jobs:
       - name: Run tests using Docker container
         shell: 'script --return --quiet --command "bash {0}"'
         run: |
-          docker run --rm -it -v ~/.kube:/root/.kube --entrypoint=sh k8v -c "ls -alF /root/.kube"
+          env
+          docker run --rm -it -v ~/.kube:/root/.kube --entrypoint=sh k8v -c "cat /root/.kube/config"
           docker run --rm -it -v ~/.kube:/root/.kube k8v -R -t
           docker run --rm -it -v ~/.kube:/root/.kube --entrypoint=/app/bin/run_tests k8v
 
