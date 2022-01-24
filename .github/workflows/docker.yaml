@@ -36,10 +36,6 @@ jobs:
       - name: Setup Kubernetes in Docker cluster
         run: |
           kind create cluster
-
-      # display the information about the cluster
-      - name: Display cluster info
-        run: |
           echo "current-context:" $(kubectl config current-context)
           echo "environment-kubeconfig:" ${KUBECONFIG}
           kubectl cluster-info
@@ -49,6 +45,8 @@ jobs:
         run: |
           kubectl create -f tests/manifests
           kubectl get deploy -owide
+          sleep 10
+          kubectl describe deploy nginx-deployment
           kubectl wait --for=condition=Ready deploy -l app=nginx
           kubectl get pods -owide
 
