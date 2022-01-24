@@ -9,6 +9,10 @@ jobs:
   build_and_push:
     runs-on: ubuntu-latest
     steps:
+      # checkout the project
+      - name: Checkout
+        uses: actions/checkout@v2
+
       # setup dependencies for multiple platform builds
       # - name: Set up QEMU
       #   uses: docker/setup-qemu-action@v1
