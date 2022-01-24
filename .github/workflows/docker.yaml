@@ -19,7 +19,6 @@ jobs:
 
       # build local version to use for testing
       - name: Build and push
-        id: docker_build
         uses: docker/build-push-action@v2
         with:
           push: false
@@ -54,7 +53,6 @@ jobs:
 
       # push the Docker image to the official Docker Hub
       - name: Build and push
-        id: docker_build
         uses: docker/build-push-action@v2
         with:
           push: true
