@@ -55,7 +55,7 @@ spec:
         image: nginx:alpine
         envFrom:
         - configMapRef:
-            configMapRef: nginx-cm
+            name: nginx-cm
         ports:
         - containerPort: 80
         volumeMounts:
