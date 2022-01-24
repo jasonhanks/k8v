@@ -51,6 +51,7 @@ jobs:
 
       # execute the pytests
       - name: Run tests using Docker container
+        shell: 'script --return --quiet --command "bash {0}"'
         run: |
           docker run --rm -it --name k8v k8v:test --entrypoint /app/bin/run_tests
 
