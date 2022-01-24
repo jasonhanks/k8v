@@ -47,7 +47,7 @@ jobs:
       - name: Run tests using Docker container
         shell: 'script --return --quiet --command "bash {0}"'
         run: |
-          docker run --rm -it k8v -R -a
+          docker run --rm -it k8v -R -t
           docker run --rm -it --entrypoint=/app/bin/run_tests k8v
 
   publish:
