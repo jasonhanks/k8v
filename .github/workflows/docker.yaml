@@ -49,7 +49,7 @@ jobs:
         run: |
           kubectl create -f tests/manifests
           kubectl get deploy -owide
-          kubectl wait --for=condition=ready pod -l app=nginx
+          kubectl wait --for=condition=Ready deploy -l app=nginx
           kubectl get pods -owide
 
   publish:
