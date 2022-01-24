@@ -23,10 +23,14 @@ jobs:
 
       # build local version to use for testing
       - name: Build local image for testing
-        uses: docker/build-push-action@v2
-        with:
-          push: false
-          tags: k8v:test
+        run: |
+          docker build . -t k8v
+
+      # execute the pytests
+      - name: Run tests using Docker container
+        shell: 'script --return --quiet --command "bash {0}"'
+        run: |
+          docker run --rm -it --name k8v k8v --entrypoint /app/bin/run_tests
 
       # create a Kubernetes cluster in Docker to use for testing
       - name: Setup Kubernetes in Docker cluster
@@ -48,12 +52,6 @@ jobs:
           kubectl create -f tests/manifests
           sleep 10
           kubectl get pods
-
-      # execute the pytests
-      - name: Run tests using Docker container
-        shell: 'script --return --quiet --command "bash {0}"'
-        run: |
-          docker run --rm -it --name k8v k8v:test --entrypoint /app/bin/run_tests
 
       # login to the official Docker Hub      
       - name: Login to DockerHub
