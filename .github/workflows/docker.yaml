@@ -44,8 +44,11 @@ jobs:
           kubectl cluster-info
 
           kubectl create -f tests/manifests
-          kubectl get deploy -owide
-          sleep 10
+          kubectl describe pod nginx-deployment
+          sleep 30
+          kubectl get pods -owide
+
+          echo "Waiting for PODs to be Ready"
           kubectl wait --for=condition=Ready pod -l app=nginx --timeout=60s
           kubectl get pods -owide
 
