@@ -22,11 +22,11 @@ jobs:
         uses: docker/setup-buildx-action@v1
 
       # build local version to use for testing
-      - name: Build and push
+      - name: Build local image for testing
         uses: docker/build-push-action@v2
         with:
           push: false
-          tags: jasonhanks/k8v:test
+          tags: k8v:test
 
       # create a Kubernetes cluster in Docker to use for testing
       - name: Setup Kubernetes in Docker cluster
@@ -37,9 +37,10 @@ jobs:
       # display the information about the cluster
       - name: Display cluster info
         run: |
-          kubectl cluster-info
           echo "current-context:" $(kubectl config current-context)
           echo "environment-kubeconfig:" ${KUBECONFIG}
+          kubectl cluster-info
+          kubectl get storageclass -owide
 
       # create all resources we need for testing the tool 
       - name: Create test resources from manifests
@@ -47,6 +48,11 @@ jobs:
           kubectl create -f tests/manifests
           sleep 10
           kubectl get pods
+
+      # execute the pytests
+      - name: Run tests using Docker container
+        run: |
+          docker run --rm -it --name k8v k8v:test --entrypoint /app/bin/run_tests
 
       # login to the official Docker Hub      
       - name: Login to DockerHub
@@ -56,7 +62,7 @@ jobs:
           password: ${{ secrets.DOCKER_HUB_TOKEN }}
 
       # push the Docker image to the official Docker Hub
-      - name: Build and push
+      - name: Build and push to Docker Hub
         uses: docker/build-push-action@v2
         with:
           push: true
