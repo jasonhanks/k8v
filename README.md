@@ -1,4 +1,4 @@
-# k8v (Kubernetes Viewer)
+# k8v - view Kubernetes cluster resources
 
 k8v is a command line utility used to view information about a Kubernetes cluster. It allows the user to view 
 multiple resources at once, optionally in a hierarchy, as well as provide filtering capabilities.
