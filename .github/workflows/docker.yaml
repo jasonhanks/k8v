@@ -9,37 +9,51 @@ jobs:
   build_and_push:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@master
-      - uses: engineerd/setup-kind@v0.5.0
+      # setup dependencies for multiple platform builds
+      # - name: Set up QEMU
+      #   uses: docker/setup-qemu-action@v1
+
+      # setup Docker build environment
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+
+      # build local version to use for testing
+      - name: Build and push
+        id: docker_build
+        uses: docker/build-push-action@v2
+        with:
+          push: false
+          tags: jasonhanks/k8v:test
+
+      # create a Kubernetes cluster in Docker to use for testing
+      - name: Setup Kubernetes in Docker cluster
+        uses: engineerd/setup-kind@v0.5.0
         with:
           version: "v0.11.1"
+
+      # display the information about the cluster
       - name: Display cluster info
         run: |
           kubectl cluster-info
-          kubectl get pods -n kube-system
           echo "current-context:" $(kubectl config current-context)
           echo "environment-kubeconfig:" ${KUBECONFIG}
 
+      # create all resources we need for testing the tool 
+      - name: Create test resources from manifests
+        run: |
           kubectl create -f tests/manifests
-
           sleep 10
-          
           kubectl get pods
-      
-      # -
-      #   name: Set up QEMU
-      #   uses: docker/setup-qemu-action@v1
-      -
-        name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v1
-      -
-        name: Login to DockerHub
+
+      # login to the official Docker Hub      
+      - name: Login to DockerHub
         uses: docker/login-action@v1 
         with:
           username: ${{ secrets.DOCKER_HUB_USERNAME }}
           password: ${{ secrets.DOCKER_HUB_TOKEN }}
-      -
-        name: Build and push
+
+      # push the Docker image to the official Docker Hub
+      - name: Build and push
         id: docker_build
         uses: docker/build-push-action@v2
         with:
