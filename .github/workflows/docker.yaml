@@ -35,14 +35,14 @@ jobs:
       # create a Kubernetes cluster in Docker to use for testing
       - name: Setup Kubernetes in Docker cluster
         uses: helm/kind-action@v1.2.0        
+
+      # create all resources we need for testing the tool 
+      - name: Create test resources from manifests
         run: |
           echo "current-context:" $(kubectl config current-context)
           echo "environment-kubeconfig:" ${KUBECONFIG}
           kubectl cluster-info
 
-      # create all resources we need for testing the tool 
-      - name: Create test resources from manifests
-        run: |
           kubectl create -f tests/manifests
           kubectl get deploy -owide
           sleep 10
