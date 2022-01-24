@@ -6,7 +6,7 @@ on:
     - main
 
 jobs:
-  build_and_push:
+  build:
     runs-on: ubuntu-latest
     steps:
       # checkout the project
@@ -30,13 +30,12 @@ jobs:
       - name: Run tests using Docker container
         shell: 'script --return --quiet --command "bash {0}"'
         run: |
-          docker run --rm -it --name k8v --entrypoint /app/bin/run_tests k8v
+          docker run --rm -it --entrypoint=/app/bin/run_tests k8v
 
       # create a Kubernetes cluster in Docker to use for testing
       - name: Setup Kubernetes in Docker cluster
-        uses: engineerd/setup-kind@v0.5.0
-        with:
-          version: "v0.11.1"
+        run: |
+          kind create cluster
 
       # display the information about the cluster
       - name: Display cluster info
