@@ -92,7 +92,7 @@ indentation to represent a relationship between them.
 This allows you to see a lot of information in a hierarchy quickly with filtering capabilities as needed.
 
     # list all resources matching *heimdall* using the default view
-    $ k8v -a heimdall
+    $ k8v -t heimdall
     service/default/heimdall (type=LoadBalancer cluster_ip=10.43.39.132  ports=[80:80/TCP nodeport=30242:443/TCP])
     ingress/default/heimdall (host=heimdall.example.com [/=heimdall:80])
     deployment/default/heimdall (labels=[app=heimdall] replicas=1/1 (upd=1 avail=1) strategy=Recreate generation=14)
