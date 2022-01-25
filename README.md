@@ -134,7 +134,7 @@ only report individual resources that match the input search criteria and nothin
 Note: if you are including all related resources you may need to deal with whitespace or parse accordingly if
 using another tool to process the output:
 
-    $ k8v -c default -i heimdall -a -o brief
+    $ k8v -c default -i heimdall -t -o brief
     service/default/heimdall
     ingress/default/heimdall
     deployment/default/heimdall
@@ -162,7 +162,7 @@ output can then be used by various tools that understand the JSON format (such a
 
 
     # example using jq utility to parse generated output
-    $ bin/k8v -c default -a -i heimdall -o json | jq '.[0].spec'
+    $ bin/k8v -c default -t -i heimdall -o json | jq '.[0].spec'
     {
     "cluster_i_ps": [
         "10.43.39.132"
