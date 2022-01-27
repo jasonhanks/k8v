@@ -11,27 +11,16 @@ class TestResourceTypes:
 
         # validate can support this for all known aliases for a specific type (will validate those value
         # possibilities for all types separately).
-        assert (
-            k8v.resource_types.ResourceType.from_value("configmap")
-            == k8v.resource_types.ResourceType.CONFIG_MAP
-        )
-        assert (
-            k8v.resource_types.ResourceType.from_value("configmaps")
-            == k8v.resource_types.ResourceType.CONFIG_MAP
-        )
-        assert (
-            k8v.resource_types.ResourceType.from_value("cm")
-            == k8v.resource_types.ResourceType.CONFIG_MAP
-        )
-        assert (
-            k8v.resource_types.ResourceType.from_value("cms")
-            == k8v.resource_types.ResourceType.CONFIG_MAP
-        )
+        for alias in k8v.resource_types.ResourceType.SERVICES.value:
+            assert (
+                k8v.resource_types.ResourceType.from_value(alias)
+                == k8v.resource_types.ResourceType.SERVICES
+            )
 
         # validate a random alias (non-default value)
         assert (
-            k8v.resource_types.ResourceType.from_value("svc")
-            == k8v.resource_types.ResourceType.SERVICES
+            k8v.resource_types.ResourceType.from_value("ingress")
+            == k8v.resource_types.ResourceType.INGRESS
         )
 
         # Invalid values should be None
