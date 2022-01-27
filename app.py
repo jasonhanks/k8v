@@ -1,129 +1,17 @@
 import getopt
+import io
 import sys
 
 import k8v
 
 
-def usage() -> None:
+def usage(output: io.IOBase) -> None:
     """Display the command line usage help screen."""
 
-    print()
-    print("NAME")
-    print("        k8v - view Kubernetes cluster resources")
-    print()
-    print("SYNOPSIS")
-    print("        k8v [OPTION]... [QUERY]...")
-    print()
-    print("DESCRIPTION")
-    print(
-        "        This utility is used to quickly see a lot of information about a Kubernetes context "
-        "(default namespace is: default). This will display all the desired "
-    )
-    print(
-        "        resources by type (default: configmap, deployments, daemonsets, ingresses, persistentvolume, persistentvolumeclaim, replicasets, pods, secrets, "
-    )
-    print(
-        "        services, and statefulset) and display various information about them."
-    )
-    print()
-    print(
-        "        Filtering capabilities are provided which can either exclude or include matching resources as needed. By default any arguments that are not available "
-    )
-    print(
-        "        options below will be used as search criteria (same behavior as --include option)."
-    )
-    print()
-    print("        -c, --colors=SCHEME")
-    print(
-        "                colorize the output; SCHEME can be 'default' (default if omitted), or 'none' for no color output\n"
-    )
-    print("        -o, --output=TYPE")
-    print(
-        "                output mode used to display matching resources; TYPE can be 'wide' (default if omitted), 'brief' for list of resource, or 'json' for full information\n"
-    )
-    print("        -f, --file")
-    print(
-        "                specify a filename to be used for output (STDOUT if omitted)"
-    )
-    print()
-    print("        -A, --all-namespaces")
-    print("                search for matching resources that exist in all namespaces")
-    print()
-    print("        -n, --namespace=NAMESPACE")
-    print(
-        "                search for resources in the specified namespace; NAMESPACE can be any valid namespace ('default' if omitted); can be specified more than once"
-    )
-    print()
-    print("        -R, --all-resources")
-    print("                search for matching resources with any supported type")
-    print()
-    print("        -r, --resource=TYPE")
-    print(
-        "                search for matching resources with the specified type; can be specified more than once"
-    )
-    print()
-    print("        -e, --exclude=QUERY")
-    print(
-        "                exclude any matching resources who's name includes the specified QUERY; can be specified more than once"
-    )
-    print()
-    print("        -i, --include=QUERY")
-    print(
-        "                include any matching resources who's name includes the specified QUERY; can be specified more than once"
-    )
-    print()
-    print("        -s, --selector=SELECTOR")
-    print(
-        "                include any matching resources who have a matching label matching the SELECTOR (e.g. LABEL=value); can be specified more than once"
-    )
-    print()
-    print("         -t, --all-related")
-    print("                display related resources in a hierachy structure")
-    print()
-    print("        -v, --verbose")
-    print("                display verbose logging messages")
-    print()
-    print("KUBERNETES:")
-    print(
-        "        By default k8v uses the KUBECONFIG environment variable for the Kubernetes cluster configuration. If not specified it will default to ~/.kube/config."
-    )
-    print()
-    print("DOCKER")
-    print(
-        "        Docker users will need to use the following syntax to pass their Kubernetes configuration as well as other command line arguments, otherwise the "
-    )
-    print("        container will only display this message.")
-    print()
-    print("        # Example: run with default view")
-    print("        docker run -it --rm -v ~/.kube:/app/.kube jasonhanks/k8v:latest --")
-    print()
-    print("        # Example: run with brief view for a specific namespace")
-    print(
-        "        docker run -it --rm -v ~/.kube:/app/.kube jasonhanks/k8v:latest -o brief -n metallb"
-    )
-    print()
-    print("        # Example: run while searching for a specific search term")
-    print(
-        "        docker run -it --rm -v ~/.kube:/app/.kube jasonhanks/k8v:latest heimdall"
-    )
-    print()
-    print("    Exit status:")
-    print("        0      if OK,")
-    print(
-        "        1      if problems are encountered (e.g., cannot connect to Kubernetes cluster, cannot locate color scheme, etc.)"
-    )
-    print()
-    print("AUTHOR:")
-    print("        Written by Jason Hanks.")
-    print()
-    print("REPORTING BUGS:")
-    print("        GitHub Project: https://github.com/jasonhanks/k8v.")
-    print()
-    print("LICENSE:")
-    print(
-        "        This project is distributed under an MIT License. See included LICENSE file for details."
-    )
-    print()
+    with open("etc/usage.md") as f:
+        for line in f.readlines():
+            output.write(line)
+        f.close()
 
 
 def main(argv: list) -> None:
@@ -151,7 +39,7 @@ def main(argv: list) -> None:
             ],
         )
     except getopt.GetoptError as e:
-        usage()
+        usage(viewer.config.file)
         print(f"ERROR: {e}")
         print()
         sys.exit(2)
@@ -159,7 +47,7 @@ def main(argv: list) -> None:
     for opt, arg in opts:
         # display the help
         if opt in ("-h", "--help"):
-            usage()
+            usage(viewer.config.file)
             sys.exit()
 
         # display modes
