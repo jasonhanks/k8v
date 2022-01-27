@@ -103,9 +103,9 @@ class TestResourceTypes:
 
     def test_from_value(self):
         """Validate that we can use all aliases for a known type."""
-        for type in k8v.resource_types.ResourceType:
-            for alias in type.value:
-                assert k8v.resource_types.ResourceType.from_value(alias) == type
+        for t, aliases in self.expected_types.items():
+            for alias in aliases:
+                assert k8v.resource_types.ResourceType.from_value(alias) == t
 
     def test_invalid_from_value(self):
         """Validate that we cannot use an invalid alias."""
