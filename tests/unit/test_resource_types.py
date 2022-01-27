@@ -8,21 +8,16 @@ class TestResourceTypes:
 
     def test_from_value(self):
         """Validate that we can use all aliases for a known type."""
-
-        # validate that all aliases properly return the correct ResourceType
         for type in k8v.resource_types.ResourceType:
             for alias in type.value:
                 assert k8v.resource_types.ResourceType.from_value(alias) == type
 
-        # validate a random alias (non-default value)
-        assert (
-            k8v.resource_types.ResourceType.from_value("ingress")
-            == k8v.resource_types.ResourceType.INGRESS
-        )
-
-        # Invalid values should be None
+    def test_invalid_from_value(self):
+        """Validate that we cannot use an invalid alias for a known type."""
         assert k8v.resource_types.ResourceType.from_value(TestResourceTypes) == None
         assert k8v.resource_types.ResourceType.from_value(None) == None
+        assert k8v.resource_types.ResourceType.from_value(True) == None
+        assert k8v.resource_types.ResourceType.from_value(False) == None
         assert k8v.resource_types.ResourceType.from_value("") == None
         assert k8v.resource_types.ResourceType.from_value("configurationmap") == None
         assert k8v.resource_types.ResourceType.from_value("configurationmaps") == None
