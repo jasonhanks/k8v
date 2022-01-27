@@ -30,8 +30,7 @@ jobs:
       - name: Run unit / integration tests using Docker container
         shell: 'script --return --quiet --command "bash {0}"'
         run: |
-          cp ~/.kube/config ~/.kube/config-docker
-          docker run --rm -it --network="host" -v ~/.kube/config-docker:/root/.kube/config --entrypoint=/app/bin/run_tests k8v tests/unit
+          docker run --rm -it --network="host" --entrypoint=/app/bin/run_tests k8v tests/unit
           sleep 5
 
       # create a Kubernetes cluster in Docker to use for testing
@@ -57,7 +56,7 @@ jobs:
         run: |
           echo "Listing all test resources in Kubernetes cluster"
           docker run --rm -it --network="host" -v ~/.kube:/root/.kube k8v -R -A
-          docker run --rm -it --network="host" -v ~/.kube/config-docker:/root/.kube/config --entrypoint=/app/bin/run_tests k8v tests/system
+          docker run --rm -it --network="host" -v ~/.kube:/root/.kube --entrypoint=/app/bin/run_tests k8v tests/system
 
       # login to the official Docker Hub      
       - name: Login to DockerHub
