@@ -9,13 +9,10 @@ class TestResourceTypes:
     def test_from_value(self):
         """Validate that we can use all aliases for a known type."""
 
-        # validate can support this for all known aliases for a specific type (will validate those value
-        # possibilities for all types separately).
-        for alias in k8v.resource_types.ResourceType.SERVICES.value:
-            assert (
-                k8v.resource_types.ResourceType.from_value(alias)
-                == k8v.resource_types.ResourceType.SERVICES
-            )
+        # validate that all aliases properly return the correct ResourceType
+        for type in k8v.resource_types.ResourceType:
+            for alias in type.value:
+                assert k8v.resource_types.ResourceType.from_value(alias) == type
 
         # validate a random alias (non-default value)
         assert (
