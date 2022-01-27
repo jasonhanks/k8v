@@ -6,7 +6,7 @@ import k8v
 class TestResourceTypes:
     """Validate various functionality related to the ResourceType behavior."""
 
-    def setup(self):
+    def setup(self) -> None:
         self.expected_types = {
             k8v.resource_types.ResourceType.CLUSTER_ROLES: [
                 "clusterrole",
@@ -101,13 +101,13 @@ class TestResourceTypes:
             ],
         }
 
-    def test_from_value_valid(self):
+    def test_from_value_valid(self) -> None:
         """Validate that we can use all aliases for a known type."""
         for t, aliases in self.expected_types.items():
             for alias in aliases:
                 assert k8v.resource_types.ResourceType.from_value(alias) == t
 
-    def test_from_value_invalid(self):
+    def test_from_value_invalid(self) -> None:
         """Validate that we cannot use an invalid alias."""
         assert k8v.resource_types.ResourceType.from_value(TestResourceTypes) == None
         assert k8v.resource_types.ResourceType.from_value(None) == None
@@ -117,13 +117,13 @@ class TestResourceTypes:
         assert k8v.resource_types.ResourceType.from_value("configurationmap") == None
         assert k8v.resource_types.ResourceType.from_value("configurationmaps") == None
 
-    def test_supported_types(self):
+    def test_supported_types(self) -> None:
         """Validate the supported types by the viewer."""
         types = [t.value[0] for t in k8v.resource_types.ResourceType]
         types.sort()
         assert types == [x[0] for x in self.expected_types.values()]
 
-    def test_type_aliases(self):
+    def test_type_aliases(self) -> None:
         """Validate that aliases for the supported resource types are supported."""
         for type, aliases in self.expected_types.items():
             for alias in aliases:
