@@ -60,7 +60,7 @@ class Searcher:
                 # return the "all" or "namespace" specific handler as needed
                 if self.config.namespaces is None:
                     return getattr(self._handlers[group], data[type.value[0]]["all"])
-                elif data.get("ns") and hasattr(
+                elif data[type.value[0]].get("ns") and hasattr(
                     self._handlers[group], data[type.value[0]]["ns"]
                 ):
                     return getattr(self._handlers[group], data[type.value[0]]["ns"])
