@@ -157,12 +157,16 @@ class Searcher:
                 api_response = handler(**kwargs)
                 for d in api_response.items:
                     d.type = type
+                    d.apiVersion = api_response.api_version
+                    d.kind = api_response.kind.replace("List", "")
                     resources.append(d)
             else:
                 for ns in self.config.namespaces:
                     api_response = handler(ns, **kwargs)
                     for d in api_response.items:
                         d.type = type
+                        d.apiVersion = api_response.api_version
+                        d.kind = api_response.kind.replace("List", "")
                         resources.append(d)
         except Exception as e:
             print(
