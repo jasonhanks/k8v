@@ -6,54 +6,8 @@ import k8v
 class TestResourceTypes:
     """Validate various functionality related to the ResourceType behavior."""
 
-    def test_from_value(self):
-        """Validate that we can use all aliases for a known type."""
-        for type in k8v.resource_types.ResourceType:
-            for alias in type.value:
-                assert k8v.resource_types.ResourceType.from_value(alias) == type
-
-    def test_invalid_from_value(self):
-        """Validate that we cannot use an invalid alias."""
-        assert k8v.resource_types.ResourceType.from_value(TestResourceTypes) == None
-        assert k8v.resource_types.ResourceType.from_value(None) == None
-        assert k8v.resource_types.ResourceType.from_value(True) == None
-        assert k8v.resource_types.ResourceType.from_value(False) == None
-        assert k8v.resource_types.ResourceType.from_value("") == None
-        assert k8v.resource_types.ResourceType.from_value("configurationmap") == None
-        assert k8v.resource_types.ResourceType.from_value("configurationmaps") == None
-
-    def test_supported_types(self):
-        """Validate the supported types by the viewer."""
-
-        types = [t.value[0] for t in k8v.resource_types.ResourceType]
-        types.sort()
-
-        assert types == [
-            "clusterrole",
-            "clusterrolebinding",
-            "configmap",
-            "cronjob",
-            "daemonset",
-            "deployment",
-            "ingress",
-            "job",
-            "networkpolicy",
-            "persistentvolume",
-            "persistentvolumeclaim",
-            "pod",
-            "replicaset",
-            "role",
-            "rolebinding",
-            "secret",
-            "service",
-            "serviceaccount",
-            "statefulset",
-        ]
-
-    def test_type_aliases(self):
-        """Validate that aliases for the supported resource types are supported."""
-
-        types = {
+    def setup(self):
+        self.expected_types = {
             k8v.resource_types.ResourceType.CLUSTER_ROLES: [
                 "clusterrole",
                 "clusterroles",
@@ -147,6 +101,33 @@ class TestResourceTypes:
             ],
         }
 
-        for type, aliases in types.items():
+    def test_from_value(self):
+        """Validate that we can use all aliases for a known type."""
+        for type in k8v.resource_types.ResourceType:
+            for alias in type.value:
+                assert k8v.resource_types.ResourceType.from_value(alias) == type
+
+    def test_invalid_from_value(self):
+        """Validate that we cannot use an invalid alias."""
+        assert k8v.resource_types.ResourceType.from_value(TestResourceTypes) == None
+        assert k8v.resource_types.ResourceType.from_value(None) == None
+        assert k8v.resource_types.ResourceType.from_value(True) == None
+        assert k8v.resource_types.ResourceType.from_value(False) == None
+        assert k8v.resource_types.ResourceType.from_value("") == None
+        assert k8v.resource_types.ResourceType.from_value("configurationmap") == None
+        assert k8v.resource_types.ResourceType.from_value("configurationmaps") == None
+
+    def test_supported_types(self):
+        """Validate the supported types by the viewer."""
+
+        types = [t.value[0] for t in k8v.resource_types.ResourceType]
+        types.sort()
+
+        assert types == list(map(lambda o: o[0], self.expected_types.values()))
+
+    def test_type_aliases(self):
+        """Validate that aliases for the supported resource types are supported."""
+
+        for type, aliases in self.expected_types.items():
             for alias in aliases:
                 assert alias in type.value
