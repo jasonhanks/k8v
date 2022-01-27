@@ -121,8 +121,7 @@ class TestResourceTypes:
         """Validate the supported types by the viewer."""
         types = [t.value[0] for t in k8v.resource_types.ResourceType]
         types.sort()
-
-        assert types == list(map(lambda o: o[0], self.expected_types.values()))
+        assert types == [x[0] for x in self.expected_types.values()]
 
     def test_type_aliases(self):
         """Validate that aliases for the supported resource types are supported."""
