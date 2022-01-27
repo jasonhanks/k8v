@@ -41,7 +41,7 @@ class PrinterBase(Printer):
         scheme that will be used by the Printer.
 
         Raises:
-            e: Any IO related Exceptions raised during
+            e: Any IO related Exceptions raised while loading data
         """
         try:
             schemes = json.load(open("etc/color-schemes.json"))["schemes"]

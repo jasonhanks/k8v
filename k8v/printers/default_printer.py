@@ -249,7 +249,10 @@ class DefaultPrinter(PrinterBase):
             message.write("/")
         message.write(self.get_text("name", resource.metadata.name))
         message.write(" ")
-        print(f"{message.getvalue()}({details.getvalue()})")
+        if kwargs.get("out") is not None:
+            kwargs["out"].write(f"{message.getvalue()}({details.getvalue()})")
+        else:
+            print(f"{message.getvalue()}({details.getvalue()})")
 
         # Ignore related resources unless they are needed
         if not self.config.related:

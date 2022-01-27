@@ -22,7 +22,7 @@ class JsonPrinter(PrinterBase):
     def print(self, resource, **kwargs) -> None:
         """Print the resource out as JSON."""
 
-        print(
+        text = (
             self.config.delimeter
             + kwargs["delim"]
             + jsons.dumps(
@@ -33,6 +33,11 @@ class JsonPrinter(PrinterBase):
             )
             + ("," if kwargs["index"] < kwargs["total"] else "")
         )
+
+        if kwargs.get("out") is not None:
+            kwargs["out"].write(text)
+        else:
+            print(text)
 
         # Ignore related resources unless they are requested
         if not self.config.related:

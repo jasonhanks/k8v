@@ -17,7 +17,11 @@ class BriefPrinter(PrinterBase):
             message.write(self.get_text("namespace", resource.metadata.namespace))
             message.write("/")
         message.write(self.get_text("name", resource.metadata.name))
-        print(message.getvalue())
+
+        if kwargs.get("out") is not None:
+            kwargs["out"].write(message.getvalue())
+        else:
+            print(message.getvalue())
 
         # Ignore related resources unless they are needed
         if not self.config.related:
