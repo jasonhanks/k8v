@@ -11,7 +11,7 @@ class Config:
     colors: str = "default"
 
     # delimeter to use for related resources
-    delimeter: str = "    "
+    delimeter: str = "        "
 
     # excludes list
     excludes: list = dataclasses.field(default_factory=list)
