@@ -19,7 +19,7 @@ class BriefPrinter(PrinterBase):
         message.write(self.get_text("name", resource.metadata.name))
 
         if kwargs.get("out") is not None:
-            kwargs["out"].write(message.getvalue())
+            kwargs["out"].write(message.getvalue() + "\n")
         else:
             print(message.getvalue())
 

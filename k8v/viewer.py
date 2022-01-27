@@ -69,7 +69,13 @@ class Viewer:
                 resources.append(resource)
 
         for num, resource in enumerate(resources):
-            self.printer.print(resource, delim="", index=num, total=len(resources) - 1)
+            self.printer.print(
+                resource,
+                delim="",
+                index=num,
+                total=len(resources) - 1,
+                out=self.config.file,
+            )
 
         # stop the Printer and Searcher
         self.printer.end()

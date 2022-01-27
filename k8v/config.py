@@ -1,4 +1,6 @@
 import dataclasses
+from io import IOBase
+import sys
 
 
 @dataclasses.dataclass
@@ -22,6 +24,9 @@ class Config:
 
     # output mode
     output: str = "default"
+
+    # file used for output (default: STDOUT)
+    file: IOBase = sys.stdout
 
     # include related resources in results
     related: bool = False

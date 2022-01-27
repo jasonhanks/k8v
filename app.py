@@ -41,6 +41,11 @@ def usage() -> None:
     print(
         "                output mode used to display matching resources; TYPE can be 'wide' (default if omitted), 'brief' for list of resource, or 'json' for full information\n"
     )
+    print("        -f, --file")
+    print(
+        "                specify a filename to be used for output (STDOUT if omitted)"
+    )
+    print()
     print("        -A, --all-namespaces")
     print("                search for matching resources that exist in all namespaces")
     print()
@@ -128,13 +133,14 @@ def main(argv: list) -> None:
     try:
         opts, args = getopt.getopt(
             argv,
-            "ARtvhc:e:i:n:o:r:s:",
+            "ARtvhc:e:f:i:n:o:r:s:",
             [
                 "all-related",
                 "all-resources",
                 "colors",
                 "all-namespaces",
                 "exclude",
+                "file",
                 "help",
                 "include",
                 "namespace",
@@ -163,6 +169,8 @@ def main(argv: list) -> None:
             viewer.config.output = arg
         elif opt in ("-v", "--verbose"):
             viewer.config.verbose = True
+        elif opt in ("-f", "--file"):
+            viewer.config.file = open(arg, "w")
 
         # namespaces
         elif opt in ("-A", "--all-namespaces"):

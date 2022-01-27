@@ -250,7 +250,7 @@ class DefaultPrinter(PrinterBase):
         message.write(self.get_text("name", resource.metadata.name))
         message.write(" ")
         if kwargs.get("out") is not None:
-            kwargs["out"].write(f"{message.getvalue()}({details.getvalue()})")
+            kwargs["out"].write(f"{message.getvalue()}({details.getvalue()})\n")
         else:
             print(f"{message.getvalue()}({details.getvalue()})")
 
