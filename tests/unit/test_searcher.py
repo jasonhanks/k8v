@@ -17,15 +17,27 @@ class TestSearcher:
             obj = munch.munchify(o)  # convert dict() to an object
             obj.type = k8v.resource_types.ResourceType.from_value(obj.kind.lower())
             self.resources.append(obj)
+        self.viewer: Viewer = k8v.viewer.Viewer(k8v.config.Config())
+        self.searcher: k8v.searcher.Searcher = self.viewer.searcher
 
-    def test_query_filters(self):
-        """Validate filtering by name capability of the Searcher."""
-        config: k8v.config.Config = k8v.config.Config()
-        config.includes.append("nginx")
+    def test_include_filter(self):
+        """Validate sub-string include filtering."""
+        self.viewer.config.includes.append("nginx-deploy")
+        assert ["nginx-deployment"] == [
+            r.metadata.name for r in self.searcher.filter_resources(self.resources)
+        ]
 
-        viewer: Viewer = k8v.viewer.Viewer(config)
-        searcher: k8v.searcher.Searcher = viewer.searcher
+    def test_exclude_filter(self):
+        """Validate sub-string resource exclusion filtering."""
+        self.viewer.config.excludes.append("nginx-sec")
+        assert ["nginx-cm", "nginx-pvc", "nginx-deployment"] == [
+            r.metadata.name for r in self.searcher.filter_resources(self.resources)
+        ]
 
-        assert ["nginx-cm", "nginx-sec", "nginx-pvc", "nginx-deployment"] == [
-            r.metadata.name for r in searcher.filter_resources(self.resources)
+    def test_include_and_exclude_filters(self):
+        """Validate that combination of include and exclude filters work as expected."""
+        self.viewer.config.includes.append("nginx-")
+        self.viewer.config.excludes.append("nginx-pvc")
+        assert ["nginx-cm", "nginx-sec", "nginx-deployment"] == [
+            r.metadata.name for r in self.searcher.filter_resources(self.resources)
         ]
