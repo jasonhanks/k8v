@@ -31,6 +31,7 @@ jobs:
         shell: 'script --return --quiet --command "bash {0}"'
         run: |
           docker run --rm -it --network="host" -v ~/.kube:/root/.kube --entrypoint=/app/bin/run_tests k8v tests/unit
+          sleep 5
 
       # create a Kubernetes cluster in Docker to use for testing
       - name: Setup Kubernetes in Docker cluster
