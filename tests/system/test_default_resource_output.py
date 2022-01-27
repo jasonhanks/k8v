@@ -6,7 +6,7 @@ import re
 import k8v
 
 
-class TestDefaultOutput:
+class TestDefaultResourceOutput:
     """These tests will run against a live Kubernetes cluster and validate the default resources displayed."""
 
     def setup(self):
