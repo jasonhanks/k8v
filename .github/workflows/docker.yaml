@@ -53,8 +53,6 @@ jobs:
       - name: Run systems tests using Docker container
         shell: 'script --return --quiet --command "bash {0}"'
         run: |
-          echo "Listing all test resources in Kubernetes cluster"
-          docker run --rm -it --network="host" -v ~/.kube:/root/.kube k8v -R -A
           docker run --rm -it --network="host" -v ~/.kube:/root/.kube --entrypoint=/app/bin/run_tests k8v tests/system
 
       # login to the official Docker Hub      
