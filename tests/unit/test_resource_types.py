@@ -119,7 +119,6 @@ class TestResourceTypes:
 
     def test_supported_types(self):
         """Validate the supported types by the viewer."""
-
         types = [t.value[0] for t in k8v.resource_types.ResourceType]
         types.sort()
 
@@ -127,7 +126,6 @@ class TestResourceTypes:
 
     def test_type_aliases(self):
         """Validate that aliases for the supported resource types are supported."""
-
         for type, aliases in self.expected_types.items():
             for alias in aliases:
                 assert alias in type.value
