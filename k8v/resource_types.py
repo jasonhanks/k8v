@@ -32,3 +32,10 @@ class ResourceType(enum.Enum):
     CLUSTER_ROLE_BINDINGS = ["clusterrolebinding", "clusterrolebindings"]
     ROLES = ["role", "roles"]
     ROLE_BINDINGS = ["rolebinding", "rolebindings"]
+
+    @staticmethod
+    def from_value(value):
+        for type in ResourceType:
+            if value in type.value:
+                return type
+        return None
