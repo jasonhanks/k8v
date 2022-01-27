@@ -34,10 +34,7 @@ class JsonPrinter(PrinterBase):
             + ("," if kwargs["index"] < kwargs["total"] else "")
         )
 
-        if kwargs.get("out") is not None:
-            kwargs["out"].write(text + "\n")
-        else:
-            self.viewer.config.file.write(text)
+        self.viewer.config.file.write(text + "\n")
 
         # Ignore related resources unless they are requested
         if not self.config.related:
