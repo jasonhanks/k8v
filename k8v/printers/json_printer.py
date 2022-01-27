@@ -37,7 +37,7 @@ class JsonPrinter(PrinterBase):
         if kwargs.get("out") is not None:
             kwargs["out"].write(text + "\n")
         else:
-            print(text)
+            self.viewer.config.file.write(text)
 
         # Ignore related resources unless they are requested
         if not self.config.related:

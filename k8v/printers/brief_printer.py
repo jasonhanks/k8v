@@ -18,10 +18,7 @@ class BriefPrinter(PrinterBase):
             message.write("/")
         message.write(self.get_text("name", resource.metadata.name))
 
-        if kwargs.get("out") is not None:
-            kwargs["out"].write(message.getvalue() + "\n")
-        else:
-            print(message.getvalue())
+        self.viewer.config.file.write(message.getvalue() + "\n")
 
         # Ignore related resources unless they are needed
         if not self.config.related:
