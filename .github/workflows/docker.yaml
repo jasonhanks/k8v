@@ -26,6 +26,12 @@ jobs:
         run: |
           docker build . -t k8v
 
+      # run tests that do not depend on Kubernetes here
+      - name: Run unit / integration tests using Docker container
+        shell: 'script --return --quiet --command "bash {0}"'
+        run: |
+          docker run --rm -it --network="host" -v ~/.kube:/root/.kube --entrypoint=/app/bin/run_tests tests/unit k8v
+
       # create a Kubernetes cluster in Docker to use for testing
       - name: Setup Kubernetes in Docker cluster
         uses: helm/kind-action@v1.2.0        
@@ -43,13 +49,13 @@ jobs:
           kubectl get deploy -owide
           kubectl get pods -owide
 
-      # execute the pytests
-      - name: Run tests using Docker container
+      # run tests that depend on Kubernetes for end to end testing
+      - name: Run systems tests using Docker container
         shell: 'script --return --quiet --command "bash {0}"'
         run: |
           echo "Listing all test resources in Kubernetes cluster"
           docker run --rm -it --network="host" -v ~/.kube:/root/.kube k8v -R -A
-          docker run --rm -it --network="host" -v ~/.kube:/root/.kube --entrypoint=/app/bin/run_tests k8v
+          docker run --rm -it --network="host" -v ~/.kube:/root/.kube --entrypoint=/app/bin/run_tests tests/system k8v
 
       # login to the official Docker Hub      
       - name: Login to DockerHub
