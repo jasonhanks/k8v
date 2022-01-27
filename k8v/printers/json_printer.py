@@ -14,10 +14,10 @@ class JsonPrinter(PrinterBase):
         super().begin()
         jsons.set_serializer(lambda o, **_: "", Configuration)
         jsons.set_serializer(lambda o, **_: "", ResourceType)
-        print("[")
+        self.viewer.config.file.write("[")
 
     def end(self):
-        print("]")
+        self.viewer.config.file.write("]")
 
     def print(self, resource, **kwargs) -> None:
         """Print the resource out as JSON."""
@@ -35,7 +35,7 @@ class JsonPrinter(PrinterBase):
         )
 
         if kwargs.get("out") is not None:
-            kwargs["out"].write(text+"\n")
+            kwargs["out"].write(text + "\n")
         else:
             print(text)
 
