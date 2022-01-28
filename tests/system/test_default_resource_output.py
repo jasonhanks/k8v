@@ -10,9 +10,9 @@ class TestDefaultResourceOutput:
     """These tests will run against a live Kubernetes cluster and validate the default resources displayed."""
 
     def setup(self):
-        self.viewer: Viewer = k8v.viewer.Viewer(k8v.config.Config())
-        self.viewer.config.colors = None  # disable colors for now
-        self.viewer.config.file = io.StringIO("")  # store output in StringIO
+        self.viewer: Viewer = k8v.viewer.Viewer(
+            k8v.config.Config(colors=None, file=io.StringIO(""))
+        )
 
     def test_brief_output(self):
         """Validate the *brief* output for the default resources."""

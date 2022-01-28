@@ -1,6 +1,10 @@
 import dataclasses
 from io import IOBase
+import json
 import sys
+
+
+import k8v
 
 
 @dataclasses.dataclass
@@ -9,6 +13,9 @@ class Config:
 
     # color scheme
     colors: str = "default"
+
+    # scheme to use at runtime
+    color_scheme: dict = dataclasses.field(default_factory=dict)
 
     # delimeter to use for related resources
     delimeter: str = "        "
@@ -39,3 +46,39 @@ class Config:
 
     # verbose logging
     verbose: bool = False
+
+    def load(self):
+        try:
+            schemes = json.load(open("etc/color-schemes.json"))["schemes"]
+            if self.colors in schemes:
+                self.color_scheme = schemes[self.colors]
+            else:
+                self.color_scheme = None
+            self.handlers = json.load(open("etc/handlers.json"))
+        except Exception as e:
+            print(f"Exception occurred loading color schemes: {e}")
+            raise e
+
+        # setup default namespace if no overrides specified
+        if self.namespaces is not None and len(self.namespaces) == 0:
+            self.namespaces.append("default")
+
+        # determine which resource types to search through
+        if self.resources == None:
+            self.resources = []
+            for type in k8v.resource_types.ResourceType:
+                self.resources.append(type)
+        elif len(self.resources) == 0:
+            self.resources = [
+                k8v.resource_types.ResourceType.CONFIG_MAP,
+                k8v.resource_types.ResourceType.SECRETS,
+                k8v.resource_types.ResourceType.SERVICES,
+                k8v.resource_types.ResourceType.INGRESS,
+                k8v.resource_types.ResourceType.DAEMON_SETS,
+                k8v.resource_types.ResourceType.STATEFUL_SETS,
+                k8v.resource_types.ResourceType.REPLICA_SETS,
+                k8v.resource_types.ResourceType.DEPLOYMENTS,
+                k8v.resource_types.ResourceType.PODS,
+                k8v.resource_types.ResourceType.PERSISTENT_VOLUME,
+                k8v.resource_types.ResourceType.PERSISTENT_VOLUME_CLAIM,
+            ]

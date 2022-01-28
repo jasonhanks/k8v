@@ -2,20 +2,19 @@ import pytest
 import io
 import json
 import munch
-import yaml
 
 import k8v
 
 
-class TestBriefPrinter:
+class TestBriefFormatter:
     """Validate the BriefPrinter output for each resource type."""
 
     def setup(self):
-        self.viewer: Viewer = k8v.viewer.Viewer(k8v.config.Config())
-        self.viewer.config.colors = None  # disable colors for now
-        self.viewer.config.output = "brief"
-        self.viewer.config.file = io.StringIO("")  # store output in StringIO
-        self.viewer.setup()
+        self.config = k8v.config.Config(colors=None, file=io.StringIO(""))
+        self.config.load()
+        self.printer = k8v.formatters.brief_formatter.BriefFormatter(self.config)
+        # self.printer.config.colors = None  # disable colors for now
+        # self.printer.begin()
 
     def test_output(self):
         """Validate the format of each known type we load from tests/manifests/default-resources.json."""
@@ -34,12 +33,15 @@ persistentvolumeclaim/default/nginx-pvc
 """
 
         # these objects were unloaded using the tool to simulate a query to bring back each known type
-        for o in json.load(open("tests/fixtures/default-resources.json")):
+        data = json.load(open("tests/fixtures/default-resources.json"))
+        self.printer.begin_resource()
+        for num, o in enumerate(data):
             resource = munch.munchify(o)  # convert dict() to an object
             resource.type = k8v.resource_types.ResourceType.from_value(
                 resource.kind.lower()
             )
-            self.viewer.printer.print(resource, delim="")
+            self.printer.print(resource, "")
+            self.printer.end_resource(num == len(data) - 1)
 
         # validate the printed output
-        assert expected == self.viewer.config.file.getvalue()
+        assert expected == self.config.file.getvalue()

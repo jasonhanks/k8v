@@ -68,40 +68,12 @@ class Searcher:
                     return None
         return None
 
-    def get_pod_data(self, resource) -> [list, list]:
-        """Get any related configmap or secrets related to this resource."""
-
-        # search for "envFrom" sections in the container definitions
-        data: dict = {"configmaps": [], "secrets": [], "pvcs": [], "volumes": []}
-        if hasattr(resource, "spec") and hasattr(resource.spec, "containers"):
-            for container in resource.spec.containers:
-                if hasattr(container, "env_from") and container.env_from is not None:
-                    for envFrom in container.env_from:
-                        if (
-                            hasattr(envFrom, "config_map_ref")
-                            and envFrom.config_map_ref is not None
-                        ):
-                            data["configmaps"].append(envFrom.config_map_ref.name)
-                        if (
-                            hasattr(envFrom, "secret_ref")
-                            and envFrom.secret_ref is not None
-                        ):
-                            data["secrets"].append(envFrom.secret_ref.name)
-
-        # search through "volume" definitions
-        if hasattr(resource, "spec") and hasattr(resource.spec, "volumes"):
-            for volume in resource.spec.volumes:
-                data["volumes"].append(volume)
-                if volume.config_map is not None:
-                    data["configmaps"].append(volume.config_map.name)
-                elif volume.secret is not None:
-                    data["secrets"].append(volume.secret.secret_name)
-                elif volume.persistent_volume_claim is not None:
-                    data["pvcs"].append(volume.persistent_volume_claim.claim_name)
-        return data
-
     def search_for_related(self, resource, type: ResourceType) -> list:
         """Search for any related resources of the given type."""
+
+        if not self.config.related:
+            return []
+
         resources: list = []
         label_expr: str = ""
 
@@ -159,6 +131,7 @@ class Searcher:
                     d.type = type
                     d.apiVersion = api_response.api_version
                     d.kind = api_response.kind.replace("List", "")
+                    d._related = self.search_for_related(d, type)
                     resources.append(d)
             else:
                 for ns in self.config.namespaces:
@@ -167,6 +140,7 @@ class Searcher:
                         d.type = type
                         d.apiVersion = api_response.api_version
                         d.kind = api_response.kind.replace("List", "")
+                        d._related = self.search_for_related(d, type)
                         resources.append(d)
         except Exception as e:
             print(

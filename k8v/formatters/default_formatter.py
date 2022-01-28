@@ -2,10 +2,10 @@ import jsons
 from io import StringIO
 
 from k8v.resource_types import ResourceType
-from k8v.printers.printer import PrinterBase
+from k8v.formatters.formatter import FormatterBase
 
 
-class DefaultPrinter(PrinterBase):
+class DefaultFormatter(FormatterBase):
     """The Printer that is used by default."""
 
     def format(self, name, value, **kwargs):
@@ -183,7 +183,7 @@ class DefaultPrinter(PrinterBase):
         return " ".join(pairs)
 
     def format_pod(self, pod):
-        data = self.viewer.searcher.get_pod_data(pod)
+        data = self.get_pod_data(pod)
         pairs: list = list()
         if len(data["configmaps"]) > 0:
             pairs.append(
@@ -226,7 +226,7 @@ class DefaultPrinter(PrinterBase):
             )
         return " ".join(pairs)
 
-    def print(self, resource, **kwargs) -> None:
+    def print(self, resource, delim="") -> None:
         """Print the **default** display version of a resource."""
         details = StringIO("")
 
@@ -241,7 +241,7 @@ class DefaultPrinter(PrinterBase):
 
         type_text = self.get_api_type(resource.__class__.__name__)
         message = StringIO("")
-        message.write(kwargs["delim"])
+        message.write(delim)
         message.write(self.get_text("type", type_text))
         message.write("/")
         if resource.metadata.namespace:
@@ -249,12 +249,4 @@ class DefaultPrinter(PrinterBase):
             message.write("/")
         message.write(self.get_text("name", resource.metadata.name))
         message.write(" ")
-        self.viewer.config.file.write(f"{message.getvalue()}({details.getvalue()})\n")
-
-        # Ignore related resources unless they are needed
-        if not self.config.related:
-            return
-
-        kwargs["delim"] = kwargs["delim"] + self.config.delimeter
-        for related in self.viewer.searcher.search_for_related(resource, resource.type):
-            self.print(related, **kwargs)
+        self.config.file.write(f"{message.getvalue()}({details.getvalue()})")

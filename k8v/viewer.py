@@ -1,6 +1,8 @@
 import k8v
 
-from typing import NamedTuple
+from k8v.formatters.brief_formatter import BriefFormatter
+from k8v.formatters.default_formatter import DefaultFormatter
+from k8v.formatters.json_formatter import JsonFormatter
 
 
 class Viewer:
@@ -10,49 +12,16 @@ class Viewer:
         self.config: config.Config = config
         self.searcher: k8v.searcher.Searcher = k8v.searcher.Searcher(self)
 
-    def setup(self) -> None:
-        """Read configuration and prepare to begin processing results."""
+    def print_resource(self, resource, num=1, max=1, delim=""):
+        self.printer.begin_resource()
+        self.printer.print(resource, delim)
+        self.printer.end_resource(num == max)
 
-        # setup the Printer to be used
-        if self.config.output in ["brief", "b"]:
-            self.printer: k8v.printer.Printer = k8v.printers.brief_printer.BriefPrinter(
-                self
-            )
-        elif self.config.output in ["json", "j"]:
-            self.printer: k8v.printer.Printer = k8v.printers.json_printer.JsonPrinter(
-                self
-            )
-        else:
-            self.printer: k8v.printer.Printer = (
-                k8v.printers.default_printer.DefaultPrinter(self)
-            )
-
-        # start the Printer and Searcher
-        self.printer.begin()
-
-        # setup default namespace if no overrides specified
-        if self.config.namespaces is not None and len(self.config.namespaces) == 0:
-            self.config.namespaces.append("default")
-
-        # determine which resource types to search through
-        if self.config.resources == None:
-            self.config.resources = []
-            for type in k8v.resource_types.ResourceType:
-                self.config.resources.append(type)
-        elif len(self.config.resources) == 0:
-            self.config.resources = [
-                k8v.resource_types.ResourceType.CONFIG_MAP,
-                k8v.resource_types.ResourceType.SECRETS,
-                k8v.resource_types.ResourceType.SERVICES,
-                k8v.resource_types.ResourceType.INGRESS,
-                k8v.resource_types.ResourceType.DAEMON_SETS,
-                k8v.resource_types.ResourceType.STATEFUL_SETS,
-                k8v.resource_types.ResourceType.REPLICA_SETS,
-                k8v.resource_types.ResourceType.DEPLOYMENTS,
-                k8v.resource_types.ResourceType.PODS,
-                k8v.resource_types.ResourceType.PERSISTENT_VOLUME,
-                k8v.resource_types.ResourceType.PERSISTENT_VOLUME_CLAIM,
-            ]
+        if self.config.related and len(resource._related) > 0:
+            for n, r in enumerate(resource._related):
+                self.print_resource(
+                    r, n, len(resource._related), delim + self.config.delimeter
+                )
 
     def view(self) -> None:
         """Use the input parameters to create a View of the desired resources and their relationships."""
@@ -63,19 +32,28 @@ class Viewer:
                 f"Display output={self.config.output}, namespaces={self.config.namespaces}, resources={self.config.resources}, filters={self.config.includes}, selectors={self.config.selectors}"
             )
 
-        self.setup()
+        # Load configuration files
+        self.config.load()
+        if self.config.output in ["brief", "b"]:
+            self.printer = BriefFormatter(self.config)
+        elif self.config.output in ["json", "j"]:
+            self.printer = JsonFormatter(self.config)
+        else:
+            self.printer = DefaultFormatter(self.config)
+
         self.searcher.begin()
 
         # search for matching (and filtered) resources and print them out
         # using the desired display_mode.
         resources = []
+        self.printer.begin()
         for type in self.config.resources:
-            for resource in self.searcher.filter_resources(self.searcher.search(type)):
-                resources.append(resource)
+            for r in self.searcher.filter_resources(self.searcher.search(type)):
+                resources.append(r)
 
         for num, resource in enumerate(resources):
-            self.printer.print(resource, delim="", index=num, total=len(resources) - 1)
+            self.print_resource(resource, num, len(resources) - 1, "")
+        self.printer.end()
 
         # stop the Printer and Searcher
-        self.printer.end()
         self.searcher.end()
