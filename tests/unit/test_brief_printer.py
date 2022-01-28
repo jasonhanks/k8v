@@ -34,7 +34,7 @@ persistentvolumeclaim/default/nginx-pvc
 """
 
         # these objects were unloaded using the tool to simulate a query to bring back each known type
-        for o in json.load(open("tests/manifests/default-resources.json")):
+        for o in json.load(open("tests/fixtures/default-resources.json")):
             resource = munch.munchify(o)  # convert dict() to an object
             resource.type = k8v.resource_types.ResourceType.from_value(
                 resource.kind.lower()

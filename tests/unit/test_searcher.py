@@ -12,7 +12,8 @@ class TestSearcher:
         """Load some Kubernetes manifests as test fixtures."""
         self.resources = []
         for o in yaml.load_all(
-            open("tests/manifests/deploy-nginx.yaml", "r"), Loader=yaml.FullLoader
+            open("tests/fixtures/manifests/deploy-nginx.yaml", "r"),
+            Loader=yaml.FullLoader,
         ):
             obj = munch.munchify(o)  # convert dict() to an object
             obj.type = k8v.resource_types.ResourceType.from_value(obj.kind.lower())
