@@ -10,14 +10,8 @@ class Viewer:
         self.config: config.Config = config
         self.searcher: k8v.searcher.Searcher = k8v.searcher.Searcher(self)
 
-    def view(self) -> None:
-        """Use the input parameters to create a View of the desired resources and their relationships."""
-
-        # show the input parameters
-        if self.config.verbose:
-            print(
-                f"Display output={self.config.output}, namespaces={self.config.namespaces}, resources={self.config.resources}, filters={self.config.includes}, selectors={self.config.selectors}"
-            )
+    def setup(self) -> None:
+        """Read configuration and prepare to begin processing results."""
 
         # setup the Printer to be used
         if self.config.output in ["brief", "b"]:
@@ -61,6 +55,17 @@ class Viewer:
                 k8v.resource_types.ResourceType.PERSISTENT_VOLUME_CLAIM,
             ]
 
+    def view(self) -> None:
+        """Use the input parameters to create a View of the desired resources and their relationships."""
+
+        # show the input parameters
+        if self.config.verbose:
+            print(
+                f"Display output={self.config.output}, namespaces={self.config.namespaces}, resources={self.config.resources}, filters={self.config.includes}, selectors={self.config.selectors}"
+            )
+
+        self.setup()
+
         # search for matching (and filtered) resources and print them out
         # using the desired display_mode.
         resources = []
@@ -69,13 +74,7 @@ class Viewer:
                 resources.append(resource)
 
         for num, resource in enumerate(resources):
-            self.printer.print(
-                resource,
-                delim="",
-                index=num,
-                total=len(resources) - 1,
-                out=self.config.file,
-            )
+            self.printer.print(resource, delim="", index=num, total=len(resources) - 1)
 
         # stop the Printer and Searcher
         self.printer.end()

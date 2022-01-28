@@ -97,7 +97,7 @@ class DefaultPrinter(PrinterBase):
         return " ".join(pairs)
 
     def format_labels(self, resource) -> str:
-        if resource.metadata.labels is None:
+        if not hasattr(resource.metadata, "labels") or resource.metadata.labels is None:
             return ""
         labels: list = list()
         for label, value in resource.metadata.labels.items():

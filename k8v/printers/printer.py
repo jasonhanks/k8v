@@ -69,7 +69,7 @@ class PrinterBase(Printer):
         """
         for k, v in self.viewer.searcher._handler_config.items():
             for t, d in v.items():
-                if d["type"] == api_type:
+                if "type" in d and d["type"] == api_type:
                     return t
         return None
 
