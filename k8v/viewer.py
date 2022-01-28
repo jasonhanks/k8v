@@ -29,7 +29,6 @@ class Viewer:
 
         # start the Printer and Searcher
         self.printer.begin()
-        self.searcher.begin()
 
         # setup default namespace if no overrides specified
         if self.config.namespaces is not None and len(self.config.namespaces) == 0:
@@ -65,6 +64,7 @@ class Viewer:
             )
 
         self.setup()
+        self.searcher.begin()
 
         # search for matching (and filtered) resources and print them out
         # using the desired display_mode.
