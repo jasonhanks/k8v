@@ -1,4 +1,4 @@
-name: Docker Hub Build
+name: Default Workflow
 
 on:
   push:
@@ -42,7 +42,7 @@ jobs:
           echo "current-context:" $(kubectl config current-context)
           kubectl cluster-info
 
-          kubectl create -f tests/manifests
+          kubectl create -f tests/fixtures/manifests
           kubectl wait --for=condition=Ready pod -l app --timeout=60s
 
           kubectl get svc -owide
