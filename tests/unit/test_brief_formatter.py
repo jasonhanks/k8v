@@ -45,14 +45,8 @@ persistentvolume/pvc-6801b99e-d658-4095-967b-b035c520886f
 persistentvolumeclaim/default/nginx-pvc
 """
 
-        self.printer.begin_resource()
-        for num, o in enumerate(self.resources):
-            resource = munch.munchify(o)  # convert dict() to an object
-            resource.type = k8v.resource_types.ResourceType.from_value(
-                resource.kind.lower()
-            )
-            self.printer.print(resource, "")
-            self.printer.end_resource(num == len(self.resources) - 1)
+        for num, resource in enumerate(self.resources):
+            self.viewer.print_resource(resource, num, len(self.resources) - 1, "")
 
         # validate the printed output
         assert expected == self.config.file.getvalue()

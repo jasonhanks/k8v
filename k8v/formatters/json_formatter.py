@@ -28,7 +28,7 @@ class JsonFormatter(FormatterBase):
         text = delim + jsons.dumps(
             resource,
             strip_privates=True,
-            strip_nulls=True,
+            strip_nulls=False,
             strip_class_variables=True,
         )
         self.config.file.write(text)
