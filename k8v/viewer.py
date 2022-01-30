@@ -1,9 +1,5 @@
 import k8v
 
-from k8v.formatters.brief_formatter import BriefFormatter
-from k8v.formatters.default_formatter import DefaultFormatter
-from k8v.formatters.json_formatter import JsonFormatter
-
 
 class Viewer:
     """The Viewer is the main logic that will query the Kubernetes system and display the results."""
@@ -13,9 +9,9 @@ class Viewer:
         self.searcher: k8v.searcher.Searcher = k8v.searcher.Searcher(self)
 
     def print_resource(self, resource, num=1, max=1, delim=""):
-        self.printer.begin_resource()
-        self.printer.print(resource, delim)
-        self.printer.end_resource(num == max)
+        self.config.formatter.begin_resource()
+        self.config.formatter.print(resource, delim)
+        self.config.formatter.end_resource(num == max)
 
         if self.config.related and len(resource._related) > 0:
             for n, r in enumerate(resource._related):
@@ -34,26 +30,17 @@ class Viewer:
 
         # Load configuration files
         self.config.load()
-        if self.config.output in ["brief", "b"]:
-            self.printer = BriefFormatter(self.config)
-        elif self.config.output in ["json", "j"]:
-            self.printer = JsonFormatter(self.config)
-        else:
-            self.printer = DefaultFormatter(self.config)
-
         self.searcher.begin()
 
-        # search for matching (and filtered) resources and print them out
-        # using the desired display_mode.
+        # search for matching (and filtered) resources
         resources = []
-        self.printer.begin()
+        self.config.formatter.begin()
         for type in self.config.resources:
             for r in self.searcher.filter_resources(self.searcher.search(type)):
                 resources.append(r)
 
         for num, resource in enumerate(resources):
             self.print_resource(resource, num, len(resources) - 1, "")
-        self.printer.end()
+        self.config.formatter.end()
 
-        # stop the Printer and Searcher
         self.searcher.end()

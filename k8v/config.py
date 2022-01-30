@@ -35,6 +35,8 @@ class Config:
     # file used for output (default: STDOUT)
     file: IOBase = sys.stdout
 
+    formatter = None
+
     # include related resources in results
     related: bool = False
 
@@ -82,3 +84,11 @@ class Config:
                 k8v.resource_types.ResourceType.PERSISTENT_VOLUME,
                 k8v.resource_types.ResourceType.PERSISTENT_VOLUME_CLAIM,
             ]
+
+        # setup the formatter to use
+        if self.output in ["brief", "b"]:
+            self.formatter = k8v.formatters.brief_formatter.BriefFormatter(self)
+        elif self.output in ["json", "j"]:
+            self.formatter = k8v.formatters.json_formatter.JsonFormatter(self)
+        else:
+            self.formatter = k8v.formatters.default_formatter.DefaultFormatter(self)
