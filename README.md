@@ -229,7 +229,7 @@ Here are a few various examples of how to use the utility:
 
 ## ANSI color schemes
 
-Basic ANSI support has been added and schemes can be configured by editing the k8s/color-schemes.json file. 
+Basic ANSI support has been added and schemes can be configured by editing the k8s/etc/color-schemes.json file. 
 Multiple schemes are supported and non-default schemes can be specified at runtime using the *-c* or 
 *--colors* option.
 
