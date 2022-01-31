@@ -44,8 +44,6 @@ class TestJsonFormatter(TestBase):
 
         # compare the converted objects to the originals from pickle
         assert len(resources) == len(data)
-        for num, resource in enumerate(data):
-            assert resource == data[num]
 
     def test_cronjobs_related(self):
         self.config.related = True
