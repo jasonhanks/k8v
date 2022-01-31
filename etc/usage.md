@@ -17,7 +17,8 @@ DESCRIPTION
                 colorize the output; SCHEME can be 'default' (default if omitted), or 'none' for no color output
 
         -o, --output=TYPE
-                output mode used to display matching resources; TYPE can be 'wide' (default if omitted), 'brief' for list of resource, or 'json' for full information
+                output mode used to display matching resources; TYPE can be 'wide' (default if omitted), 'brief' for list of resource, 'json' or 'pickle'
+                for full resource information
 
         -f, --file
                 specify a filename to be used for output (STDOUT if omitted)
