@@ -1,0 +1,9 @@
+#!/bin/bash
+
+
+# navigate to the project root folder
+SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+cd $SCRIPT_DIR/..
+
+
+bin/k8v -f $SCRIPT_DIR/../tests/fixtures/test-data.pickle -opickle -t -A -e kube-system

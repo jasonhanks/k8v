@@ -2,6 +2,8 @@ import pytest
 import io
 import json
 import munch
+import pickle
+import yaml
 
 import k8v
 
@@ -9,86 +11,197 @@ import k8v
 class TestBriefFormatter:
     """Validate the BriefPrinter output for each resource type."""
 
+    def load_all(self, filename):
+        with open(filename, "rb") as f:
+            while True:
+                try:
+                    yield pickle.load(f)
+                except EOFError:
+                    break
+
     def setup(self):
+        self.data = list(self.load_all("tests/fixtures/test-data.pickle"))
         self.config = k8v.config.Config(
             colors=None, file=io.StringIO(""), output="brief"
         )
         self.config.load()
         self.viewer = k8v.viewer.Viewer(self.config)
-        self.printer = k8v.formatters.brief_formatter.BriefFormatter(self.config)
 
-        # these objects were unloaded using the tool to simulate a query to bring back each known type
-        self.resources = []
-        for num, o in enumerate(
-            json.load(open("tests/fixtures/default-resources.json"))
-        ):
-            resource = munch.munchify(o)  # convert dict() to an object
-            resource._related = []
-            resource.type = k8v.resource_types.ResourceType.from_value(
-                resource.kind.lower()
-            )
-            self.resources.append(resource)
+    def test_display_pickle(self):
+        """Display the pickle data and validate the entries have not changed."""
+        print()
+        for num, r in enumerate(self.data):
+            print(f"#{num} {r.kind.lower()}/{r.metadata.namespace}/{r.metadata.name}")
 
-    def test_configmap(self):
-        pass
-
-    def test_output(self):
-        """Validate the default resource fixtures are formatted correctly."""
-
-        expected = """configmap/default/kube-root-ca.crt
+    def test_configmaps(self):
+        """Validate our ConfigMaps format properly."""
+        self.viewer.print_resource(self.data[4], 0, 2, "")
+        self.viewer.print_resource(self.data[12], 1, 2, "")
+        assert (
+            self.config.file.getvalue()
+            == """configmap/default/kube-root-ca.crt
 configmap/default/nginx-cm
-cronjob/default/list-resources
-deployment/default/nginx-deployment
-job/default/list-resources
-persistentvolumeclaim/default/nginx-pvc
-pod/default/list-resources-8xvpb
-pod/default/nginx-deployment-7b6fcd488c-5q8nt
-pod/default/nginx-deployment-7b6fcd488c-7kdrw
-replicaset/default/nginx-deployment-7b6fcd488c
-secret/default/default-token-5r2mb
-secret/default/nginx-sec
-service/default/kubernetes
 """
+        )
 
-        for num, resource in enumerate(self.resources):
-            self.viewer.print_resource(resource, num, len(self.resources) - 1, "")
-
-        assert self.config.file.getvalue() == expected
-
-    def test_output_with_related(self):
-        """Validate the default resource fixtures are formatted correctly with related resources."""
-
-        expected = """configmap/default/kube-root-ca.crt
-configmap/default/nginx-cm
-cronjob/default/list-resources
-deployment/default/nginx-deployment
-        replicaset/default/nginx-deployment-7b6fcd488c
-                pod/default/nginx-deployment-7b6fcd488c-5q8nt
-                pod/default/nginx-deployment-7b6fcd488c-7kdrw
-job/default/list-resources
-persistentvolumeclaim/default/nginx-pvc
-pod/default/list-resources-8xvpb
-pod/default/nginx-deployment-7b6fcd488c-5q8nt
-pod/default/nginx-deployment-7b6fcd488c-7kdrw
-replicaset/default/nginx-deployment-7b6fcd488c
-        pod/default/nginx-deployment-7b6fcd488c-5q8nt
-        pod/default/nginx-deployment-7b6fcd488c-7kdrw
-secret/default/default-token-5r2mb
-secret/default/nginx-sec
-service/default/kubernetes
-"""
-
-        # setup "related" resources to verify formatter output
+    def test_configmaps_related(self):
+        """Validate our ConfigMaps with related resources format properly."""
         self.config.related = True
-        self.resources[9]._related = [
-            self.resources[7],
-            self.resources[8],
-        ]  # replicaset has pods
-        self.resources[3]._related = [self.resources[9]]  # deployment has replicaset
+        self.test_configmaps()  # should be the same
 
-        for num, resource in enumerate(self.resources):
-            self.viewer.print_resource(resource, num, len(self.resources) - 1, "")
+    def test_cronjobs(self):
+        """Validate our CronJobs format properly."""
+        self.viewer.print_resource(self.data[13], 0, 1, "")
+        assert (
+            self.config.file.getvalue()
+            == """cronjob/default/list-resources
+"""
+        )
 
-        lines = self.config.file.getvalue().split("\n")
-        for num, expect in enumerate(expected.split("\n")):
-            assert expect == lines[num]
+    def test_cronjobs_related(self):
+        """Validate our ConfigMaps with related resources format properly."""
+        self.config.related = True
+        self.test_cronjobs()  # should be the same
+
+    def test_daemonsets(self):
+        """Validate our CronJobs format properly."""
+        self.viewer.print_resource(self.data[16], 0, 1, "")
+        assert (
+            self.config.file.getvalue()
+            == """daemonset/kube-system/kube-proxy
+"""
+        )
+
+    def test_daemonsets_related(self):
+        """Validate our ConfigMaps with related resources format properly."""
+        self.config.related = True
+        self.viewer.print_resource(self.data[16], 0, 1, "")
+        assert (
+            self.config.file.getvalue()
+            == """daemonset/kube-system/kube-proxy
+        pod/kube-system/kube-proxy-7pjmw
+"""
+        )
+
+    def test_deployments(self):
+        """Validate our Deployments format properly."""
+        self.viewer.print_resource(self.data[25], 0, 1, "")
+        assert (
+            self.config.file.getvalue()
+            == """deployment/default/nginx-deployment
+"""
+        )
+
+    def test_deployments_related(self):
+        """Validate our ConfigMaps with related resources format properly."""
+        self.config.related = True
+        self.viewer.print_resource(self.data[25], 0, 1, "")
+        assert (
+            self.config.file.getvalue()
+            == """deployment/default/nginx-deployment
+        replicaset/default/nginx-deployment-7b6fcd488c
+                pod/default/nginx-deployment-7b6fcd488c-sr2wv
+                pod/default/nginx-deployment-7b6fcd488c-vrgrx
+"""
+        )
+
+    def test_jobs(self):
+        """Validate our Jobs format properly."""
+        self.viewer.print_resource(self.data[29], 0, 1, "")
+        assert (
+            self.config.file.getvalue()
+            == """job/default/list-resources
+"""
+        )
+
+    def test_jobs_related(self):
+        """Validate our ConfigMaps with related resources format properly."""
+        self.config.related = True
+        self.test_jobs()  # should be the same
+
+    def test_persistentvolume(self):
+        """Validate our Jobs format properly."""
+        self.viewer.print_resource(self.data[30], 0, 1, "")
+        assert "persistentvolume/pvc-" in self.config.file.getvalue()
+
+    def test_persistentvolume_related(self):
+        """Validate our ConfigMaps with related resources format properly."""
+        self.config.related = True
+        self.test_persistentvolume()  # should be the same
+
+    def test_persistentvolumeclaim(self):
+        """Validate our Jobs format properly."""
+        self.viewer.print_resource(self.data[31], 0, 1, "")
+        assert (
+            self.config.file.getvalue()
+            == """persistentvolumeclaim/default/nginx-pvc
+"""
+        )
+
+    def test_persistentvolumeclaim_related(self):
+        """Validate our ConfigMaps with related resources format properly."""
+        self.config.related = True
+        self.test_persistentvolumeclaim()  # should be the same
+
+    def test_pods(self):
+        """Validate our Jobs format properly."""
+        self.viewer.print_resource(self.data[50], 0, 1, "")
+        assert (
+            self.config.file.getvalue()
+            == """pod/default/nginx-deployment-7b6fcd488c-sr2wv
+"""
+        )
+
+    def test_pods_related(self):
+        """Validate our ConfigMaps with related resources format properly."""
+        self.config.related = True
+        self.test_pods()  # should be the same
+
+    def test_replicaset(self):
+        """Validate our Jobs format properly."""
+        self.viewer.print_resource(self.data[49], 0, 1, "")
+        assert (
+            self.config.file.getvalue()
+            == """replicaset/default/nginx-deployment-7b6fcd488c
+"""
+        )
+
+    def test_replicaset_related(self):
+        """Validate our ConfigMaps with related resources format properly."""
+        self.config.related = True
+        self.viewer.print_resource(self.data[49], 0, 1, "")
+        assert (
+            self.config.file.getvalue()
+            == """replicaset/default/nginx-deployment-7b6fcd488c
+        pod/default/nginx-deployment-7b6fcd488c-sr2wv
+        pod/default/nginx-deployment-7b6fcd488c-vrgrx
+"""
+        )
+
+    def test_secrets(self):
+        """Validate our Jobs format properly."""
+        self.viewer.print_resource(self.data[78], 0, 1, "")
+        assert (
+            self.config.file.getvalue()
+            == """secret/default/nginx-sec
+"""
+        )
+
+    def test_secrets_related(self):
+        """Validate our ConfigMaps with related resources format properly."""
+        self.config.related = True
+        self.test_secrets()  # should be the same
+
+    def test_services(self):
+        """Validate our Jobs format properly."""
+        self.viewer.print_resource(self.data[78], 0, 1, "")
+        assert (
+            self.config.file.getvalue()
+            == """secret/default/nginx-sec
+"""
+        )
+
+    def test_services_related(self):
+        """Validate our ConfigMaps with related resources format properly."""
+        self.config.related = True
+        self.test_secrets()  # should be the same

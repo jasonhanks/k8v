@@ -58,7 +58,7 @@ def main(argv: list) -> None:
         elif opt in ("-v", "--verbose"):
             viewer.config.verbose = True
         elif opt in ("-f", "--file"):
-            viewer.config.file = open(arg, "w")
+            viewer.config.filename = arg
 
         # namespaces
         elif opt in ("-A", "--all-namespaces"):

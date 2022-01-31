@@ -31,7 +31,7 @@ class TestSearcher:
     def test_exclude_filter(self):
         """Validate sub-string resource exclusion filtering."""
         self.viewer.config.excludes.append("nginx-sec")
-        assert ["nginx-cm", "nginx-pvc", "nginx-deployment"] == [
+        assert ["nginx-cm", "nginx-pvc", "nginx-deployment", "nginx"] == [
             r.metadata.name for r in self.searcher.filter_resources(self.resources)
         ]
 
