@@ -5,8 +5,10 @@ import munch
 
 import k8v
 
+from base_test import BaseTest
 
-class TestDefaultFormatter:
+
+class TestDefaultFormatter(BaseTest):
     """Validate the BriefPrinter output for each resource type."""
 
     def setup(self):
@@ -14,79 +16,191 @@ class TestDefaultFormatter:
         self.config.load()
         self.viewer = k8v.viewer.Viewer(self.config)
 
-        # these objects were unloaded using the tool to simulate a query to bring back each known type
-        self.resources = []
-        for num, o in enumerate(
-            json.load(open("tests/fixtures/default-resources.json"))
-        ):
-            resource = munch.munchify(o)  # convert dict() to an object
-            resource._related = []
-            resource.type = k8v.resource_types.ResourceType.from_value(
-                resource.kind.lower()
-            )
-            self.resources.append(resource)
-
-    def test_output(self):
-        """Validate the default resource fixtures are formatted correctly."""
-
-        expected = """configmap/default/kube-root-ca.crt (data=[ca.crt])
+    def test_configmaps(self):
+        data = self.load_and_display("tests/fixtures/configmaps.pickle")
+        for num, resource in enumerate(data):
+            self.viewer.print_resource(resource, num, len(data), "")
+        assert (
+            self.config.file.getvalue()
+            == """configmap/default/kube-root-ca.crt (data=[ca.crt])
 configmap/default/nginx-cm (data=[ENV, app])
-cronjob/default/list-resources ()
-deployment/default/nginx-deployment (labels=[app=nginx] replicas=2/2 upd=2 avail=2 strategy=RollingUpdate max_surge=25% max_unavailable=25% generation=1)
-job/default/list-resources (labels=[controller-uid=b3aa0bb1-708a-4ed0-bf59-f041024404d0 job-name=list-resources] )
-persistentvolumeclaim/default/nginx-pvc (access_modes=standard storage_class=['ReadWriteOnce'] capacity=32Mi volume=pvc-6801b99e-d658-4095-967b-b035c520886f phase=Bound)
-pod/default/list-resources-8xvpb (labels=[controller-uid=b3aa0bb1-708a-4ed0-bf59-f041024404d0 job-name=list-resources] sa=default )
-pod/default/nginx-deployment-7b6fcd488c-5q8nt (labels=[app=nginx pod-template-hash=7b6fcd488c] sa=default configmaps=[['nginx-cm']] pvcs=[['nginx-pvc']])
-pod/default/nginx-deployment-7b6fcd488c-7kdrw (labels=[app=nginx pod-template-hash=7b6fcd488c] sa=default configmaps=[['nginx-cm']] pvcs=[['nginx-pvc']])
-replicaset/default/nginx-deployment-7b6fcd488c (labels=[app=nginx pod-template-hash=7b6fcd488c] replicas=2/2 avail=2 generation=1)
-secret/default/default-token-5r2mb (data=[ca.crt, namespace, token])
-secret/default/nginx-sec (data=[PASSWORD, USERNAME])
-service/default/kubernetes (labels=[component=apiserver provider=kubernetes] type=ClusterIP cluster_ip=10.96.0.1 ports=[443=6443/TCP ])
 """
+        )
 
-        for num, resource in enumerate(self.resources):
-            self.viewer.print_resource(resource, num, len(self.resources) - 1, "")
-
-        lines = self.config.file.getvalue().split("\n")
-        for num, expect in enumerate(expected.split("\n")):
-            assert expect == lines[num]
-
-    def test_output_with_related(self):
-        """Validate the default resource fixtures are formatted correctly with related resources."""
-
-        expected = """configmap/default/kube-root-ca.crt (data=[ca.crt])
-configmap/default/nginx-cm (data=[ENV, app])
-cronjob/default/list-resources ()
-deployment/default/nginx-deployment (labels=[app=nginx] replicas=2/2 upd=2 avail=2 strategy=RollingUpdate max_surge=25% max_unavailable=25% generation=1)
-        replicaset/default/nginx-deployment-7b6fcd488c (labels=[app=nginx pod-template-hash=7b6fcd488c] replicas=2/2 avail=2 generation=1)
-                pod/default/nginx-deployment-7b6fcd488c-5q8nt (labels=[app=nginx pod-template-hash=7b6fcd488c] sa=default configmaps=[['nginx-cm']] pvcs=[['nginx-pvc']])
-                pod/default/nginx-deployment-7b6fcd488c-7kdrw (labels=[app=nginx pod-template-hash=7b6fcd488c] sa=default configmaps=[['nginx-cm']] pvcs=[['nginx-pvc']])
-job/default/list-resources (labels=[controller-uid=b3aa0bb1-708a-4ed0-bf59-f041024404d0 job-name=list-resources] )
-persistentvolumeclaim/default/nginx-pvc (access_modes=standard storage_class=['ReadWriteOnce'] capacity=32Mi volume=pvc-6801b99e-d658-4095-967b-b035c520886f phase=Bound)
-pod/default/list-resources-8xvpb (labels=[controller-uid=b3aa0bb1-708a-4ed0-bf59-f041024404d0 job-name=list-resources] sa=default )
-pod/default/nginx-deployment-7b6fcd488c-5q8nt (labels=[app=nginx pod-template-hash=7b6fcd488c] sa=default configmaps=[['nginx-cm']] pvcs=[['nginx-pvc']])
-pod/default/nginx-deployment-7b6fcd488c-7kdrw (labels=[app=nginx pod-template-hash=7b6fcd488c] sa=default configmaps=[['nginx-cm']] pvcs=[['nginx-pvc']])
-replicaset/default/nginx-deployment-7b6fcd488c (labels=[app=nginx pod-template-hash=7b6fcd488c] replicas=2/2 avail=2 generation=1)
-        pod/default/nginx-deployment-7b6fcd488c-5q8nt (labels=[app=nginx pod-template-hash=7b6fcd488c] sa=default configmaps=[['nginx-cm']] pvcs=[['nginx-pvc']])
-        pod/default/nginx-deployment-7b6fcd488c-7kdrw (labels=[app=nginx pod-template-hash=7b6fcd488c] sa=default configmaps=[['nginx-cm']] pvcs=[['nginx-pvc']])
-secret/default/default-token-5r2mb (data=[ca.crt, namespace, token])
-secret/default/nginx-sec (data=[PASSWORD, USERNAME])
-service/default/kubernetes (labels=[component=apiserver provider=kubernetes] type=ClusterIP cluster_ip=10.96.0.1 ports=[443=6443/TCP ])
-"""
-
-        # setup "related" resources to verify formatter output
+    def test_configmaps_related(self):
         self.config.related = True
-        self.resources[9]._related = [  # replicaset has pods
-            self.resources[7],
-            self.resources[8],
-        ]
-        self.resources[3]._related = [self.resources[9]]  # deployment has replicaset
+        self.test_configmaps()  # should be the same
 
-        # simulate printing out each resources to the configured output file (StringIO)
-        for num, resource in enumerate(self.resources):
-            self.viewer.print_resource(resource, num, len(self.resources) - 1, "")
+    def test_cronjobs(self):
+        data = self.load_and_display("tests/fixtures/cronjobs.pickle")
+        for num, resource in enumerate(data):
+            self.viewer.print_resource(resource, num, len(data), "")
+        assert (
+            self.config.file.getvalue()
+            == """cronjob/default/list-resources ()
+"""
+        )
 
-        # compare our expected output to our printed output
-        lines = self.config.file.getvalue().split("\n")
-        for num, expect in enumerate(expected.split("\n")):
-            assert expect == lines[num]
+    def test_cronjobs_related(self):
+        self.config.related = True
+        self.test_cronjobs()  # should be the same
+
+    def test_daemonsets(self):
+        data = self.load_and_display("tests/fixtures/daemonsets.pickle")
+        self.viewer.print_resource(data[0], 1, 2, "")
+        self.viewer.print_resource(data[2], 2, 2, "")
+        assert (
+            self.config.file.getvalue()
+            == """daemonset/kube-system/kindnet (labels=[app=kindnet k8s-app=kindnet tier=node] )
+daemonset/kube-system/kube-proxy (labels=[k8s-app=kube-proxy] )
+"""
+        )
+
+    def test_daemonsets_related(self):
+        self.config.related = True
+        data = self.load_and_display("tests/fixtures/daemonsets.pickle")
+        for num, resource in enumerate(data):
+            self.viewer.print_resource(resource, num, len(data), "")
+        assert (
+            self.config.file.getvalue()
+            == """daemonset/kube-system/kindnet (labels=[app=kindnet k8s-app=kindnet tier=node] )
+        pod/kube-system/kindnet-v7dpv (labels=[app=kindnet controller-revision-hash=5b547684d9 k8s-app=kindnet pod-template-generation=1 tier=node] sa=kindnet )
+pod/kube-system/kindnet-v7dpv (labels=[app=kindnet controller-revision-hash=5b547684d9 k8s-app=kindnet pod-template-generation=1 tier=node] sa=kindnet )
+daemonset/kube-system/kube-proxy (labels=[k8s-app=kube-proxy] )
+        pod/kube-system/kube-proxy-7pjmw (labels=[controller-revision-hash=6bc6858f58 k8s-app=kube-proxy pod-template-generation=1] sa=kube-proxy configmaps=[['kube-proxy']])
+pod/kube-system/kube-proxy-7pjmw (labels=[controller-revision-hash=6bc6858f58 k8s-app=kube-proxy pod-template-generation=1] sa=kube-proxy configmaps=[['kube-proxy']])
+"""
+        )
+
+    def test_deployments(self):
+        data = self.load_and_display("tests/fixtures/deployments.pickle")
+        self.viewer.print_resource(data[0], 0, 1, "")
+        assert (
+            self.config.file.getvalue()
+            == """deployment/default/nginx-deployment (labels=[app=nginx] replicas=2/2 upd=2 avail=2 strategy=RollingUpdate max_surge=25% max_unavailable=25% generation=1)
+"""
+        )
+
+    def test_deployments_related(self):
+        self.config.related = True
+        data = self.load_and_display("tests/fixtures/deployments.pickle")
+        self.viewer.print_resource(data[0], 0, 1, "")
+        assert (
+            self.config.file.getvalue()
+            == """deployment/default/nginx-deployment (labels=[app=nginx] replicas=2/2 upd=2 avail=2 strategy=RollingUpdate max_surge=25% max_unavailable=25% generation=1)
+        replicaset/default/nginx-deployment-7b6fcd488c (labels=[app=nginx pod-template-hash=7b6fcd488c] replicas=2/2 avail=2 generation=1)
+                pod/default/nginx-deployment-7b6fcd488c-sr2wv (labels=[app=nginx pod-template-hash=7b6fcd488c] sa=default configmaps=[['nginx-cm']] pvcs=[['nginx-pvc']])
+                pod/default/nginx-deployment-7b6fcd488c-vrgrx (labels=[app=nginx pod-template-hash=7b6fcd488c] sa=default configmaps=[['nginx-cm']] pvcs=[['nginx-pvc']])
+"""
+        )
+
+    def test_jobs(self):
+        data = self.load_and_display("tests/fixtures/jobs.pickle")
+        for num, resource in enumerate(data):
+            self.viewer.print_resource(resource, num, len(data), "")
+        assert (
+            self.config.file.getvalue()
+            == """job/default/list-resources (labels=[controller-uid=bcc11bfb-8c46-4878-b24f-41d025d028f8 job-name=list-resources] )
+"""
+        )
+
+    def test_jobs_related(self):
+        self.config.related = True
+        self.test_jobs()  # should be the same
+
+    def test_persistentvolume(self):
+        data = self.load_and_display("tests/fixtures/persistentvolumes.pickle")
+        for num, resource in enumerate(data):
+            self.viewer.print_resource(resource, num, len(data), "")
+        assert "persistentvolume/pvc-" in self.config.file.getvalue()
+
+    def test_persistentvolume_related(self):
+        self.config.related = True
+        self.test_persistentvolume()  # should be the same
+
+    def test_persistentvolumeclaim(self):
+        data = self.load_and_display("tests/fixtures/persistentvolumeclaims.pickle")
+        for num, resource in enumerate(data):
+            self.viewer.print_resource(resource, num, len(data), "")
+        assert (
+            self.config.file.getvalue()
+            == """persistentvolumeclaim/default/nginx-pvc (access_modes=standard storage_class=['ReadWriteOnce'] capacity=32Mi volume=pvc-01fa476c-970e-4e16-a547-2afa6854257d phase=Bound)
+"""
+        )
+
+    def test_persistentvolumeclaim_related(self):
+        self.config.related = True
+        self.test_persistentvolumeclaim()  # should be the same
+
+    def test_pods(self):
+        data = self.load_and_display("tests/fixtures/pods.pickle")
+        for num, resource in enumerate(data):
+            self.viewer.print_resource(resource, num, len(data), "")
+        assert (
+            self.config.file.getvalue()
+            == """pod/default/list-resources-4rcts (labels=[controller-uid=bcc11bfb-8c46-4878-b24f-41d025d028f8 job-name=list-resources] sa=default )
+pod/default/nginx-deployment-7b6fcd488c-sr2wv (labels=[app=nginx pod-template-hash=7b6fcd488c] sa=default configmaps=[['nginx-cm']] pvcs=[['nginx-pvc']])
+pod/default/nginx-deployment-7b6fcd488c-vrgrx (labels=[app=nginx pod-template-hash=7b6fcd488c] sa=default configmaps=[['nginx-cm']] pvcs=[['nginx-pvc']])
+"""
+        )
+
+    def test_pods_related(self):
+        self.config.related = True
+        self.test_pods()  # should be the same
+
+    def test_replicaset(self):
+        data = self.load_and_display("tests/fixtures/replicasets.pickle")
+        for num, resource in enumerate(data):
+            self.viewer.print_resource(resource, num, len(data), "")
+        assert (
+            self.config.file.getvalue()
+            == """replicaset/default/nginx-deployment-7b6fcd488c (labels=[app=nginx pod-template-hash=7b6fcd488c] replicas=2/2 avail=2 generation=1)
+pod/default/nginx-deployment-7b6fcd488c-sr2wv (labels=[app=nginx pod-template-hash=7b6fcd488c] sa=default configmaps=[['nginx-cm']] pvcs=[['nginx-pvc']])
+pod/default/nginx-deployment-7b6fcd488c-vrgrx (labels=[app=nginx pod-template-hash=7b6fcd488c] sa=default configmaps=[['nginx-cm']] pvcs=[['nginx-pvc']])
+"""
+        )
+
+    def test_replicaset_related(self):
+        self.config.related = True
+        data = self.load_and_display("tests/fixtures/replicasets.pickle")
+        for num, resource in enumerate(data):
+            self.viewer.print_resource(resource, num, len(data), "")
+        assert (
+            self.config.file.getvalue()
+            == """replicaset/default/nginx-deployment-7b6fcd488c (labels=[app=nginx pod-template-hash=7b6fcd488c] replicas=2/2 avail=2 generation=1)
+        pod/default/nginx-deployment-7b6fcd488c-sr2wv (labels=[app=nginx pod-template-hash=7b6fcd488c] sa=default configmaps=[['nginx-cm']] pvcs=[['nginx-pvc']])
+        pod/default/nginx-deployment-7b6fcd488c-vrgrx (labels=[app=nginx pod-template-hash=7b6fcd488c] sa=default configmaps=[['nginx-cm']] pvcs=[['nginx-pvc']])
+pod/default/nginx-deployment-7b6fcd488c-sr2wv (labels=[app=nginx pod-template-hash=7b6fcd488c] sa=default configmaps=[['nginx-cm']] pvcs=[['nginx-pvc']])
+pod/default/nginx-deployment-7b6fcd488c-vrgrx (labels=[app=nginx pod-template-hash=7b6fcd488c] sa=default configmaps=[['nginx-cm']] pvcs=[['nginx-pvc']])
+"""
+        )
+
+    def test_secrets(self):
+        data = self.load_and_display("tests/fixtures/secrets.pickle")
+        for num, resource in enumerate(data):
+            self.viewer.print_resource(resource, num, len(data), "")
+        assert (
+            self.config.file.getvalue()
+            == """secret/default/default-token-5r2mb (data=[ca.crt, namespace, token])
+secret/default/nginx-sec (data=[PASSWORD, USERNAME])
+"""
+        )
+
+    def test_secrets_related(self):
+        self.config.related = True
+        self.test_secrets()  # should be the same
+
+    def test_services(self):
+        data = self.load_and_display("tests/fixtures/services.pickle")
+        for num, resource in enumerate(data):
+            self.viewer.print_resource(resource, num, len(data), "")
+        assert (
+            self.config.file.getvalue()
+            == """service/default/kubernetes (labels=[component=apiserver provider=kubernetes] type=ClusterIP cluster_ip=10.96.0.1 ports=[443=6443/TCP ])
+service/default/nginx (type=ClusterIP cluster_ip=10.96.33.145 ports=[80=80/TCP ])
+"""
+        )
+
+    def test_services_related(self):
+        self.config.related = True
+        self.test_secrets()  # should be the same
