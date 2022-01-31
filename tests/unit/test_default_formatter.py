@@ -5,10 +5,10 @@ import munch
 
 import k8v
 
-from base_test import BaseTest
+from test_base import TestBase
 
 
-class TestDefaultFormatter(BaseTest):
+class TestDefaultFormatter(TestBase):
     """Validate the BriefPrinter output for each resource type."""
 
     def setup(self):

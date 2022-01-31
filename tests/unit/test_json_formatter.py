@@ -5,10 +5,10 @@ import munch
 
 import k8v
 
-from base_test import BaseTest
+from test_base import TestBase
 
 
-class TestJsonFormatter(BaseTest):
+class TestJsonFormatter(TestBase):
     """Validate the JsonFormatter output for each resource type."""
 
     def setup(self):
