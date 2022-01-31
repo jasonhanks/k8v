@@ -120,10 +120,14 @@ class TestDefaultResourceOutput:
         assert m.group(0) == lines[12]
         assert m.group(1) is not None
 
-        assert (
-            lines[13]
-            == "service/default/nginx (type=ClusterIP cluster_ip=10.96.33.145 ports=[80=80/TCP ])"
+        m = re.search(
+            r"service/default/nginx \(type=ClusterIP cluster_ip=(.*) ports=\[80=80/TCP \]\)",
+            lines[13],
         )
+        assert m != None
+        assert m.group(0) == lines[13]
+        assert m.group(1) is not None
+
         assert lines[14] == ""
 
     def test_json_output(self):
