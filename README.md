@@ -1,19 +1,18 @@
-# k8v - view Kubernetes cluster resources
+# k8v
 
-k8v is a command line utility used to view information about a Kubernetes cluster. It allows the user to view 
-multiple resources at once, optionally in a hierarchy, as well as provide filtering capabilities.
+k8v is a command line utility used to view resources in a Kubernetes cluster. It allows the user to view 
+multiple resources at once, optionally in a related hierarchy, as well as provide advanced filtering capabilities.
 
 Note: this tool is not intended as a replacement for *kubectl* and is only intended to provide more flexible 
-visibility into a Kubernetes cluster.
+visibility into a Kubernetes cluster. It will not make changes to a Kubernetes cluster.
 
 
 
 ## Filtering capabilities
 
-This tool provides a number of ways to search for specific resources and filter them as desired. This includes 
-the ability to search for resources across all namespaces, or a list of specified namespaces, match labels that
-are specified for selectors, or simple search the *name* of the resource for a specific string that should be
-included in the results.
+This tool provides a number of ways to search for resources and filter the results. This includes the ability to 
+search for resources across all namespaces, or a list of namespaces, match label selectors, or search by *name* 
+for resources that should be included or excluded in the results.
 
 Filtering strings for a *name* can be specified using the -i | --include option or simply passing arguments
 on the command line after you specifiy all other options:
@@ -27,7 +26,7 @@ on the command line after you specifiy all other options:
     persistentvolumeclaim/default/heimdall
 
     # this is equivalent to the example above (note: the search criteria is specifed after all other options)
-    $ k8v -A -obrief heimdall
+    $ k8v -A -ob heimdall
     service/default/heimdall
     ingress/default/heimdall
     deployment/default/heimdall
@@ -35,7 +34,7 @@ on the command line after you specifiy all other options:
     persistentvolumeclaim/default/heimdall
 
 
-Specific matches can also be excluded from the matched results using the -e | --exclude option:
+Resources can also be excluded from the matched results using the -e | --exclude option:
 
     # search all namespaces for resources that have *heimdall* in their name but exclude those with *9864f4f59-8m5ls* in their name
     $ k8v -A -o brief -i heimdall -e 9864f4f59-8m5ls
@@ -47,20 +46,22 @@ Specific matches can also be excluded from the matched results using the -e | --
 
 ## Resource types
 
-The tool is able to specify a list of supported resource types that should be searched, or will default to a 
-specific set if not requested at runtime. These are the resources types currently included by default:
+The tool is able to require a list of supported resource types that should be searched, or will default to the 
+following types otherwise (see: ResourceType):
 
   * ConfigMap
+  * CronJobs
+  * DaemonSets
+  * Deployment
+  * Ingress
+  * Jobs
+  * PersistentVolume
+  * PersistentVolumeClaim
+  * Pods
+  * ReplicaSet
   * Secret
   * Services
-  * Ingress
-  * Deployment
-  * DaemonSet
-  * ReplicaSet
   * StatefulSet
-  * Pods
-  * PersistentVolume (only displayed when using -A | --all-namespaces option)
-  * PersistentVolumeClaim
 
 If you want a specific set of resource types to search you can do that using the -r | --resource option.
 These resources will be displayed in the order they are requested on the command line:
@@ -86,7 +87,7 @@ The following output types are supported:
 ### Default format
 
 The default format will show each resource with one line per resource that includes useful information about
-that resource. If the *-a* or *--all-related* parameter is specified then each related resource will show up with
+that resource. If the *-t* or *--related* parameter is specified then each related resource will show up with
 indentation to represent a relationship between them.
 
 This allows you to see a lot of information in a hierarchy quickly with filtering capabilities as needed.
@@ -142,17 +143,6 @@ using another tool to process the output:
             pod/default/heimdall-9864f4f59-8m5ls
     pod/default/heimdall-9864f4f59-8m5ls
     persistentvolumeclaim/default/heimdall
-
-
-
-### Full format
-
-The full format is currently the same as the default view but will show more detailed *related* resources 
-visually indented below the resource instead of summarizing them.
-
-This will includes many resource types such as ConfigMap, Ingress, NetworkPolicy, Secret, Service, etc. 
-that are currently only summarized for the parent resource.
-
 
 
 ### JSON format
