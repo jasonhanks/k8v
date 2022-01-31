@@ -17,10 +17,14 @@ class TestBriefFormatter:
                 except EOFError:
                     break
 
-    def load_and_display(self, filename):
+    def load_and_display(self, filename, display=False):
         data = list(self.load_all(filename))
-        for num, r in enumerate(data):
-            print(f"#{num} {r.kind.lower()}/{r.metadata.namespace}/{r.metadata.name}")
+        if display:
+            print()
+            for num, r in enumerate(data):
+                print(
+                    f"#{num} {r.kind.lower()}/{r.metadata.namespace}/{r.metadata.name}"
+                )
         return data
 
     def setup(self):
