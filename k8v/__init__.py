@@ -11,3 +11,4 @@ import k8v.formatters.brief_formatter
 import k8v.formatters.default_formatter
 import k8v.formatters.json_formatter
 import k8v.formatters.pickle_formatter
+import k8v.printer

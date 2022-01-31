@@ -11,7 +11,7 @@ class Searcher:
         self.config = viewer.config
         self._handlers = {}
 
-    def begin(self):
+    def setup(self):
         """Load the Kubernetes configuration and setup API endpoint connections."""
         self._handler_config = json.load(open("etc/handlers.json"))
 
@@ -25,10 +25,6 @@ class Searcher:
                 )
             else:
                 raise Exception(f"invalid resource handler{group}")
-
-    def end(self):
-        """Stop the Searcher and cleanup anything if needed."""
-        pass
 
     def filter_resources(self, resources):
         """Apply filtering logic to the specified resources."""

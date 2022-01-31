@@ -14,12 +14,12 @@ class TestDefaultFormatter(BaseTest):
     def setup(self):
         self.config = k8v.config.Config(colors=None, file=io.StringIO(""))
         self.config.load()
-        self.viewer = k8v.viewer.Viewer(self.config)
+        self.printer = k8v.printer.Printer(self.config)
 
     def test_configmaps(self):
-        data = self.load_and_display("tests/fixtures/configmaps.pickle")
-        for num, resource in enumerate(data):
-            self.viewer.print_resource(resource, num, len(data), "")
+        self.printer.print_all(
+            self.load_and_display("tests/fixtures/configmaps.pickle")
+        )
         assert (
             self.config.file.getvalue()
             == """configmap/default/kube-root-ca.crt (data=[ca.crt])
@@ -32,9 +32,7 @@ configmap/default/nginx-cm (data=[ENV, app])
         self.test_configmaps()  # should be the same
 
     def test_cronjobs(self):
-        data = self.load_and_display("tests/fixtures/cronjobs.pickle")
-        for num, resource in enumerate(data):
-            self.viewer.print_resource(resource, num, len(data), "")
+        self.printer.print_all(self.load_and_display("tests/fixtures/cronjobs.pickle"))
         assert (
             self.config.file.getvalue()
             == """cronjob/default/list-resources ()
@@ -47,8 +45,7 @@ configmap/default/nginx-cm (data=[ENV, app])
 
     def test_daemonsets(self):
         data = self.load_and_display("tests/fixtures/daemonsets.pickle")
-        self.viewer.print_resource(data[0], 1, 2, "")
-        self.viewer.print_resource(data[2], 2, 2, "")
+        self.printer.print_all([data[0], data[2]])
         assert (
             self.config.file.getvalue()
             == """daemonset/kube-system/kindnet (labels=[app=kindnet k8s-app=kindnet tier=node] )
@@ -58,9 +55,9 @@ daemonset/kube-system/kube-proxy (labels=[k8s-app=kube-proxy] )
 
     def test_daemonsets_related(self):
         self.config.related = True
-        data = self.load_and_display("tests/fixtures/daemonsets.pickle")
-        for num, resource in enumerate(data):
-            self.viewer.print_resource(resource, num, len(data), "")
+        self.printer.print_all(
+            self.load_and_display("tests/fixtures/daemonsets.pickle")
+        )
         assert (
             self.config.file.getvalue()
             == """daemonset/kube-system/kindnet (labels=[app=kindnet k8s-app=kindnet tier=node] )
@@ -73,8 +70,9 @@ pod/kube-system/kube-proxy-7pjmw (labels=[controller-revision-hash=6bc6858f58 k8
         )
 
     def test_deployments(self):
-        data = self.load_and_display("tests/fixtures/deployments.pickle")
-        self.viewer.print_resource(data[0], 0, 1, "")
+        self.printer.print_all(
+            [self.load_and_display("tests/fixtures/deployments.pickle")[0]]
+        )
         assert (
             self.config.file.getvalue()
             == """deployment/default/nginx-deployment (labels=[app=nginx] replicas=2/2 upd=2 avail=2 strategy=RollingUpdate max_surge=25% max_unavailable=25% generation=1)
@@ -83,8 +81,9 @@ pod/kube-system/kube-proxy-7pjmw (labels=[controller-revision-hash=6bc6858f58 k8
 
     def test_deployments_related(self):
         self.config.related = True
-        data = self.load_and_display("tests/fixtures/deployments.pickle")
-        self.viewer.print_resource(data[0], 0, 1, "")
+        self.printer.print_all(
+            [self.load_and_display("tests/fixtures/deployments.pickle")[0]]
+        )
         assert (
             self.config.file.getvalue()
             == """deployment/default/nginx-deployment (labels=[app=nginx] replicas=2/2 upd=2 avail=2 strategy=RollingUpdate max_surge=25% max_unavailable=25% generation=1)
@@ -95,9 +94,7 @@ pod/kube-system/kube-proxy-7pjmw (labels=[controller-revision-hash=6bc6858f58 k8
         )
 
     def test_jobs(self):
-        data = self.load_and_display("tests/fixtures/jobs.pickle")
-        for num, resource in enumerate(data):
-            self.viewer.print_resource(resource, num, len(data), "")
+        self.printer.print_all(self.load_and_display("tests/fixtures/jobs.pickle"))
         assert (
             self.config.file.getvalue()
             == """job/default/list-resources (labels=[controller-uid=bcc11bfb-8c46-4878-b24f-41d025d028f8 job-name=list-resources] )
@@ -109,9 +106,9 @@ pod/kube-system/kube-proxy-7pjmw (labels=[controller-revision-hash=6bc6858f58 k8
         self.test_jobs()  # should be the same
 
     def test_persistentvolume(self):
-        data = self.load_and_display("tests/fixtures/persistentvolumes.pickle")
-        for num, resource in enumerate(data):
-            self.viewer.print_resource(resource, num, len(data), "")
+        self.printer.print_all(
+            self.load_and_display("tests/fixtures/persistentvolumes.pickle")
+        )
         assert "persistentvolume/pvc-" in self.config.file.getvalue()
 
     def test_persistentvolume_related(self):
@@ -119,9 +116,9 @@ pod/kube-system/kube-proxy-7pjmw (labels=[controller-revision-hash=6bc6858f58 k8
         self.test_persistentvolume()  # should be the same
 
     def test_persistentvolumeclaim(self):
-        data = self.load_and_display("tests/fixtures/persistentvolumeclaims.pickle")
-        for num, resource in enumerate(data):
-            self.viewer.print_resource(resource, num, len(data), "")
+        self.printer.print_all(
+            self.load_and_display("tests/fixtures/persistentvolumeclaims.pickle")
+        )
         assert (
             self.config.file.getvalue()
             == """persistentvolumeclaim/default/nginx-pvc (access_modes=standard storage_class=['ReadWriteOnce'] capacity=32Mi volume=pvc-01fa476c-970e-4e16-a547-2afa6854257d phase=Bound)
@@ -133,9 +130,7 @@ pod/kube-system/kube-proxy-7pjmw (labels=[controller-revision-hash=6bc6858f58 k8
         self.test_persistentvolumeclaim()  # should be the same
 
     def test_pods(self):
-        data = self.load_and_display("tests/fixtures/pods.pickle")
-        for num, resource in enumerate(data):
-            self.viewer.print_resource(resource, num, len(data), "")
+        self.printer.print_all(self.load_and_display("tests/fixtures/pods.pickle"))
         assert (
             self.config.file.getvalue()
             == """pod/default/list-resources-4rcts (labels=[controller-uid=bcc11bfb-8c46-4878-b24f-41d025d028f8 job-name=list-resources] sa=default )
@@ -149,9 +144,9 @@ pod/default/nginx-deployment-7b6fcd488c-vrgrx (labels=[app=nginx pod-template-ha
         self.test_pods()  # should be the same
 
     def test_replicaset(self):
-        data = self.load_and_display("tests/fixtures/replicasets.pickle")
-        for num, resource in enumerate(data):
-            self.viewer.print_resource(resource, num, len(data), "")
+        self.printer.print_all(
+            self.load_and_display("tests/fixtures/replicasets.pickle")
+        )
         assert (
             self.config.file.getvalue()
             == """replicaset/default/nginx-deployment-7b6fcd488c (labels=[app=nginx pod-template-hash=7b6fcd488c] replicas=2/2 avail=2 generation=1)
@@ -162,9 +157,9 @@ pod/default/nginx-deployment-7b6fcd488c-vrgrx (labels=[app=nginx pod-template-ha
 
     def test_replicaset_related(self):
         self.config.related = True
-        data = self.load_and_display("tests/fixtures/replicasets.pickle")
-        for num, resource in enumerate(data):
-            self.viewer.print_resource(resource, num, len(data), "")
+        self.printer.print_all(
+            self.load_and_display("tests/fixtures/replicasets.pickle")
+        )
         assert (
             self.config.file.getvalue()
             == """replicaset/default/nginx-deployment-7b6fcd488c (labels=[app=nginx pod-template-hash=7b6fcd488c] replicas=2/2 avail=2 generation=1)
@@ -176,9 +171,7 @@ pod/default/nginx-deployment-7b6fcd488c-vrgrx (labels=[app=nginx pod-template-ha
         )
 
     def test_secrets(self):
-        data = self.load_and_display("tests/fixtures/secrets.pickle")
-        for num, resource in enumerate(data):
-            self.viewer.print_resource(resource, num, len(data), "")
+        self.printer.print_all(self.load_and_display("tests/fixtures/secrets.pickle"))
         assert (
             self.config.file.getvalue()
             == """secret/default/default-token-5r2mb (data=[ca.crt, namespace, token])
@@ -191,9 +184,7 @@ secret/default/nginx-sec (data=[PASSWORD, USERNAME])
         self.test_secrets()  # should be the same
 
     def test_services(self):
-        data = self.load_and_display("tests/fixtures/services.pickle")
-        for num, resource in enumerate(data):
-            self.viewer.print_resource(resource, num, len(data), "")
+        self.printer.print_all(self.load_and_display("tests/fixtures/services.pickle"))
         assert (
             self.config.file.getvalue()
             == """service/default/kubernetes (labels=[component=apiserver provider=kubernetes] type=ClusterIP cluster_ip=10.96.0.1 ports=[443=6443/TCP ])
