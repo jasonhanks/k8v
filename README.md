@@ -8,7 +8,7 @@ visibility into a Kubernetes cluster. It will not make changes to a Kubernetes c
 
 
 
-## Filtering capabilities
+## Filtering
 
 This tool provides a number of ways to search for resources and filter the results. This includes the ability to 
 search for resources across all namespaces, or a list of namespaces, match label selectors, or search by *name* 
@@ -80,6 +80,14 @@ If you want a specific set of resource types to search you can do that using the
     $ k8v -r service -r deployment nginx
     service/default/nginx (type=ClusterIP cluster_ip=10.96.134.184 ports=[80=80/TCP ])
     deployment/default/nginx-deployment (labels=[app=nginx] replicas=2/2 upd=2 avail=2 strategy=RollingUpdate max_surge=25% max_unavailable=25% generation=1)
+
+
+
+## Kubernetes configuration
+
+By default the tool reads the *KUBECONFIG* environment variable for the location of the configuration to use, or
+will default to *~/.kube/config* otherwise.
+
 
 
 ## Output formats
@@ -198,13 +206,6 @@ In order to run the tool directly you need to clone the repository and install t
 
     # install the dependencies
     pip3 install -r requirements.txt
-
-
-
-## Kubernetes configuration
-
-By default the tool reads the *KUBECONFIG* environment variable for the location of the configuration to use, or
-will default to *~/.kube/config* otherwise.
 
 
 
