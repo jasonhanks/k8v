@@ -79,7 +79,7 @@ A variety of output formats are supported by the tool.
 
 The following output types are supported:
 * *brief* - one line per matched resource
-* *wide* - one line per resource including informative details
+* *default* - one line per resource including informative details (default)
 * *json* - a JSON formatted list of matching resources that can be processed by other tools that can parse JSON
 * *pickle* - a binary format containing a list of matching resources common in Python
 
