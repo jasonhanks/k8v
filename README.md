@@ -17,31 +17,41 @@ for resources that should be included or excluded in the results.
 Filtering strings for a *name* can be specified using the -i | --include option or simply passing arguments
 on the command line after you specifiy all other options:
 
-    # search all namespaces for resources that have *heimdall* in their name
-    $ k8v -A -o brief -i heimdall
-    service/default/heimdall
-    ingress/default/heimdall
-    deployment/default/heimdall
-    pod/default/heimdall-9864f4f59-8m5ls
-    persistentvolumeclaim/default/heimdall
+    # search all namespaces for resources that have *nginx* in their name
+    $ k8v -A -o brief -i nginx
+    configmap/default/nginx-cm
+    deployment/default/nginx-deployment
+    persistentvolumeclaim/default/nginx-pvc
+    pod/default/nginx-deployment-7b6fcd488c-5zm67
+    pod/default/nginx-deployment-7b6fcd488c-j9tkn
+    replicaset/default/nginx-deployment-7b6fcd488c
+    secret/default/nginx-sec
+    service/default/nginx
 
-    # this is equivalent to the example above (note: the search criteria is specifed after all other options)
-    $ k8v -A -ob heimdall
-    service/default/heimdall
-    ingress/default/heimdall
-    deployment/default/heimdall
-    pod/default/heimdall-9864f4f59-8m5ls
-    persistentvolumeclaim/default/heimdall
+    # this is equivalent to the example above (note: the options have changed, no -i required for inclusive 
+    # searches if last option)
+    $ k8v -A -ob nginx
+    configmap/default/nginx-cm
+    deployment/default/nginx-deployment
+    persistentvolumeclaim/default/nginx-pvc
+    pod/default/nginx-deployment-7b6fcd488c-5zm67
+    pod/default/nginx-deployment-7b6fcd488c-j9tkn
+    replicaset/default/nginx-deployment-7b6fcd488c
+    secret/default/nginx-sec
+    service/default/nginx
 
 
 Resources can also be excluded from the matched results using the -e | --exclude option:
 
-    # search all namespaces for resources that have *heimdall* in their name but exclude those with *9864f4f59-8m5ls* in their name
-    $ k8v -A -o brief -i heimdall -e 9864f4f59-8m5ls
-    service/default/heimdall
-    ingress/default/heimdall
-    deployment/default/heimdall
-    persistentvolumeclaim/default/heimdall
+    # search all namespaces for resources that have *nginx* 
+    $ k8v -A -ob -i nginx
+    configmap/default/nginx-cm
+    deployment/default/nginx-deployment
+    persistentvolumeclaim/default/nginx-pvc
+    pod/default/nginx-deployment-7b6fcd488c-5zm67
+    pod/default/nginx-deployment-7b6fcd488c-j9tkn
+    replicaset/default/nginx-deployment-7b6fcd488c
+    secret/default/nginx-sec
 
 
 ## Resource types
@@ -63,14 +73,13 @@ following types otherwise (see: ResourceType):
   * Services
   * StatefulSet
 
-If you want a specific set of resource types to search you can do that using the -r | --resource option.
-These resources will be displayed in the order they are requested on the command line:
+If you want a specific set of resource types to search you can do that using the -r | --resource option (multiple
+-r options are supported for various resource types).
 
-    # show all services and ingresses in the default namespace with names matching "heimdall" in a specific order
-    $ k8v -r service -r ingress heimdall
-    service/default/heimdall (type=LoadBalancer cluster_ip=10.43.39.132  ports=[80:80/TCP nodeport=30242443:443/TCP nodeport=32661])
-    ingress/default/heimdall (host=dashboard.k.hazil.net [/=heimdall:80] )
-
+    # show all services in the default namespace with names matching "nginx"
+    $ k8v -r service -r deployment nginx
+    service/default/nginx (type=ClusterIP cluster_ip=10.96.134.184 ports=[80=80/TCP ])
+    deployment/default/nginx-deployment (labels=[app=nginx] replicas=2/2 upd=2 avail=2 strategy=RollingUpdate max_surge=25% max_unavailable=25% generation=1)
 
 
 ## Output formats
@@ -87,20 +96,26 @@ The following output types are supported:
 ### Default format
 
 The default format will show each resource with one line per resource that includes useful information about
-that resource. If the *-t* or *--related* parameter is specified then each related resource will show up with
-indentation to represent a relationship between them.
+that resource. 
 
-This allows you to see a lot of information in a hierarchy quickly with filtering capabilities as needed.
+If the *-t* or *--related* parameter is specified then each related resource will show up with
+indentation to represent a relationship between them. This allows you to see a lot of information in a hierarchy quickly with filtering capabilities as needed.
 
-    # list all resources matching *heimdall* using the default view
-    $ k8v -t heimdall
-    service/default/heimdall (type=LoadBalancer cluster_ip=10.43.39.132  ports=[80:80/TCP nodeport=30242:443/TCP])
-    ingress/default/heimdall (host=heimdall.example.com [/=heimdall:80])
-    deployment/default/heimdall (labels=[app=heimdall] replicas=1/1 (upd=1 avail=1) strategy=Recreate generation=14)
-            replicaset/default/heimdall-9864f4f59 (labels=[app=heimdall pod-template-hash=9864f4f59] replicas=1/1 (avail=1) generation=3)
-                    pod/default/heimdall-9864f4f59-8m5ls (labels=[app=heimdall pod-template-hash=9864f4f59] sa=default config_maps= secrets= pvc=heimdall)
-    pod/default/heimdall-9864f4f59-8m5ls (labels=[app=heimdall pod-template-hash=9864f4f59] sa=default config_maps= secrets= pvc=heimdall)
-    persistentvolumeclaim/default/heimdall (storage_class=nfs-client access_modes=['ReadWriteMany'] capacity=1Gi volume=pvc-8c5af527-cd3f-4a37-88fa-89d0d7523c81 phase=Bound)
+    # list all resources matching *nginx* using the default view
+    $ k8v -t nginx
+    configmap/default/nginx-cm (data=[ENV, app])
+    deployment/default/nginx-deployment (labels=[app=nginx] replicas=2/2 upd=2 avail=2 strategy=RollingUpdate max_surge=25% max_unavailable=25% generation=1)
+            replicaset/default/nginx-deployment-7b6fcd488c (labels=[app=nginx pod-template-hash=7b6fcd488c] replicas=2/2 avail=2 generation=1)
+                    pod/default/nginx-deployment-7b6fcd488c-5zm67 (labels=[app=nginx pod-template-hash=7b6fcd488c] sa=default configmaps=[['nginx-cm']] pvcs=[['nginx-pvc']])
+                    pod/default/nginx-deployment-7b6fcd488c-j9tkn (labels=[app=nginx pod-template-hash=7b6fcd488c] sa=default configmaps=[['nginx-cm']] pvcs=[['nginx-pvc']])
+    persistentvolumeclaim/default/nginx-pvc (access_modes=standard storage_class=['ReadWriteOnce'] capacity=32Mi volume=pvc-21b34ba7-7311-49cb-b84a-b00ff1b17943 phase=Bound)
+    pod/default/nginx-deployment-7b6fcd488c-5zm67 (labels=[app=nginx pod-template-hash=7b6fcd488c] sa=default configmaps=[['nginx-cm']] pvcs=[['nginx-pvc']])
+    pod/default/nginx-deployment-7b6fcd488c-j9tkn (labels=[app=nginx pod-template-hash=7b6fcd488c] sa=default configmaps=[['nginx-cm']] pvcs=[['nginx-pvc']])
+    replicaset/default/nginx-deployment-7b6fcd488c (labels=[app=nginx pod-template-hash=7b6fcd488c] replicas=2/2 avail=2 generation=1)
+            pod/default/nginx-deployment-7b6fcd488c-5zm67 (labels=[app=nginx pod-template-hash=7b6fcd488c] sa=default configmaps=[['nginx-cm']] pvcs=[['nginx-pvc']])
+            pod/default/nginx-deployment-7b6fcd488c-j9tkn (labels=[app=nginx pod-template-hash=7b6fcd488c] sa=default configmaps=[['nginx-cm']] pvcs=[['nginx-pvc']])
+    secret/default/nginx-sec (data=[PASSWORD, USERNAME])
+    service/default/nginx (type=ClusterIP cluster_ip=10.96.134.184 ports=[80=80/TCP ])
 
 
 
@@ -113,36 +128,34 @@ This format is generated in such a way that it can be used to drive scripted or 
 only report individual resources that match the input search criteria and nothing else. 
 
     # list each default resource in the *metallb* namespace
-    $ k8v -n metallb -o brief
-    configmap/metallb/kube-root-ca.crt
-    configmap/metallb/metallb
-    secret/metallb/default-token-cbsxv
-    secret/metallb/metallb-controller-token-jfqhf
-    secret/metallb/metallb-memberlist
-    secret/metallb/metallb-speaker-token-rnqh9
-    secret/metallb/sh.helm.release.v1.metallb.v1
-    daemonset/metallb/metallb-speaker
-    deployment/metallb/metallb-controller
-    pod/metallb/metallb-controller-7cb7dd579d-zvcts
-    pod/metallb/metallb-speaker-ffwcc
-    pod/metallb/metallb-speaker-hgvpd
-    pod/metallb/metallb-speaker-r9kv6
-    pod/metallb/metallb-speaker-s6ps5
-    pod/metallb/metallb-speaker-vmpcr
-    pod/metallb/metallb-speaker-zxr8l
+    $ k8v -ob nginx
+    configmap/default/nginx-cm
+    deployment/default/nginx-deployment
+    persistentvolumeclaim/default/nginx-pvc
+    pod/default/nginx-deployment-7b6fcd488c-5zm67
+    pod/default/nginx-deployment-7b6fcd488c-j9tkn
+    replicaset/default/nginx-deployment-7b6fcd488c
+    secret/default/nginx-sec
+    service/default/nginx
 
 
-Note: if you are including all related resources you may need to deal with whitespace or parse accordingly if
-using another tool to process the output:
+Note: if you are including all related resources (-t | --related) you may need to deal with whitespace or parse 
+accordingly if using another tool to process the output:
 
-    $ k8v -c default -i heimdall -t -o brief
-    service/default/heimdall
-    ingress/default/heimdall
-    deployment/default/heimdall
-        replicaset/default/heimdall-9864f4f59
-            pod/default/heimdall-9864f4f59-8m5ls
-    pod/default/heimdall-9864f4f59-8m5ls
-    persistentvolumeclaim/default/heimdall
+    $ k8v -c default -t -ob -inginx
+    configmap/default/nginx-cm
+    deployment/default/nginx-deployment
+            replicaset/default/nginx-deployment-7b6fcd488c
+                    pod/default/nginx-deployment-7b6fcd488c-5zm67
+                    pod/default/nginx-deployment-7b6fcd488c-j9tkn
+    persistentvolumeclaim/default/nginx-pvc
+    pod/default/nginx-deployment-7b6fcd488c-5zm67
+    pod/default/nginx-deployment-7b6fcd488c-j9tkn
+    replicaset/default/nginx-deployment-7b6fcd488c
+            pod/default/nginx-deployment-7b6fcd488c-5zm67
+            pod/default/nginx-deployment-7b6fcd488c-j9tkn
+    secret/default/nginx-sec
+    service/default/nginx
 
 
 ### JSON format
@@ -150,45 +163,16 @@ using another tool to process the output:
 The JSON format will generate a valid JSON list containing each matching resources within the list. This 
 output can then be used by various tools that understand the JSON format (such as *jq* shown below).
 
-
     # example using jq utility to parse generated output
-    $ bin/k8v -c default -t -i heimdall -o json | jq '.[0].spec'
-    {
-    "cluster_i_ps": [
-        "10.43.39.132"
-    ],
-    "cluster_ip": "10.43.39.132",
-    "external_traffic_policy": "Cluster",
-    "ip_families": [
-        "IPv4"
-    ],
-    "ip_family_policy": "SingleStack",
-    "local_vars_configuration": "",
-    "ports": [
-        {
-        "local_vars_configuration": "",
-        "name": "http",
-        "node_port": 30242,
-        "port": 80,
-        "protocol": "TCP",
-        "target_port": 80
-        },
-        {
-        "local_vars_configuration": "",
-        "name": "https",
-        "node_port": 32661,
-        "port": 443,
-        "protocol": "TCP",
-        "target_port": 443
-        }
-    ],
-    "selector": {
-        "app": "heimdall"
-    },
-    "session_affinity": "None",
-    "type": "LoadBalancer"
-    }
-
+    $ k8v -ojson nginx | jq '.[].metadata.name'
+    "nginx-cm"
+    "nginx-deployment"
+    "nginx-pvc"
+    "nginx-deployment-7b6fcd488c-5zm67"
+    "nginx-deployment-7b6fcd488c-j9tkn"
+    "nginx-deployment-7b6fcd488c"
+    "nginx-sec"
+    "nginx"
 
 
 ### Pickle format
@@ -274,8 +258,8 @@ Here are a few various examples of how to use the container to run the utility:
     # view *brief* listing of all default resources all namespaces
     docker run -it --rm -v ~/.kube:/app/.kube jasonhanks/k8v:latest -A -o brief
 
-    # view all *services* and *ingress* resources in the specified namespace
-    docker run -it --rm -v ~/.kube:/app/.kube jasonhanks/k8v:latest -n heimdall -r ingress -r service
+    # view all *services* and *pod* resources in the specified namespace
+    docker run -it --rm -v ~/.kube:/app/.kube jasonhanks/k8v:latest -n nginx -r pod -r service
 
     # view all default resources matching the specififed search query
     docker run -it --rm -v ~/.kube:/app/.kube jasonhanks/k8v:latest nginx

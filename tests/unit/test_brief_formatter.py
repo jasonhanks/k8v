@@ -8,7 +8,7 @@ from test_base import TestBase
 
 
 class TestBriefFormatter(TestBase):
-    """Validate the BriefPrinter output for each resource type."""
+    """Validate the BriefFormatter output for each resource type."""
 
     def setup(self):
         self.config = k8v.config.Config(
