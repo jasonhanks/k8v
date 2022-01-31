@@ -29,7 +29,7 @@ on the command line after you specifiy all other options:
     service/default/nginx
 
     # this is equivalent to the example above (note: the options have changed, no -i required for inclusive 
-    # searches if last option)
+    # searches of last argument)
     $ k8v -A -ob nginx
     configmap/default/nginx-cm
     deployment/default/nginx-deployment
@@ -219,7 +219,7 @@ Here are a few various examples of how to use the utility:
     k8v -A -o brief
     
     # view all *services* and *ingress* resources in the specified namespace
-    k8v -n heimdall -r ingress -r service
+    k8v -n nginx -r pod -r service
 
     # view all default resources matching the specififed search query
     k8v nginx
