@@ -6,9 +6,9 @@ metadata:
 spec:
   concurrencyPolicy: Forbid
   schedule: '0 0 * * *' # cron spec of time, here, midnight
+  suspend: true
   jobTemplate:
     spec:
-      suspend: true
       ttlSecondsAfterFinished: 10  # Cleanup (Job, Pods, etc.) every 24h
       backoffLimit: 1
       activeDeadlineSeconds: 60
