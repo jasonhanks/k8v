@@ -17,24 +17,24 @@ class TestBriefFormatter:
                 except EOFError:
                     break
 
+    def load_and_display(self, filename):
+        data = list(self.load_all(filename))
+        for num, r in enumerate(data):
+            print(f"#{num} {r.kind.lower()}/{r.metadata.namespace}/{r.metadata.name}")
+        return data
+
     def setup(self):
-        self.data = list(self.load_all("tests/fixtures/test-data.pickle"))
         self.config = k8v.config.Config(
             colors=None, file=io.StringIO(""), output="brief"
         )
         self.config.load()
         self.viewer = k8v.viewer.Viewer(self.config)
 
-    def test_display_pickle(self):
-        """Display the pickle data and validate the entries have not changed."""
-        print()
-        for num, r in enumerate(self.data):
-            print(f"#{num} {r.kind.lower()}/{r.metadata.namespace}/{r.metadata.name}")
-
     def test_configmaps(self):
         """Validate our ConfigMaps format properly."""
-        self.viewer.print_resource(self.data[4], 0, 2, "")
-        self.viewer.print_resource(self.data[12], 1, 2, "")
+        data = self.load_and_display("tests/fixtures/configmaps.pickle")
+        self.viewer.print_resource(data[0], 0, 2, "")
+        self.viewer.print_resource(data[1], 1, 2, "")
         assert (
             self.config.file.getvalue()
             == """configmap/default/kube-root-ca.crt
@@ -49,7 +49,8 @@ configmap/default/nginx-cm
 
     def test_cronjobs(self):
         """Validate our CronJobs format properly."""
-        self.viewer.print_resource(self.data[13], 0, 1, "")
+        data = self.load_and_display("tests/fixtures/cronjobs.pickle")
+        self.viewer.print_resource(data[0], 0, 1, "")
         assert (
             self.config.file.getvalue()
             == """cronjob/default/list-resources
@@ -63,27 +64,30 @@ configmap/default/nginx-cm
 
     def test_daemonsets(self):
         """Validate our CronJobs format properly."""
-        self.viewer.print_resource(self.data[16], 0, 1, "")
+        data = self.load_and_display("tests/fixtures/daemonsets.pickle")
+        self.viewer.print_resource(data[0], 0, 1, "")
         assert (
             self.config.file.getvalue()
-            == """daemonset/kube-system/kube-proxy
+            == """daemonset/kube-system/kindnet
 """
         )
 
     def test_daemonsets_related(self):
         """Validate our ConfigMaps with related resources format properly."""
         self.config.related = True
-        self.viewer.print_resource(self.data[16], 0, 1, "")
+        data = self.load_and_display("tests/fixtures/daemonsets.pickle")
+        self.viewer.print_resource(data[0], 0, 1, "")
         assert (
             self.config.file.getvalue()
-            == """daemonset/kube-system/kube-proxy
-        pod/kube-system/kube-proxy-7pjmw
+            == """daemonset/kube-system/kindnet
+        pod/kube-system/kindnet-v7dpv
 """
         )
 
     def test_deployments(self):
         """Validate our Deployments format properly."""
-        self.viewer.print_resource(self.data[25], 0, 1, "")
+        data = self.load_and_display("tests/fixtures/deployments.pickle")
+        self.viewer.print_resource(data[0], 0, 1, "")
         assert (
             self.config.file.getvalue()
             == """deployment/default/nginx-deployment
@@ -93,7 +97,8 @@ configmap/default/nginx-cm
     def test_deployments_related(self):
         """Validate our ConfigMaps with related resources format properly."""
         self.config.related = True
-        self.viewer.print_resource(self.data[25], 0, 1, "")
+        data = self.load_and_display("tests/fixtures/deployments.pickle")
+        self.viewer.print_resource(data[0], 0, 1, "")
         assert (
             self.config.file.getvalue()
             == """deployment/default/nginx-deployment
@@ -105,7 +110,8 @@ configmap/default/nginx-cm
 
     def test_jobs(self):
         """Validate our Jobs format properly."""
-        self.viewer.print_resource(self.data[29], 0, 1, "")
+        data = self.load_and_display("tests/fixtures/jobs.pickle")
+        self.viewer.print_resource(data[0], 0, 1, "")
         assert (
             self.config.file.getvalue()
             == """job/default/list-resources
@@ -119,7 +125,8 @@ configmap/default/nginx-cm
 
     def test_persistentvolume(self):
         """Validate our Jobs format properly."""
-        self.viewer.print_resource(self.data[30], 0, 1, "")
+        data = self.load_and_display("tests/fixtures/persistentvolumes.pickle")
+        self.viewer.print_resource(data[0], 0, 1, "")
         assert "persistentvolume/pvc-" in self.config.file.getvalue()
 
     def test_persistentvolume_related(self):
@@ -129,7 +136,8 @@ configmap/default/nginx-cm
 
     def test_persistentvolumeclaim(self):
         """Validate our Jobs format properly."""
-        self.viewer.print_resource(self.data[31], 0, 1, "")
+        data = self.load_and_display("tests/fixtures/persistentvolumeclaims.pickle")
+        self.viewer.print_resource(data[0], 0, 1, "")
         assert (
             self.config.file.getvalue()
             == """persistentvolumeclaim/default/nginx-pvc
@@ -143,10 +151,11 @@ configmap/default/nginx-cm
 
     def test_pods(self):
         """Validate our Jobs format properly."""
-        self.viewer.print_resource(self.data[50], 0, 1, "")
+        data = self.load_and_display("tests/fixtures/pods.pickle")
+        self.viewer.print_resource(data[0], 0, 1, "")
         assert (
             self.config.file.getvalue()
-            == """pod/default/nginx-deployment-7b6fcd488c-sr2wv
+            == """pod/default/list-resources-4rcts
 """
         )
 
@@ -157,7 +166,8 @@ configmap/default/nginx-cm
 
     def test_replicaset(self):
         """Validate our Jobs format properly."""
-        self.viewer.print_resource(self.data[49], 0, 1, "")
+        data = self.load_and_display("tests/fixtures/replicasets.pickle")
+        self.viewer.print_resource(data[0], 0, 1, "")
         assert (
             self.config.file.getvalue()
             == """replicaset/default/nginx-deployment-7b6fcd488c
@@ -167,7 +177,8 @@ configmap/default/nginx-cm
     def test_replicaset_related(self):
         """Validate our ConfigMaps with related resources format properly."""
         self.config.related = True
-        self.viewer.print_resource(self.data[49], 0, 1, "")
+        data = self.load_and_display("tests/fixtures/replicasets.pickle")
+        self.viewer.print_resource(data[0], 0, 1, "")
         assert (
             self.config.file.getvalue()
             == """replicaset/default/nginx-deployment-7b6fcd488c
@@ -178,10 +189,11 @@ configmap/default/nginx-cm
 
     def test_secrets(self):
         """Validate our Jobs format properly."""
-        self.viewer.print_resource(self.data[78], 0, 1, "")
+        data = self.load_and_display("tests/fixtures/secrets.pickle")
+        self.viewer.print_resource(data[0], 0, 1, "")
         assert (
             self.config.file.getvalue()
-            == """secret/default/nginx-sec
+            == """secret/default/default-token-5r2mb
 """
         )
 
@@ -192,10 +204,11 @@ configmap/default/nginx-cm
 
     def test_services(self):
         """Validate our Jobs format properly."""
-        self.viewer.print_resource(self.data[78], 0, 1, "")
+        data = self.load_and_display("tests/fixtures/services.pickle")
+        self.viewer.print_resource(data[0], 0, 1, "")
         assert (
             self.config.file.getvalue()
-            == """secret/default/nginx-sec
+            == """service/default/kubernetes
 """
         )
 
