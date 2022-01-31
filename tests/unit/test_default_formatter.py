@@ -31,60 +31,62 @@ class TestDefaultFormatter:
 
         expected = """configmap/default/kube-root-ca.crt (data=[ca.crt])
 configmap/default/nginx-cm (data=[ENV, app])
-secret/default/default-token-5r2mb (data=[ca.crt, namespace, token])
-secret/default/nginx-sec (data=[PASSWORD, USERNAME])
-service/default/kubernetes (labels=[component=apiserver provider=kubernetes] type=ClusterIP cluster_ip=10.96.0.1 ports=[443=6443/TCP ])
-replicaset/default/nginx-deployment-7b6fcd488c (labels=[app=nginx pod-template-hash=7b6fcd488c] replicas=2/2 avail=2 generation=1)
+cronjob/default/list-resources ()
 deployment/default/nginx-deployment (labels=[app=nginx] replicas=2/2 upd=2 avail=2 strategy=RollingUpdate max_surge=25% max_unavailable=25% generation=1)
+job/default/list-resources (labels=[controller-uid=b3aa0bb1-708a-4ed0-bf59-f041024404d0 job-name=list-resources] )
+persistentvolumeclaim/default/nginx-pvc (access_modes=standard storage_class=['ReadWriteOnce'] capacity=32Mi volume=pvc-6801b99e-d658-4095-967b-b035c520886f phase=Bound)
 pod/default/list-resources-8xvpb (labels=[controller-uid=b3aa0bb1-708a-4ed0-bf59-f041024404d0 job-name=list-resources] sa=default )
 pod/default/nginx-deployment-7b6fcd488c-5q8nt (labels=[app=nginx pod-template-hash=7b6fcd488c] sa=default configmaps=[['nginx-cm']] pvcs=[['nginx-pvc']])
 pod/default/nginx-deployment-7b6fcd488c-7kdrw (labels=[app=nginx pod-template-hash=7b6fcd488c] sa=default configmaps=[['nginx-cm']] pvcs=[['nginx-pvc']])
-cronjob/default/list-resources ()
-job/default/list-resources (labels=[controller-uid=b3aa0bb1-708a-4ed0-bf59-f041024404d0 job-name=list-resources] )
-persistentvolume/pvc-6801b99e-d658-4095-967b-b035c520886f (storage_class=standard access_modes=['ReadWriteOnce'] capacity=32Mi reclaim=Delete)
-persistentvolumeclaim/default/nginx-pvc (access_modes=standard storage_class=['ReadWriteOnce'] capacity=32Mi volume=pvc-6801b99e-d658-4095-967b-b035c520886f phase=Bound)
+replicaset/default/nginx-deployment-7b6fcd488c (labels=[app=nginx pod-template-hash=7b6fcd488c] replicas=2/2 avail=2 generation=1)
+secret/default/default-token-5r2mb (data=[ca.crt, namespace, token])
+secret/default/nginx-sec (data=[PASSWORD, USERNAME])
+service/default/kubernetes (labels=[component=apiserver provider=kubernetes] type=ClusterIP cluster_ip=10.96.0.1 ports=[443=6443/TCP ])
 """
 
         for num, resource in enumerate(self.resources):
             self.viewer.print_resource(resource, num, len(self.resources) - 1, "")
 
-        # validate the printed output
-        assert self.config.file.getvalue() == expected
+        lines = self.config.file.getvalue().split("\n")
+        for num, expect in enumerate(expected.split("\n")):
+            assert expect == lines[num]
 
     def test_output_with_related(self):
         """Validate the default resource fixtures are formatted correctly with related resources."""
 
         expected = """configmap/default/kube-root-ca.crt (data=[ca.crt])
 configmap/default/nginx-cm (data=[ENV, app])
-secret/default/default-token-5r2mb (data=[ca.crt, namespace, token])
-secret/default/nginx-sec (data=[PASSWORD, USERNAME])
-service/default/kubernetes (labels=[component=apiserver provider=kubernetes] type=ClusterIP cluster_ip=10.96.0.1 ports=[443=6443/TCP ])
-replicaset/default/nginx-deployment-7b6fcd488c (labels=[app=nginx pod-template-hash=7b6fcd488c] replicas=2/2 avail=2 generation=1)
-        pod/default/nginx-deployment-7b6fcd488c-5q8nt (labels=[app=nginx pod-template-hash=7b6fcd488c] sa=default configmaps=[['nginx-cm']] pvcs=[['nginx-pvc']])
-        pod/default/nginx-deployment-7b6fcd488c-7kdrw (labels=[app=nginx pod-template-hash=7b6fcd488c] sa=default configmaps=[['nginx-cm']] pvcs=[['nginx-pvc']])
+cronjob/default/list-resources ()
 deployment/default/nginx-deployment (labels=[app=nginx] replicas=2/2 upd=2 avail=2 strategy=RollingUpdate max_surge=25% max_unavailable=25% generation=1)
         replicaset/default/nginx-deployment-7b6fcd488c (labels=[app=nginx pod-template-hash=7b6fcd488c] replicas=2/2 avail=2 generation=1)
                 pod/default/nginx-deployment-7b6fcd488c-5q8nt (labels=[app=nginx pod-template-hash=7b6fcd488c] sa=default configmaps=[['nginx-cm']] pvcs=[['nginx-pvc']])
                 pod/default/nginx-deployment-7b6fcd488c-7kdrw (labels=[app=nginx pod-template-hash=7b6fcd488c] sa=default configmaps=[['nginx-cm']] pvcs=[['nginx-pvc']])
+job/default/list-resources (labels=[controller-uid=b3aa0bb1-708a-4ed0-bf59-f041024404d0 job-name=list-resources] )
+persistentvolumeclaim/default/nginx-pvc (access_modes=standard storage_class=['ReadWriteOnce'] capacity=32Mi volume=pvc-6801b99e-d658-4095-967b-b035c520886f phase=Bound)
 pod/default/list-resources-8xvpb (labels=[controller-uid=b3aa0bb1-708a-4ed0-bf59-f041024404d0 job-name=list-resources] sa=default )
 pod/default/nginx-deployment-7b6fcd488c-5q8nt (labels=[app=nginx pod-template-hash=7b6fcd488c] sa=default configmaps=[['nginx-cm']] pvcs=[['nginx-pvc']])
 pod/default/nginx-deployment-7b6fcd488c-7kdrw (labels=[app=nginx pod-template-hash=7b6fcd488c] sa=default configmaps=[['nginx-cm']] pvcs=[['nginx-pvc']])
-cronjob/default/list-resources ()
-job/default/list-resources (labels=[controller-uid=b3aa0bb1-708a-4ed0-bf59-f041024404d0 job-name=list-resources] )
-persistentvolume/pvc-6801b99e-d658-4095-967b-b035c520886f (storage_class=standard access_modes=['ReadWriteOnce'] capacity=32Mi reclaim=Delete)
-persistentvolumeclaim/default/nginx-pvc (access_modes=standard storage_class=['ReadWriteOnce'] capacity=32Mi volume=pvc-6801b99e-d658-4095-967b-b035c520886f phase=Bound)
+replicaset/default/nginx-deployment-7b6fcd488c (labels=[app=nginx pod-template-hash=7b6fcd488c] replicas=2/2 avail=2 generation=1)
+        pod/default/nginx-deployment-7b6fcd488c-5q8nt (labels=[app=nginx pod-template-hash=7b6fcd488c] sa=default configmaps=[['nginx-cm']] pvcs=[['nginx-pvc']])
+        pod/default/nginx-deployment-7b6fcd488c-7kdrw (labels=[app=nginx pod-template-hash=7b6fcd488c] sa=default configmaps=[['nginx-cm']] pvcs=[['nginx-pvc']])
+secret/default/default-token-5r2mb (data=[ca.crt, namespace, token])
+secret/default/nginx-sec (data=[PASSWORD, USERNAME])
+service/default/kubernetes (labels=[component=apiserver provider=kubernetes] type=ClusterIP cluster_ip=10.96.0.1 ports=[443=6443/TCP ])
 """
 
         # setup "related" resources to verify formatter output
         self.config.related = True
-        self.resources[5]._related = [
+        self.resources[9]._related = [  # replicaset has pods
+            self.resources[7],
             self.resources[8],
-            self.resources[9],
-        ]  # replicaset has pods
-        self.resources[6]._related = [self.resources[5]]  # deployment has replicaset
+        ]
+        self.resources[3]._related = [self.resources[9]]  # deployment has replicaset
 
+        # simulate printing out each resources to the configured output file (StringIO)
         for num, resource in enumerate(self.resources):
             self.viewer.print_resource(resource, num, len(self.resources) - 1, "")
 
-        # validate the printed output
-        assert expected == self.config.file.getvalue()
+        # compare our expected output to our printed output
+        lines = self.config.file.getvalue().split("\n")
+        for num, expect in enumerate(expected.split("\n")):
+            assert expect == lines[num]

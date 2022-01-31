@@ -108,24 +108,17 @@
         "type": ""
     },
     {
-        "apiVersion": "v1",
+        "apiVersion": "batch/v1",
         "api_version": null,
-        "data": {
-            "ca.crt": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUM1ekNDQWMrZ0F3SUJBZ0lCQURBTkJna3Foa2lHOXcwQkFRc0ZBREFWTVJNd0VRWURWUVFERXdwcmRXSmwKY201bGRHVnpNQjRYRFRJeU1ERXlOekUyTlRZeU5Gb1hEVE15TURFeU5URTJOVFl5TkZvd0ZURVRNQkVHQTFVRQpBeE1LYTNWaVpYSnVaWFJsY3pDQ0FTSXdEUVlKS29aSWh2Y05BUUVCQlFBRGdnRVBBRENDQVFvQ2dnRUJBSlJHCmdSNERvRXZUZTZ2VVhGRklqUmxVT3BLRjFqVDQxVzNuNUFyU0ltcSs4SmpCZXBaN1pRaDMxcS9XZ1pVbkZOUjMKaXhHT1Y1eG94d2E1eTJMQThBQTVRNmNlaXp6eTYzZ0gvVDJaM09oSmZJZVdYNTNGZi9lZzEvU0FNZmxpN25MYQpFcEhxa215YTZwU0FCUHhHOXpTWFMvR3BOdFoyZXNlMTJRRWZsOW9tcCs5c3hOdVdMRFd4c3I3ODFPSWlnMm9RCml5MlBsR2k4NkhHVk15OWZ2Z3V3TG9yRDNwSDVGQmhSaHJJYWkzZ3czY05CNUdqbmNHYnNlbnlYM3dxaVErb1YKSkoyZFFSZW05c1Y5TFlCbUFxV3lHdHNQUWZhRlIwWGlSUXVoS2ZJWTNSQXBPaytZRmRhckR6OGRwaE9VMXFyLwpNWVY5aldtdnl1em5BR2FnU3MwQ0F3RUFBYU5DTUVBd0RnWURWUjBQQVFIL0JBUURBZ0trTUE4R0ExVWRFd0VCCi93UUZNQU1CQWY4d0hRWURWUjBPQkJZRUZQSEF6WjYxckkxaUZhdzhRWUZNZGJrdGRSTTBNQTBHQ1NxR1NJYjMKRFFFQkN3VUFBNElCQVFBczQrQkZzdnpiMHJNcGZGTG5KNGY5SUY1L3JETVJjTUVVcFIxOTk5bnpqa2lzS2FMawpmVHB6cW1Ka2tsYjhEUllUMjVtb2ZwU05kSmI1RjJ5aVhjZ3J3Z0hwV1hTaHZVdTV0c2ZmeG1hbUViaXRUR1dhCnprYUJMaU42YStiQ0NJNWRTNEEwRVpZeGtPNGxpZG9mOHR2VUxpem5CTDU3M0hJRXhuM2RJNHozWFg2TEdMQ28KZk9Jdjl3MFBMTHN3eVRBT1l5eGo2QXBndk9lNDd1RCtaVXl1enByY0VaN0pYRFRuL0JYUjJjUjZVWTVhcGRZNApPUFZNRnpySmNMUEpSM3BPdHNiZUNIOGcxaWt6SkZua2xvSm8xK0t4MzZFY21jc05vZ3lvK09VUCtyd3kvYm5ICmQvMDJRZmcwQnFnRHRXSFhGK0ZZZ3pFR2hQdS92eWUyRkdjdQotLS0tLUVORCBDRVJUSUZJQ0FURS0tLS0tCg==",
-            "namespace": "ZGVmYXVsdA==",
-            "token": "ZXlKaGJHY2lPaUpTVXpJMU5pSXNJbXRwWkNJNkluRXpURUZaYUhSNFRsSlRlREpMZEhOUmIyMHRaa2xsUW0xMFlqTXdUbGhvYzJ4MlVubEtWMHh2ZW1jaWZRLmV5SnBjM01pT2lKcmRXSmxjbTVsZEdWekwzTmxjblpwWTJWaFkyTnZkVzUwSWl3aWEzVmlaWEp1WlhSbGN5NXBieTl6WlhKMmFXTmxZV05qYjNWdWRDOXVZVzFsYzNCaFkyVWlPaUprWldaaGRXeDBJaXdpYTNWaVpYSnVaWFJsY3k1cGJ5OXpaWEoyYVdObFlXTmpiM1Z1ZEM5elpXTnlaWFF1Ym1GdFpTSTZJbVJsWm1GMWJIUXRkRzlyWlc0dE5YSXliV0lpTENKcmRXSmxjbTVsZEdWekxtbHZMM05sY25acFkyVmhZMk52ZFc1MEwzTmxjblpwWTJVdFlXTmpiM1Z1ZEM1dVlXMWxJam9pWkdWbVlYVnNkQ0lzSW10MVltVnlibVYwWlhNdWFXOHZjMlZ5ZG1salpXRmpZMjkxYm5RdmMyVnlkbWxqWlMxaFkyTnZkVzUwTG5WcFpDSTZJakExTXpOak56bGpMVEkwTVRrdE5HTTNZeTA0WlRCa0xXWmtaV1pqT1RBNE5UTXhZaUlzSW5OMVlpSTZJbk41YzNSbGJUcHpaWEoyYVdObFlXTmpiM1Z1ZERwa1pXWmhkV3gwT21SbFptRjFiSFFpZlEuS0J5dmw1aHhERDhzVWpBQ2h1WXIzTzRjVFk5VFh6U21wd09BNDA1LTdzbjRPbkl1VG9OOXQxOHZienlwNlFuV0pqSDZ5ZE5sRDBYNzNqLUVtbURUVGRXWEVXU2JpSGFrdVNmT2lQMHJnbE1JV1dDRWF6VFpJS0tjSzlMeUIweTNaTnF4c2J6cXhTU25tZzhVWWJPZlVJd0RxYm1uTGotYUJ0TlhndlBrM0FZYW1yMm9fc3ZmZnFJeEY3ZlBmelNOb1BqZWhIQmV4X29EU0JKQjhrMFZVRzJLbHg3V1JjVXFlTHcyMzhvdXZrZlNlOFRWQzllX3JmaDNFMmZNSVo4bGpqN29PYmZIanRGQUJJcGhDb1RaYVBPVlNhbnJ1Q3gxdThWNWpfQmVZR3JZLWtUSjZ2RXVIUTFqY01obFRfTzZ6ZmYwZVZQOXV5VGwzbVc1VW5DNk9B"
-        },
         "discriminator": null,
-        "immutable": null,
-        "kind": "Secret",
+        "kind": "CronJob",
         "local_vars_configuration": "",
         "metadata": {
             "annotations": {
-                "kubernetes.io/service-account.name": "default",
-                "kubernetes.io/service-account.uid": "0533c79c-2419-4c7c-8e0d-fdefc908531b"
+                "kubectl.kubernetes.io/last-applied-configuration": "{\"apiVersion\":\"batch/v1\",\"kind\":\"CronJob\",\"metadata\":{\"annotations\":{},\"name\":\"list-resources\",\"namespace\":\"default\"},\"spec\":{\"concurrencyPolicy\":\"Forbid\",\"jobTemplate\":{\"spec\":{\"activeDeadlineSeconds\":60,\"backoffLimit\":1,\"suspend\":true,\"template\":{\"spec\":{\"containers\":[{\"command\":[\"ls\",\"-alhF\",\"/\"],\"image\":\"ubuntu:latest\",\"name\":\"list-resources\"}],\"restartPolicy\":\"Never\"}},\"ttlSecondsAfterFinished\":10}},\"schedule\":\"0 0 * * *\"}}\n"
             },
             "cluster_name": null,
-            "creation_timestamp": "2022-01-27T16:58:01Z",
+            "creation_timestamp": "2022-01-31T04:08:58Z",
             "deletion_grace_period_seconds": null,
             "deletion_timestamp": null,
             "discriminator": null,
@@ -136,399 +129,71 @@
             "local_vars_configuration": "",
             "managed_fields": [
                 {
-                    "api_version": "v1",
+                    "api_version": "batch/v1",
                     "discriminator": null,
                     "fields_type": "FieldsV1",
                     "fields_v1": {
-                        "f:data": {
-                            ".": {},
-                            "f:ca.crt": {},
-                            "f:namespace": {},
-                            "f:token": {}
-                        },
-                        "f:metadata": {
-                            "f:annotations": {
-                                ".": {},
-                                "f:kubernetes.io/service-account.name": {},
-                                "f:kubernetes.io/service-account.uid": {}
-                            }
-                        },
-                        "f:type": {}
-                    },
-                    "local_vars_configuration": "",
-                    "manager": "kube-controller-manager",
-                    "operation": "Update",
-                    "time": "2022-01-27T16:58:01Z"
-                }
-            ],
-            "name": "default-token-5r2mb",
-            "namespace": "default",
-            "owner_references": null,
-            "resource_version": "460",
-            "self_link": null,
-            "uid": "54583fda-ffd7-4be2-bbba-3a8c1e7e622d"
-        },
-        "string_data": null,
-        "type": ""
-    },
-    {
-        "apiVersion": "v1",
-        "api_version": null,
-        "data": {
-            "PASSWORD": "dGVzdDEyM3B3",
-            "USERNAME": "dGVzdHM="
-        },
-        "discriminator": null,
-        "immutable": null,
-        "kind": "Secret",
-        "local_vars_configuration": "",
-        "metadata": {
-            "annotations": {
-                "kubectl.kubernetes.io/last-applied-configuration": "{\"apiVersion\":\"v1\",\"data\":{\"PASSWORD\":\"dGVzdDEyM3B3\",\"USERNAME\":\"dGVzdHM=\"},\"kind\":\"Secret\",\"metadata\":{\"annotations\":{},\"name\":\"nginx-sec\",\"namespace\":\"default\"}}\n"
-            },
-            "cluster_name": null,
-            "creation_timestamp": "2022-01-27T17:01:16Z",
-            "deletion_grace_period_seconds": null,
-            "deletion_timestamp": null,
-            "discriminator": null,
-            "finalizers": null,
-            "generate_name": null,
-            "generation": null,
-            "labels": null,
-            "local_vars_configuration": "",
-            "managed_fields": [
-                {
-                    "api_version": "v1",
-                    "discriminator": null,
-                    "fields_type": "FieldsV1",
-                    "fields_v1": {
-                        "f:data": {
-                            ".": {},
-                            "f:PASSWORD": {},
-                            "f:USERNAME": {}
-                        },
                         "f:metadata": {
                             "f:annotations": {
                                 ".": {},
                                 "f:kubectl.kubernetes.io/last-applied-configuration": {}
                             }
                         },
-                        "f:type": {}
+                        "f:spec": {
+                            "f:concurrencyPolicy": {},
+                            "f:failedJobsHistoryLimit": {},
+                            "f:jobTemplate": {
+                                "f:spec": {
+                                    "f:activeDeadlineSeconds": {},
+                                    "f:backoffLimit": {},
+                                    "f:suspend": {},
+                                    "f:template": {
+                                        "f:spec": {
+                                            "f:containers": {
+                                                "k:{\"name\":\"list-resources\"}": {
+                                                    ".": {},
+                                                    "f:command": {},
+                                                    "f:image": {},
+                                                    "f:imagePullPolicy": {},
+                                                    "f:name": {},
+                                                    "f:resources": {},
+                                                    "f:terminationMessagePath": {},
+                                                    "f:terminationMessagePolicy": {}
+                                                }
+                                            },
+                                            "f:dnsPolicy": {},
+                                            "f:restartPolicy": {},
+                                            "f:schedulerName": {},
+                                            "f:securityContext": {},
+                                            "f:terminationGracePeriodSeconds": {}
+                                        }
+                                    },
+                                    "f:ttlSecondsAfterFinished": {}
+                                }
+                            },
+                            "f:schedule": {},
+                            "f:successfulJobsHistoryLimit": {},
+                            "f:suspend": {}
+                        }
                     },
                     "local_vars_configuration": "",
                     "manager": "kubectl-client-side-apply",
                     "operation": "Update",
-                    "time": "2022-01-27T17:01:16Z"
+                    "time": "2022-01-31T04:08:58Z"
                 }
             ],
-            "name": "nginx-sec",
+            "name": "list-resources",
             "namespace": "default",
             "owner_references": null,
-            "resource_version": "807",
+            "resource_version": "502338",
             "self_link": null,
-            "uid": "d0bcdd60-83c4-48d2-b4cd-6b824dc95317"
-        },
-        "string_data": null,
-        "type": ""
-    },
-    {
-        "apiVersion": "v1",
-        "api_version": null,
-        "discriminator": null,
-        "kind": "Service",
-        "local_vars_configuration": "",
-        "metadata": {
-            "annotations": null,
-            "cluster_name": null,
-            "creation_timestamp": "2022-01-27T16:57:42Z",
-            "deletion_grace_period_seconds": null,
-            "deletion_timestamp": null,
-            "discriminator": null,
-            "finalizers": null,
-            "generate_name": null,
-            "generation": null,
-            "labels": {
-                "component": "apiserver",
-                "provider": "kubernetes"
-            },
-            "local_vars_configuration": "",
-            "managed_fields": [
-                {
-                    "api_version": "v1",
-                    "discriminator": null,
-                    "fields_type": "FieldsV1",
-                    "fields_v1": {
-                        "f:metadata": {
-                            "f:labels": {
-                                ".": {},
-                                "f:component": {},
-                                "f:provider": {}
-                            }
-                        },
-                        "f:spec": {
-                            "f:clusterIP": {},
-                            "f:ipFamilyPolicy": {},
-                            "f:ports": {
-                                ".": {},
-                                "k:{\"port\":443,\"protocol\":\"TCP\"}": {
-                                    ".": {},
-                                    "f:name": {},
-                                    "f:port": {},
-                                    "f:protocol": {},
-                                    "f:targetPort": {}
-                                }
-                            },
-                            "f:sessionAffinity": {},
-                            "f:type": {}
-                        }
-                    },
-                    "local_vars_configuration": "",
-                    "manager": "kube-apiserver",
-                    "operation": "Update",
-                    "time": "2022-01-27T16:57:42Z"
-                }
-            ],
-            "name": "kubernetes",
-            "namespace": "default",
-            "owner_references": null,
-            "resource_version": "218",
-            "self_link": null,
-            "uid": "ac6047a2-e177-43a9-9cad-5ff9c9f18d28"
+            "uid": "5011197a-c7e2-4c39-83d7-3ca61cca6c62"
         },
         "spec": {
-            "allocate_load_balancer_node_ports": null,
-            "cluster_i_ps": [
-                "10.96.0.1"
-            ],
-            "cluster_ip": "10.96.0.1",
+            "concurrency_policy": "Forbid",
             "discriminator": null,
-            "external_i_ps": null,
-            "external_name": null,
-            "external_traffic_policy": null,
-            "health_check_node_port": null,
-            "internal_traffic_policy": null,
-            "ip_families": [
-                "IPv4"
-            ],
-            "ip_family_policy": "SingleStack",
-            "load_balancer_class": null,
-            "load_balancer_ip": null,
-            "load_balancer_source_ranges": null,
-            "local_vars_configuration": "",
-            "ports": [
-                {
-                    "app_protocol": null,
-                    "discriminator": null,
-                    "local_vars_configuration": "",
-                    "name": "https",
-                    "node_port": null,
-                    "port": 443,
-                    "protocol": "TCP",
-                    "target_port": 6443
-                }
-            ],
-            "publish_not_ready_addresses": null,
-            "selector": null,
-            "session_affinity": "None",
-            "session_affinity_config": null,
-            "topology_keys": null,
-            "type": "ClusterIP"
-        },
-        "status": {
-            "conditions": null,
-            "discriminator": null,
-            "load_balancer": {
-                "discriminator": null,
-                "ingress": null,
-                "local_vars_configuration": ""
-            },
-            "local_vars_configuration": ""
-        },
-        "type": ""
-    },
-    {
-        "apiVersion": "apps/v1",
-        "api_version": null,
-        "discriminator": null,
-        "kind": "ReplicaSet",
-        "local_vars_configuration": "",
-        "metadata": {
-            "annotations": {
-                "deployment.kubernetes.io/desired-replicas": "2",
-                "deployment.kubernetes.io/max-replicas": "3",
-                "deployment.kubernetes.io/revision": "1"
-            },
-            "cluster_name": null,
-            "creation_timestamp": "2022-01-27T17:01:16Z",
-            "deletion_grace_period_seconds": null,
-            "deletion_timestamp": null,
-            "discriminator": null,
-            "finalizers": null,
-            "generate_name": null,
-            "generation": 1,
-            "labels": {
-                "app": "nginx",
-                "pod-template-hash": "7b6fcd488c"
-            },
-            "local_vars_configuration": "",
-            "managed_fields": [
-                {
-                    "api_version": "apps/v1",
-                    "discriminator": null,
-                    "fields_type": "FieldsV1",
-                    "fields_v1": {
-                        "f:metadata": {
-                            "f:annotations": {
-                                ".": {},
-                                "f:deployment.kubernetes.io/desired-replicas": {},
-                                "f:deployment.kubernetes.io/max-replicas": {},
-                                "f:deployment.kubernetes.io/revision": {}
-                            },
-                            "f:labels": {
-                                ".": {},
-                                "f:app": {},
-                                "f:pod-template-hash": {}
-                            },
-                            "f:ownerReferences": {
-                                ".": {},
-                                "k:{\"uid\":\"330313b9-f7fb-46db-9527-636a4775dce5\"}": {
-                                    ".": {},
-                                    "f:apiVersion": {},
-                                    "f:blockOwnerDeletion": {},
-                                    "f:controller": {},
-                                    "f:kind": {},
-                                    "f:name": {},
-                                    "f:uid": {}
-                                }
-                            }
-                        },
-                        "f:spec": {
-                            "f:replicas": {},
-                            "f:selector": {},
-                            "f:template": {
-                                "f:metadata": {
-                                    "f:labels": {
-                                        ".": {},
-                                        "f:app": {},
-                                        "f:pod-template-hash": {}
-                                    }
-                                },
-                                "f:spec": {
-                                    "f:containers": {
-                                        "k:{\"name\":\"nginx\"}": {
-                                            ".": {},
-                                            "f:envFrom": {},
-                                            "f:image": {},
-                                            "f:imagePullPolicy": {},
-                                            "f:name": {},
-                                            "f:ports": {
-                                                ".": {},
-                                                "k:{\"containerPort\":80,\"protocol\":\"TCP\"}": {
-                                                    ".": {},
-                                                    "f:containerPort": {},
-                                                    "f:protocol": {}
-                                                }
-                                            },
-                                            "f:resources": {},
-                                            "f:terminationMessagePath": {},
-                                            "f:terminationMessagePolicy": {},
-                                            "f:volumeMounts": {
-                                                ".": {},
-                                                "k:{\"mountPath\":\"/usr/share/nginx/html\"}": {
-                                                    ".": {},
-                                                    "f:mountPath": {},
-                                                    "f:name": {}
-                                                }
-                                            }
-                                        }
-                                    },
-                                    "f:dnsPolicy": {},
-                                    "f:initContainers": {
-                                        ".": {},
-                                        "k:{\"name\":\"setup-volume\"}": {
-                                            ".": {},
-                                            "f:command": {},
-                                            "f:image": {},
-                                            "f:imagePullPolicy": {},
-                                            "f:name": {},
-                                            "f:resources": {},
-                                            "f:terminationMessagePath": {},
-                                            "f:terminationMessagePolicy": {},
-                                            "f:volumeMounts": {
-                                                ".": {},
-                                                "k:{\"mountPath\":\"/app\"}": {
-                                                    ".": {},
-                                                    "f:mountPath": {},
-                                                    "f:name": {}
-                                                }
-                                            }
-                                        }
-                                    },
-                                    "f:restartPolicy": {},
-                                    "f:schedulerName": {},
-                                    "f:securityContext": {},
-                                    "f:terminationGracePeriodSeconds": {},
-                                    "f:volumes": {
-                                        ".": {},
-                                        "k:{\"name\":\"www\"}": {
-                                            ".": {},
-                                            "f:name": {},
-                                            "f:persistentVolumeClaim": {
-                                                ".": {},
-                                                "f:claimName": {}
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        },
-                        "f:status": {
-                            "f:availableReplicas": {},
-                            "f:fullyLabeledReplicas": {},
-                            "f:observedGeneration": {},
-                            "f:readyReplicas": {},
-                            "f:replicas": {}
-                        }
-                    },
-                    "local_vars_configuration": "",
-                    "manager": "kube-controller-manager",
-                    "operation": "Update",
-                    "time": "2022-01-27T17:02:10Z"
-                }
-            ],
-            "name": "nginx-deployment-7b6fcd488c",
-            "namespace": "default",
-            "owner_references": [
-                {
-                    "api_version": "apps/v1",
-                    "block_owner_deletion": true,
-                    "controller": true,
-                    "discriminator": null,
-                    "kind": "Deployment",
-                    "local_vars_configuration": "",
-                    "name": "nginx-deployment",
-                    "uid": "330313b9-f7fb-46db-9527-636a4775dce5"
-                }
-            ],
-            "resource_version": "949",
-            "self_link": null,
-            "uid": "55ab4c9e-0a34-4bf6-bdcd-6ce67f3566d6"
-        },
-        "spec": {
-            "discriminator": null,
-            "local_vars_configuration": "",
-            "min_ready_seconds": null,
-            "replicas": 2,
-            "selector": {
-                "discriminator": null,
-                "local_vars_configuration": "",
-                "match_expressions": null,
-                "match_labels": {
-                    "app": "nginx",
-                    "pod-template-hash": "7b6fcd488c"
-                }
-            },
-            "template": {
+            "failed_jobs_history_limit": 1,
+            "job_template": {
                 "discriminator": null,
                 "local_vars_configuration": "",
                 "metadata": {
@@ -541,10 +206,7 @@
                     "finalizers": null,
                     "generate_name": null,
                     "generation": null,
-                    "labels": {
-                        "app": "nginx",
-                        "pod-template-hash": "7b6fcd488c"
-                    },
+                    "labels": null,
                     "local_vars_configuration": "",
                     "managed_fields": null,
                     "name": null,
@@ -555,221 +217,143 @@
                     "uid": null
                 },
                 "spec": {
-                    "active_deadline_seconds": null,
-                    "affinity": null,
-                    "automount_service_account_token": null,
-                    "containers": [
-                        {
-                            "args": null,
-                            "command": null,
-                            "discriminator": null,
-                            "env": null,
-                            "env_from": [
-                                {
-                                    "config_map_ref": {
-                                        "discriminator": null,
-                                        "local_vars_configuration": "",
-                                        "name": "nginx-cm",
-                                        "optional": null
-                                    },
-                                    "discriminator": null,
-                                    "local_vars_configuration": "",
-                                    "prefix": null,
-                                    "secret_ref": null
-                                }
-                            ],
-                            "image": "nginx:alpine",
-                            "image_pull_policy": "IfNotPresent",
-                            "lifecycle": null,
-                            "liveness_probe": null,
-                            "local_vars_configuration": "",
-                            "name": "nginx",
-                            "ports": [
-                                {
-                                    "container_port": 80,
-                                    "discriminator": null,
-                                    "host_ip": null,
-                                    "host_port": null,
-                                    "local_vars_configuration": "",
-                                    "name": null,
-                                    "protocol": "TCP"
-                                }
-                            ],
-                            "readiness_probe": null,
-                            "resources": {
-                                "discriminator": null,
-                                "limits": null,
-                                "local_vars_configuration": "",
-                                "requests": null
-                            },
-                            "security_context": null,
-                            "startup_probe": null,
-                            "stdin": null,
-                            "stdin_once": null,
-                            "termination_message_path": "/dev/termination-log",
-                            "termination_message_policy": "File",
-                            "tty": null,
-                            "volume_devices": null,
-                            "volume_mounts": [
-                                {
-                                    "discriminator": null,
-                                    "local_vars_configuration": "",
-                                    "mount_path": "/usr/share/nginx/html",
-                                    "mount_propagation": null,
-                                    "name": "www",
-                                    "read_only": null,
-                                    "sub_path": null,
-                                    "sub_path_expr": null
-                                }
-                            ],
-                            "working_dir": null
-                        }
-                    ],
+                    "active_deadline_seconds": 60,
+                    "backoff_limit": 1,
+                    "completion_mode": null,
+                    "completions": null,
                     "discriminator": null,
-                    "dns_config": null,
-                    "dns_policy": "ClusterFirst",
-                    "enable_service_links": null,
-                    "ephemeral_containers": null,
-                    "host_aliases": null,
-                    "host_ipc": null,
-                    "host_network": null,
-                    "host_pid": null,
-                    "hostname": null,
-                    "image_pull_secrets": null,
-                    "init_containers": [
-                        {
-                            "args": null,
-                            "command": [
-                                "sh",
-                                "-c",
-                                "echo 'custom NGINX deployment simulator' > /app/index.html"
-                            ],
+                    "local_vars_configuration": "",
+                    "manual_selector": null,
+                    "parallelism": null,
+                    "selector": null,
+                    "suspend": true,
+                    "template": {
+                        "discriminator": null,
+                        "local_vars_configuration": "",
+                        "metadata": {
+                            "annotations": null,
+                            "cluster_name": null,
+                            "creation_timestamp": null,
+                            "deletion_grace_period_seconds": null,
+                            "deletion_timestamp": null,
                             "discriminator": null,
-                            "env": null,
-                            "env_from": null,
-                            "image": "busybox:latest",
-                            "image_pull_policy": "Always",
-                            "lifecycle": null,
-                            "liveness_probe": null,
+                            "finalizers": null,
+                            "generate_name": null,
+                            "generation": null,
+                            "labels": null,
                             "local_vars_configuration": "",
-                            "name": "setup-volume",
-                            "ports": null,
-                            "readiness_probe": null,
-                            "resources": {
-                                "discriminator": null,
-                                "limits": null,
-                                "local_vars_configuration": "",
-                                "requests": null
-                            },
-                            "security_context": null,
-                            "startup_probe": null,
-                            "stdin": null,
-                            "stdin_once": null,
-                            "termination_message_path": "/dev/termination-log",
-                            "termination_message_policy": "File",
-                            "tty": null,
-                            "volume_devices": null,
-                            "volume_mounts": [
+                            "managed_fields": null,
+                            "name": null,
+                            "namespace": null,
+                            "owner_references": null,
+                            "resource_version": null,
+                            "self_link": null,
+                            "uid": null
+                        },
+                        "spec": {
+                            "active_deadline_seconds": null,
+                            "affinity": null,
+                            "automount_service_account_token": null,
+                            "containers": [
                                 {
+                                    "args": null,
+                                    "command": [
+                                        "ls",
+                                        "-alhF",
+                                        "/"
+                                    ],
                                     "discriminator": null,
+                                    "env": null,
+                                    "env_from": null,
+                                    "image": "ubuntu:latest",
+                                    "image_pull_policy": "Always",
+                                    "lifecycle": null,
+                                    "liveness_probe": null,
                                     "local_vars_configuration": "",
-                                    "mount_path": "/app",
-                                    "mount_propagation": null,
-                                    "name": "www",
-                                    "read_only": null,
-                                    "sub_path": null,
-                                    "sub_path_expr": null
+                                    "name": "list-resources",
+                                    "ports": null,
+                                    "readiness_probe": null,
+                                    "resources": {
+                                        "discriminator": null,
+                                        "limits": null,
+                                        "local_vars_configuration": "",
+                                        "requests": null
+                                    },
+                                    "security_context": null,
+                                    "startup_probe": null,
+                                    "stdin": null,
+                                    "stdin_once": null,
+                                    "termination_message_path": "/dev/termination-log",
+                                    "termination_message_policy": "File",
+                                    "tty": null,
+                                    "volume_devices": null,
+                                    "volume_mounts": null,
+                                    "working_dir": null
                                 }
                             ],
-                            "working_dir": null
-                        }
-                    ],
-                    "local_vars_configuration": "",
-                    "node_name": null,
-                    "node_selector": null,
-                    "overhead": null,
-                    "preemption_policy": null,
-                    "priority": null,
-                    "priority_class_name": null,
-                    "readiness_gates": null,
-                    "restart_policy": "Always",
-                    "runtime_class_name": null,
-                    "scheduler_name": "default-scheduler",
-                    "security_context": {
-                        "discriminator": null,
-                        "fs_group": null,
-                        "fs_group_change_policy": null,
-                        "local_vars_configuration": "",
-                        "run_as_group": null,
-                        "run_as_non_root": null,
-                        "run_as_user": null,
-                        "se_linux_options": null,
-                        "seccomp_profile": null,
-                        "supplemental_groups": null,
-                        "sysctls": null,
-                        "windows_options": null
-                    },
-                    "service_account": null,
-                    "service_account_name": null,
-                    "set_hostname_as_fqdn": null,
-                    "share_process_namespace": null,
-                    "subdomain": null,
-                    "termination_grace_period_seconds": 30,
-                    "tolerations": null,
-                    "topology_spread_constraints": null,
-                    "volumes": [
-                        {
-                            "aws_elastic_block_store": null,
-                            "azure_disk": null,
-                            "azure_file": null,
-                            "cephfs": null,
-                            "cinder": null,
-                            "config_map": null,
-                            "csi": null,
                             "discriminator": null,
-                            "downward_api": null,
-                            "empty_dir": null,
-                            "ephemeral": null,
-                            "fc": null,
-                            "flex_volume": null,
-                            "flocker": null,
-                            "gce_persistent_disk": null,
-                            "git_repo": null,
-                            "glusterfs": null,
-                            "host_path": null,
-                            "iscsi": null,
+                            "dns_config": null,
+                            "dns_policy": "ClusterFirst",
+                            "enable_service_links": null,
+                            "ephemeral_containers": null,
+                            "host_aliases": null,
+                            "host_ipc": null,
+                            "host_network": null,
+                            "host_pid": null,
+                            "hostname": null,
+                            "image_pull_secrets": null,
+                            "init_containers": null,
                             "local_vars_configuration": "",
-                            "name": "www",
-                            "nfs": null,
-                            "persistent_volume_claim": {
-                                "claim_name": "nginx-pvc",
+                            "node_name": null,
+                            "node_selector": null,
+                            "overhead": null,
+                            "preemption_policy": null,
+                            "priority": null,
+                            "priority_class_name": null,
+                            "readiness_gates": null,
+                            "restart_policy": "Never",
+                            "runtime_class_name": null,
+                            "scheduler_name": "default-scheduler",
+                            "security_context": {
                                 "discriminator": null,
+                                "fs_group": null,
+                                "fs_group_change_policy": null,
                                 "local_vars_configuration": "",
-                                "read_only": null
+                                "run_as_group": null,
+                                "run_as_non_root": null,
+                                "run_as_user": null,
+                                "se_linux_options": null,
+                                "seccomp_profile": null,
+                                "supplemental_groups": null,
+                                "sysctls": null,
+                                "windows_options": null
                             },
-                            "photon_persistent_disk": null,
-                            "portworx_volume": null,
-                            "projected": null,
-                            "quobyte": null,
-                            "rbd": null,
-                            "scale_io": null,
-                            "secret": null,
-                            "storageos": null,
-                            "vsphere_volume": null
+                            "service_account": null,
+                            "service_account_name": null,
+                            "set_hostname_as_fqdn": null,
+                            "share_process_namespace": null,
+                            "subdomain": null,
+                            "termination_grace_period_seconds": 30,
+                            "tolerations": null,
+                            "topology_spread_constraints": null,
+                            "volumes": null
                         }
-                    ]
+                    },
+                    "ttl_seconds_after_finished": 10
                 }
-            }
+            },
+            "local_vars_configuration": "",
+            "schedule": "0 0 * * *",
+            "starting_deadline_seconds": null,
+            "successful_jobs_history_limit": 3,
+            "suspend": false
         },
         "status": {
-            "available_replicas": 2,
-            "conditions": null,
+            "active": null,
             "discriminator": null,
-            "fully_labeled_replicas": 2,
-            "local_vars_configuration": "",
-            "observed_generation": 1,
-            "ready_replicas": 2,
-            "replicas": 2
+            "last_schedule_time": null,
+            "last_successful_time": null,
+            "local_vars_configuration": ""
         },
         "type": ""
     },
@@ -1250,6 +834,398 @@
             "replicas": 2,
             "unavailable_replicas": null,
             "updated_replicas": 2
+        },
+        "type": ""
+    },
+    {
+        "apiVersion": "batch/v1",
+        "api_version": null,
+        "discriminator": null,
+        "kind": "Job",
+        "local_vars_configuration": "",
+        "metadata": {
+            "annotations": {
+                "kubectl.kubernetes.io/last-applied-configuration": "{\"apiVersion\":\"batch/v1\",\"kind\":\"Job\",\"metadata\":{\"annotations\":{},\"name\":\"list-resources\",\"namespace\":\"default\"},\"spec\":{\"backoffLimit\":1,\"template\":{\"spec\":{\"containers\":[{\"command\":[\"ls\",\"-alhF\",\"/\"],\"image\":\"ubuntu:latest\",\"name\":\"list-resources\"}],\"restartPolicy\":\"Never\"}}}}\n"
+            },
+            "cluster_name": null,
+            "creation_timestamp": "2022-01-31T04:11:12Z",
+            "deletion_grace_period_seconds": null,
+            "deletion_timestamp": null,
+            "discriminator": null,
+            "finalizers": null,
+            "generate_name": null,
+            "generation": null,
+            "labels": {
+                "controller-uid": "b3aa0bb1-708a-4ed0-bf59-f041024404d0",
+                "job-name": "list-resources"
+            },
+            "local_vars_configuration": "",
+            "managed_fields": [
+                {
+                    "api_version": "batch/v1",
+                    "discriminator": null,
+                    "fields_type": "FieldsV1",
+                    "fields_v1": {
+                        "f:metadata": {
+                            "f:annotations": {
+                                ".": {},
+                                "f:kubectl.kubernetes.io/last-applied-configuration": {}
+                            }
+                        },
+                        "f:spec": {
+                            "f:backoffLimit": {},
+                            "f:completions": {},
+                            "f:parallelism": {},
+                            "f:template": {
+                                "f:spec": {
+                                    "f:containers": {
+                                        "k:{\"name\":\"list-resources\"}": {
+                                            ".": {},
+                                            "f:command": {},
+                                            "f:image": {},
+                                            "f:imagePullPolicy": {},
+                                            "f:name": {},
+                                            "f:resources": {},
+                                            "f:terminationMessagePath": {},
+                                            "f:terminationMessagePolicy": {}
+                                        }
+                                    },
+                                    "f:dnsPolicy": {},
+                                    "f:restartPolicy": {},
+                                    "f:schedulerName": {},
+                                    "f:securityContext": {},
+                                    "f:terminationGracePeriodSeconds": {}
+                                }
+                            }
+                        }
+                    },
+                    "local_vars_configuration": "",
+                    "manager": "kubectl-client-side-apply",
+                    "operation": "Update",
+                    "time": "2022-01-31T04:11:12Z"
+                },
+                {
+                    "api_version": "batch/v1",
+                    "discriminator": null,
+                    "fields_type": "FieldsV1",
+                    "fields_v1": {
+                        "f:status": {
+                            "f:completionTime": {},
+                            "f:conditions": {},
+                            "f:startTime": {},
+                            "f:succeeded": {}
+                        }
+                    },
+                    "local_vars_configuration": "",
+                    "manager": "kube-controller-manager",
+                    "operation": "Update",
+                    "time": "2022-01-31T04:12:13Z"
+                }
+            ],
+            "name": "list-resources",
+            "namespace": "default",
+            "owner_references": null,
+            "resource_version": "502498",
+            "self_link": null,
+            "uid": "b3aa0bb1-708a-4ed0-bf59-f041024404d0"
+        },
+        "spec": {
+            "active_deadline_seconds": null,
+            "backoff_limit": 1,
+            "completion_mode": null,
+            "completions": 1,
+            "discriminator": null,
+            "local_vars_configuration": "",
+            "manual_selector": null,
+            "parallelism": 1,
+            "selector": {
+                "discriminator": null,
+                "local_vars_configuration": "",
+                "match_expressions": null,
+                "match_labels": {
+                    "controller-uid": "b3aa0bb1-708a-4ed0-bf59-f041024404d0"
+                }
+            },
+            "suspend": null,
+            "template": {
+                "discriminator": null,
+                "local_vars_configuration": "",
+                "metadata": {
+                    "annotations": null,
+                    "cluster_name": null,
+                    "creation_timestamp": null,
+                    "deletion_grace_period_seconds": null,
+                    "deletion_timestamp": null,
+                    "discriminator": null,
+                    "finalizers": null,
+                    "generate_name": null,
+                    "generation": null,
+                    "labels": {
+                        "controller-uid": "b3aa0bb1-708a-4ed0-bf59-f041024404d0",
+                        "job-name": "list-resources"
+                    },
+                    "local_vars_configuration": "",
+                    "managed_fields": null,
+                    "name": null,
+                    "namespace": null,
+                    "owner_references": null,
+                    "resource_version": null,
+                    "self_link": null,
+                    "uid": null
+                },
+                "spec": {
+                    "active_deadline_seconds": null,
+                    "affinity": null,
+                    "automount_service_account_token": null,
+                    "containers": [
+                        {
+                            "args": null,
+                            "command": [
+                                "ls",
+                                "-alhF",
+                                "/"
+                            ],
+                            "discriminator": null,
+                            "env": null,
+                            "env_from": null,
+                            "image": "ubuntu:latest",
+                            "image_pull_policy": "Always",
+                            "lifecycle": null,
+                            "liveness_probe": null,
+                            "local_vars_configuration": "",
+                            "name": "list-resources",
+                            "ports": null,
+                            "readiness_probe": null,
+                            "resources": {
+                                "discriminator": null,
+                                "limits": null,
+                                "local_vars_configuration": "",
+                                "requests": null
+                            },
+                            "security_context": null,
+                            "startup_probe": null,
+                            "stdin": null,
+                            "stdin_once": null,
+                            "termination_message_path": "/dev/termination-log",
+                            "termination_message_policy": "File",
+                            "tty": null,
+                            "volume_devices": null,
+                            "volume_mounts": null,
+                            "working_dir": null
+                        }
+                    ],
+                    "discriminator": null,
+                    "dns_config": null,
+                    "dns_policy": "ClusterFirst",
+                    "enable_service_links": null,
+                    "ephemeral_containers": null,
+                    "host_aliases": null,
+                    "host_ipc": null,
+                    "host_network": null,
+                    "host_pid": null,
+                    "hostname": null,
+                    "image_pull_secrets": null,
+                    "init_containers": null,
+                    "local_vars_configuration": "",
+                    "node_name": null,
+                    "node_selector": null,
+                    "overhead": null,
+                    "preemption_policy": null,
+                    "priority": null,
+                    "priority_class_name": null,
+                    "readiness_gates": null,
+                    "restart_policy": "Never",
+                    "runtime_class_name": null,
+                    "scheduler_name": "default-scheduler",
+                    "security_context": {
+                        "discriminator": null,
+                        "fs_group": null,
+                        "fs_group_change_policy": null,
+                        "local_vars_configuration": "",
+                        "run_as_group": null,
+                        "run_as_non_root": null,
+                        "run_as_user": null,
+                        "se_linux_options": null,
+                        "seccomp_profile": null,
+                        "supplemental_groups": null,
+                        "sysctls": null,
+                        "windows_options": null
+                    },
+                    "service_account": null,
+                    "service_account_name": null,
+                    "set_hostname_as_fqdn": null,
+                    "share_process_namespace": null,
+                    "subdomain": null,
+                    "termination_grace_period_seconds": 30,
+                    "tolerations": null,
+                    "topology_spread_constraints": null,
+                    "volumes": null
+                }
+            },
+            "ttl_seconds_after_finished": null
+        },
+        "status": {
+            "active": null,
+            "completed_indexes": null,
+            "completion_time": "2022-01-31T04:12:13Z",
+            "conditions": [
+                {
+                    "discriminator": null,
+                    "last_probe_time": "2022-01-31T04:12:13Z",
+                    "last_transition_time": "2022-01-31T04:12:13Z",
+                    "local_vars_configuration": "",
+                    "message": null,
+                    "reason": null,
+                    "status": "True",
+                    "type": "Complete"
+                }
+            ],
+            "discriminator": null,
+            "failed": null,
+            "local_vars_configuration": "",
+            "start_time": "2022-01-31T04:11:12Z",
+            "succeeded": 1
+        },
+        "type": ""
+    },
+    {
+        "apiVersion": "v1",
+        "api_version": null,
+        "discriminator": null,
+        "kind": "PersistentVolumeClaim",
+        "local_vars_configuration": "",
+        "metadata": {
+            "annotations": {
+                "kubectl.kubernetes.io/last-applied-configuration": "{\"apiVersion\":\"v1\",\"kind\":\"PersistentVolumeClaim\",\"metadata\":{\"annotations\":{},\"name\":\"nginx-pvc\",\"namespace\":\"default\"},\"spec\":{\"accessModes\":[\"ReadWriteOnce\"],\"resources\":{\"requests\":{\"storage\":\"32Mi\"}}}}\n",
+                "pv.kubernetes.io/bind-completed": "yes",
+                "pv.kubernetes.io/bound-by-controller": "yes",
+                "volume.beta.kubernetes.io/storage-provisioner": "rancher.io/local-path",
+                "volume.kubernetes.io/selected-node": "kind-control-plane"
+            },
+            "cluster_name": null,
+            "creation_timestamp": "2022-01-27T17:01:16Z",
+            "deletion_grace_period_seconds": null,
+            "deletion_timestamp": null,
+            "discriminator": null,
+            "finalizers": [
+                "kubernetes.io/pvc-protection"
+            ],
+            "generate_name": null,
+            "generation": null,
+            "labels": null,
+            "local_vars_configuration": "",
+            "managed_fields": [
+                {
+                    "api_version": "v1",
+                    "discriminator": null,
+                    "fields_type": "FieldsV1",
+                    "fields_v1": {
+                        "f:metadata": {
+                            "f:annotations": {
+                                "f:volume.kubernetes.io/selected-node": {}
+                            }
+                        }
+                    },
+                    "local_vars_configuration": "",
+                    "manager": "kube-scheduler",
+                    "operation": "Update",
+                    "time": "2022-01-27T17:01:16Z"
+                },
+                {
+                    "api_version": "v1",
+                    "discriminator": null,
+                    "fields_type": "FieldsV1",
+                    "fields_v1": {
+                        "f:metadata": {
+                            "f:annotations": {
+                                ".": {},
+                                "f:kubectl.kubernetes.io/last-applied-configuration": {}
+                            }
+                        },
+                        "f:spec": {
+                            "f:accessModes": {},
+                            "f:resources": {
+                                "f:requests": {
+                                    ".": {},
+                                    "f:storage": {}
+                                }
+                            },
+                            "f:volumeMode": {}
+                        }
+                    },
+                    "local_vars_configuration": "",
+                    "manager": "kubectl-client-side-apply",
+                    "operation": "Update",
+                    "time": "2022-01-27T17:01:16Z"
+                },
+                {
+                    "api_version": "v1",
+                    "discriminator": null,
+                    "fields_type": "FieldsV1",
+                    "fields_v1": {
+                        "f:metadata": {
+                            "f:annotations": {
+                                "f:pv.kubernetes.io/bind-completed": {},
+                                "f:pv.kubernetes.io/bound-by-controller": {},
+                                "f:volume.beta.kubernetes.io/storage-provisioner": {}
+                            }
+                        },
+                        "f:spec": {
+                            "f:volumeName": {}
+                        },
+                        "f:status": {
+                            "f:accessModes": {},
+                            "f:capacity": {
+                                ".": {},
+                                "f:storage": {}
+                            },
+                            "f:phase": {}
+                        }
+                    },
+                    "local_vars_configuration": "",
+                    "manager": "kube-controller-manager",
+                    "operation": "Update",
+                    "time": "2022-01-27T17:01:38Z"
+                }
+            ],
+            "name": "nginx-pvc",
+            "namespace": "default",
+            "owner_references": null,
+            "resource_version": "870",
+            "self_link": null,
+            "uid": "6801b99e-d658-4095-967b-b035c520886f"
+        },
+        "spec": {
+            "access_modes": [
+                "ReadWriteOnce"
+            ],
+            "data_source": null,
+            "discriminator": null,
+            "local_vars_configuration": "",
+            "resources": {
+                "discriminator": null,
+                "limits": null,
+                "local_vars_configuration": "",
+                "requests": {
+                    "storage": "32Mi"
+                }
+            },
+            "selector": null,
+            "storage_class_name": "standard",
+            "volume_mode": "Filesystem",
+            "volume_name": "pvc-6801b99e-d658-4095-967b-b035c520886f"
+        },
+        "status": {
+            "access_modes": [
+                "ReadWriteOnce"
+            ],
+            "capacity": {
+                "storage": "32Mi"
+            },
+            "conditions": null,
+            "discriminator": null,
+            "local_vars_configuration": "",
+            "phase": "Bound"
         },
         "type": ""
     },
@@ -3079,298 +3055,105 @@
         "type": ""
     },
     {
-        "apiVersion": "batch/v1",
+        "apiVersion": "apps/v1",
         "api_version": null,
         "discriminator": null,
-        "kind": "CronJob",
+        "kind": "ReplicaSet",
         "local_vars_configuration": "",
         "metadata": {
             "annotations": {
-                "kubectl.kubernetes.io/last-applied-configuration": "{\"apiVersion\":\"batch/v1\",\"kind\":\"CronJob\",\"metadata\":{\"annotations\":{},\"name\":\"list-resources\",\"namespace\":\"default\"},\"spec\":{\"concurrencyPolicy\":\"Forbid\",\"jobTemplate\":{\"spec\":{\"activeDeadlineSeconds\":60,\"backoffLimit\":1,\"suspend\":true,\"template\":{\"spec\":{\"containers\":[{\"command\":[\"ls\",\"-alhF\",\"/\"],\"image\":\"ubuntu:latest\",\"name\":\"list-resources\"}],\"restartPolicy\":\"Never\"}},\"ttlSecondsAfterFinished\":10}},\"schedule\":\"0 0 * * *\"}}\n"
+                "deployment.kubernetes.io/desired-replicas": "2",
+                "deployment.kubernetes.io/max-replicas": "3",
+                "deployment.kubernetes.io/revision": "1"
             },
             "cluster_name": null,
-            "creation_timestamp": "2022-01-31T04:08:58Z",
+            "creation_timestamp": "2022-01-27T17:01:16Z",
             "deletion_grace_period_seconds": null,
             "deletion_timestamp": null,
             "discriminator": null,
             "finalizers": null,
             "generate_name": null,
-            "generation": null,
-            "labels": null,
-            "local_vars_configuration": "",
-            "managed_fields": [
-                {
-                    "api_version": "batch/v1",
-                    "discriminator": null,
-                    "fields_type": "FieldsV1",
-                    "fields_v1": {
-                        "f:metadata": {
-                            "f:annotations": {
-                                ".": {},
-                                "f:kubectl.kubernetes.io/last-applied-configuration": {}
-                            }
-                        },
-                        "f:spec": {
-                            "f:concurrencyPolicy": {},
-                            "f:failedJobsHistoryLimit": {},
-                            "f:jobTemplate": {
-                                "f:spec": {
-                                    "f:activeDeadlineSeconds": {},
-                                    "f:backoffLimit": {},
-                                    "f:suspend": {},
-                                    "f:template": {
-                                        "f:spec": {
-                                            "f:containers": {
-                                                "k:{\"name\":\"list-resources\"}": {
-                                                    ".": {},
-                                                    "f:command": {},
-                                                    "f:image": {},
-                                                    "f:imagePullPolicy": {},
-                                                    "f:name": {},
-                                                    "f:resources": {},
-                                                    "f:terminationMessagePath": {},
-                                                    "f:terminationMessagePolicy": {}
-                                                }
-                                            },
-                                            "f:dnsPolicy": {},
-                                            "f:restartPolicy": {},
-                                            "f:schedulerName": {},
-                                            "f:securityContext": {},
-                                            "f:terminationGracePeriodSeconds": {}
-                                        }
-                                    },
-                                    "f:ttlSecondsAfterFinished": {}
-                                }
-                            },
-                            "f:schedule": {},
-                            "f:successfulJobsHistoryLimit": {},
-                            "f:suspend": {}
-                        }
-                    },
-                    "local_vars_configuration": "",
-                    "manager": "kubectl-client-side-apply",
-                    "operation": "Update",
-                    "time": "2022-01-31T04:08:58Z"
-                }
-            ],
-            "name": "list-resources",
-            "namespace": "default",
-            "owner_references": null,
-            "resource_version": "502338",
-            "self_link": null,
-            "uid": "5011197a-c7e2-4c39-83d7-3ca61cca6c62"
-        },
-        "spec": {
-            "concurrency_policy": "Forbid",
-            "discriminator": null,
-            "failed_jobs_history_limit": 1,
-            "job_template": {
-                "discriminator": null,
-                "local_vars_configuration": "",
-                "metadata": {
-                    "annotations": null,
-                    "cluster_name": null,
-                    "creation_timestamp": null,
-                    "deletion_grace_period_seconds": null,
-                    "deletion_timestamp": null,
-                    "discriminator": null,
-                    "finalizers": null,
-                    "generate_name": null,
-                    "generation": null,
-                    "labels": null,
-                    "local_vars_configuration": "",
-                    "managed_fields": null,
-                    "name": null,
-                    "namespace": null,
-                    "owner_references": null,
-                    "resource_version": null,
-                    "self_link": null,
-                    "uid": null
-                },
-                "spec": {
-                    "active_deadline_seconds": 60,
-                    "backoff_limit": 1,
-                    "completion_mode": null,
-                    "completions": null,
-                    "discriminator": null,
-                    "local_vars_configuration": "",
-                    "manual_selector": null,
-                    "parallelism": null,
-                    "selector": null,
-                    "suspend": true,
-                    "template": {
-                        "discriminator": null,
-                        "local_vars_configuration": "",
-                        "metadata": {
-                            "annotations": null,
-                            "cluster_name": null,
-                            "creation_timestamp": null,
-                            "deletion_grace_period_seconds": null,
-                            "deletion_timestamp": null,
-                            "discriminator": null,
-                            "finalizers": null,
-                            "generate_name": null,
-                            "generation": null,
-                            "labels": null,
-                            "local_vars_configuration": "",
-                            "managed_fields": null,
-                            "name": null,
-                            "namespace": null,
-                            "owner_references": null,
-                            "resource_version": null,
-                            "self_link": null,
-                            "uid": null
-                        },
-                        "spec": {
-                            "active_deadline_seconds": null,
-                            "affinity": null,
-                            "automount_service_account_token": null,
-                            "containers": [
-                                {
-                                    "args": null,
-                                    "command": [
-                                        "ls",
-                                        "-alhF",
-                                        "/"
-                                    ],
-                                    "discriminator": null,
-                                    "env": null,
-                                    "env_from": null,
-                                    "image": "ubuntu:latest",
-                                    "image_pull_policy": "Always",
-                                    "lifecycle": null,
-                                    "liveness_probe": null,
-                                    "local_vars_configuration": "",
-                                    "name": "list-resources",
-                                    "ports": null,
-                                    "readiness_probe": null,
-                                    "resources": {
-                                        "discriminator": null,
-                                        "limits": null,
-                                        "local_vars_configuration": "",
-                                        "requests": null
-                                    },
-                                    "security_context": null,
-                                    "startup_probe": null,
-                                    "stdin": null,
-                                    "stdin_once": null,
-                                    "termination_message_path": "/dev/termination-log",
-                                    "termination_message_policy": "File",
-                                    "tty": null,
-                                    "volume_devices": null,
-                                    "volume_mounts": null,
-                                    "working_dir": null
-                                }
-                            ],
-                            "discriminator": null,
-                            "dns_config": null,
-                            "dns_policy": "ClusterFirst",
-                            "enable_service_links": null,
-                            "ephemeral_containers": null,
-                            "host_aliases": null,
-                            "host_ipc": null,
-                            "host_network": null,
-                            "host_pid": null,
-                            "hostname": null,
-                            "image_pull_secrets": null,
-                            "init_containers": null,
-                            "local_vars_configuration": "",
-                            "node_name": null,
-                            "node_selector": null,
-                            "overhead": null,
-                            "preemption_policy": null,
-                            "priority": null,
-                            "priority_class_name": null,
-                            "readiness_gates": null,
-                            "restart_policy": "Never",
-                            "runtime_class_name": null,
-                            "scheduler_name": "default-scheduler",
-                            "security_context": {
-                                "discriminator": null,
-                                "fs_group": null,
-                                "fs_group_change_policy": null,
-                                "local_vars_configuration": "",
-                                "run_as_group": null,
-                                "run_as_non_root": null,
-                                "run_as_user": null,
-                                "se_linux_options": null,
-                                "seccomp_profile": null,
-                                "supplemental_groups": null,
-                                "sysctls": null,
-                                "windows_options": null
-                            },
-                            "service_account": null,
-                            "service_account_name": null,
-                            "set_hostname_as_fqdn": null,
-                            "share_process_namespace": null,
-                            "subdomain": null,
-                            "termination_grace_period_seconds": 30,
-                            "tolerations": null,
-                            "topology_spread_constraints": null,
-                            "volumes": null
-                        }
-                    },
-                    "ttl_seconds_after_finished": 10
-                }
-            },
-            "local_vars_configuration": "",
-            "schedule": "0 0 * * *",
-            "starting_deadline_seconds": null,
-            "successful_jobs_history_limit": 3,
-            "suspend": false
-        },
-        "status": {
-            "active": null,
-            "discriminator": null,
-            "last_schedule_time": null,
-            "last_successful_time": null,
-            "local_vars_configuration": ""
-        },
-        "type": ""
-    },
-    {
-        "apiVersion": "batch/v1",
-        "api_version": null,
-        "discriminator": null,
-        "kind": "Job",
-        "local_vars_configuration": "",
-        "metadata": {
-            "annotations": {
-                "kubectl.kubernetes.io/last-applied-configuration": "{\"apiVersion\":\"batch/v1\",\"kind\":\"Job\",\"metadata\":{\"annotations\":{},\"name\":\"list-resources\",\"namespace\":\"default\"},\"spec\":{\"backoffLimit\":1,\"template\":{\"spec\":{\"containers\":[{\"command\":[\"ls\",\"-alhF\",\"/\"],\"image\":\"ubuntu:latest\",\"name\":\"list-resources\"}],\"restartPolicy\":\"Never\"}}}}\n"
-            },
-            "cluster_name": null,
-            "creation_timestamp": "2022-01-31T04:11:12Z",
-            "deletion_grace_period_seconds": null,
-            "deletion_timestamp": null,
-            "discriminator": null,
-            "finalizers": null,
-            "generate_name": null,
-            "generation": null,
+            "generation": 1,
             "labels": {
-                "controller-uid": "b3aa0bb1-708a-4ed0-bf59-f041024404d0",
-                "job-name": "list-resources"
+                "app": "nginx",
+                "pod-template-hash": "7b6fcd488c"
             },
             "local_vars_configuration": "",
             "managed_fields": [
                 {
-                    "api_version": "batch/v1",
+                    "api_version": "apps/v1",
                     "discriminator": null,
                     "fields_type": "FieldsV1",
                     "fields_v1": {
                         "f:metadata": {
                             "f:annotations": {
                                 ".": {},
-                                "f:kubectl.kubernetes.io/last-applied-configuration": {}
+                                "f:deployment.kubernetes.io/desired-replicas": {},
+                                "f:deployment.kubernetes.io/max-replicas": {},
+                                "f:deployment.kubernetes.io/revision": {}
+                            },
+                            "f:labels": {
+                                ".": {},
+                                "f:app": {},
+                                "f:pod-template-hash": {}
+                            },
+                            "f:ownerReferences": {
+                                ".": {},
+                                "k:{\"uid\":\"330313b9-f7fb-46db-9527-636a4775dce5\"}": {
+                                    ".": {},
+                                    "f:apiVersion": {},
+                                    "f:blockOwnerDeletion": {},
+                                    "f:controller": {},
+                                    "f:kind": {},
+                                    "f:name": {},
+                                    "f:uid": {}
+                                }
                             }
                         },
                         "f:spec": {
-                            "f:backoffLimit": {},
-                            "f:completions": {},
-                            "f:parallelism": {},
+                            "f:replicas": {},
+                            "f:selector": {},
                             "f:template": {
+                                "f:metadata": {
+                                    "f:labels": {
+                                        ".": {},
+                                        "f:app": {},
+                                        "f:pod-template-hash": {}
+                                    }
+                                },
                                 "f:spec": {
                                     "f:containers": {
-                                        "k:{\"name\":\"list-resources\"}": {
+                                        "k:{\"name\":\"nginx\"}": {
+                                            ".": {},
+                                            "f:envFrom": {},
+                                            "f:image": {},
+                                            "f:imagePullPolicy": {},
+                                            "f:name": {},
+                                            "f:ports": {
+                                                ".": {},
+                                                "k:{\"containerPort\":80,\"protocol\":\"TCP\"}": {
+                                                    ".": {},
+                                                    "f:containerPort": {},
+                                                    "f:protocol": {}
+                                                }
+                                            },
+                                            "f:resources": {},
+                                            "f:terminationMessagePath": {},
+                                            "f:terminationMessagePolicy": {},
+                                            "f:volumeMounts": {
+                                                ".": {},
+                                                "k:{\"mountPath\":\"/usr/share/nginx/html\"}": {
+                                                    ".": {},
+                                                    "f:mountPath": {},
+                                                    "f:name": {}
+                                                }
+                                            }
+                                        }
+                                    },
+                                    "f:dnsPolicy": {},
+                                    "f:initContainers": {
+                                        ".": {},
+                                        "k:{\"name\":\"setup-volume\"}": {
                                             ".": {},
                                             "f:command": {},
                                             "f:image": {},
@@ -3378,66 +3161,81 @@
                                             "f:name": {},
                                             "f:resources": {},
                                             "f:terminationMessagePath": {},
-                                            "f:terminationMessagePolicy": {}
+                                            "f:terminationMessagePolicy": {},
+                                            "f:volumeMounts": {
+                                                ".": {},
+                                                "k:{\"mountPath\":\"/app\"}": {
+                                                    ".": {},
+                                                    "f:mountPath": {},
+                                                    "f:name": {}
+                                                }
+                                            }
                                         }
                                     },
-                                    "f:dnsPolicy": {},
                                     "f:restartPolicy": {},
                                     "f:schedulerName": {},
                                     "f:securityContext": {},
-                                    "f:terminationGracePeriodSeconds": {}
+                                    "f:terminationGracePeriodSeconds": {},
+                                    "f:volumes": {
+                                        ".": {},
+                                        "k:{\"name\":\"www\"}": {
+                                            ".": {},
+                                            "f:name": {},
+                                            "f:persistentVolumeClaim": {
+                                                ".": {},
+                                                "f:claimName": {}
+                                            }
+                                        }
+                                    }
                                 }
                             }
-                        }
-                    },
-                    "local_vars_configuration": "",
-                    "manager": "kubectl-client-side-apply",
-                    "operation": "Update",
-                    "time": "2022-01-31T04:11:12Z"
-                },
-                {
-                    "api_version": "batch/v1",
-                    "discriminator": null,
-                    "fields_type": "FieldsV1",
-                    "fields_v1": {
+                        },
                         "f:status": {
-                            "f:completionTime": {},
-                            "f:conditions": {},
-                            "f:startTime": {},
-                            "f:succeeded": {}
+                            "f:availableReplicas": {},
+                            "f:fullyLabeledReplicas": {},
+                            "f:observedGeneration": {},
+                            "f:readyReplicas": {},
+                            "f:replicas": {}
                         }
                     },
                     "local_vars_configuration": "",
                     "manager": "kube-controller-manager",
                     "operation": "Update",
-                    "time": "2022-01-31T04:12:13Z"
+                    "time": "2022-01-27T17:02:10Z"
                 }
             ],
-            "name": "list-resources",
+            "name": "nginx-deployment-7b6fcd488c",
             "namespace": "default",
-            "owner_references": null,
-            "resource_version": "502498",
+            "owner_references": [
+                {
+                    "api_version": "apps/v1",
+                    "block_owner_deletion": true,
+                    "controller": true,
+                    "discriminator": null,
+                    "kind": "Deployment",
+                    "local_vars_configuration": "",
+                    "name": "nginx-deployment",
+                    "uid": "330313b9-f7fb-46db-9527-636a4775dce5"
+                }
+            ],
+            "resource_version": "949",
             "self_link": null,
-            "uid": "b3aa0bb1-708a-4ed0-bf59-f041024404d0"
+            "uid": "55ab4c9e-0a34-4bf6-bdcd-6ce67f3566d6"
         },
         "spec": {
-            "active_deadline_seconds": null,
-            "backoff_limit": 1,
-            "completion_mode": null,
-            "completions": 1,
             "discriminator": null,
             "local_vars_configuration": "",
-            "manual_selector": null,
-            "parallelism": 1,
+            "min_ready_seconds": null,
+            "replicas": 2,
             "selector": {
                 "discriminator": null,
                 "local_vars_configuration": "",
                 "match_expressions": null,
                 "match_labels": {
-                    "controller-uid": "b3aa0bb1-708a-4ed0-bf59-f041024404d0"
+                    "app": "nginx",
+                    "pod-template-hash": "7b6fcd488c"
                 }
             },
-            "suspend": null,
             "template": {
                 "discriminator": null,
                 "local_vars_configuration": "",
@@ -3452,8 +3250,8 @@
                     "generate_name": null,
                     "generation": null,
                     "labels": {
-                        "controller-uid": "b3aa0bb1-708a-4ed0-bf59-f041024404d0",
-                        "job-name": "list-resources"
+                        "app": "nginx",
+                        "pod-template-hash": "7b6fcd488c"
                     },
                     "local_vars_configuration": "",
                     "managed_fields": null,
@@ -3471,20 +3269,98 @@
                     "containers": [
                         {
                             "args": null,
+                            "command": null,
+                            "discriminator": null,
+                            "env": null,
+                            "env_from": [
+                                {
+                                    "config_map_ref": {
+                                        "discriminator": null,
+                                        "local_vars_configuration": "",
+                                        "name": "nginx-cm",
+                                        "optional": null
+                                    },
+                                    "discriminator": null,
+                                    "local_vars_configuration": "",
+                                    "prefix": null,
+                                    "secret_ref": null
+                                }
+                            ],
+                            "image": "nginx:alpine",
+                            "image_pull_policy": "IfNotPresent",
+                            "lifecycle": null,
+                            "liveness_probe": null,
+                            "local_vars_configuration": "",
+                            "name": "nginx",
+                            "ports": [
+                                {
+                                    "container_port": 80,
+                                    "discriminator": null,
+                                    "host_ip": null,
+                                    "host_port": null,
+                                    "local_vars_configuration": "",
+                                    "name": null,
+                                    "protocol": "TCP"
+                                }
+                            ],
+                            "readiness_probe": null,
+                            "resources": {
+                                "discriminator": null,
+                                "limits": null,
+                                "local_vars_configuration": "",
+                                "requests": null
+                            },
+                            "security_context": null,
+                            "startup_probe": null,
+                            "stdin": null,
+                            "stdin_once": null,
+                            "termination_message_path": "/dev/termination-log",
+                            "termination_message_policy": "File",
+                            "tty": null,
+                            "volume_devices": null,
+                            "volume_mounts": [
+                                {
+                                    "discriminator": null,
+                                    "local_vars_configuration": "",
+                                    "mount_path": "/usr/share/nginx/html",
+                                    "mount_propagation": null,
+                                    "name": "www",
+                                    "read_only": null,
+                                    "sub_path": null,
+                                    "sub_path_expr": null
+                                }
+                            ],
+                            "working_dir": null
+                        }
+                    ],
+                    "discriminator": null,
+                    "dns_config": null,
+                    "dns_policy": "ClusterFirst",
+                    "enable_service_links": null,
+                    "ephemeral_containers": null,
+                    "host_aliases": null,
+                    "host_ipc": null,
+                    "host_network": null,
+                    "host_pid": null,
+                    "hostname": null,
+                    "image_pull_secrets": null,
+                    "init_containers": [
+                        {
+                            "args": null,
                             "command": [
-                                "ls",
-                                "-alhF",
-                                "/"
+                                "sh",
+                                "-c",
+                                "echo 'custom NGINX deployment simulator' > /app/index.html"
                             ],
                             "discriminator": null,
                             "env": null,
                             "env_from": null,
-                            "image": "ubuntu:latest",
+                            "image": "busybox:latest",
                             "image_pull_policy": "Always",
                             "lifecycle": null,
                             "liveness_probe": null,
                             "local_vars_configuration": "",
-                            "name": "list-resources",
+                            "name": "setup-volume",
                             "ports": null,
                             "readiness_probe": null,
                             "resources": {
@@ -3501,22 +3377,21 @@
                             "termination_message_policy": "File",
                             "tty": null,
                             "volume_devices": null,
-                            "volume_mounts": null,
+                            "volume_mounts": [
+                                {
+                                    "discriminator": null,
+                                    "local_vars_configuration": "",
+                                    "mount_path": "/app",
+                                    "mount_propagation": null,
+                                    "name": "www",
+                                    "read_only": null,
+                                    "sub_path": null,
+                                    "sub_path_expr": null
+                                }
+                            ],
                             "working_dir": null
                         }
                     ],
-                    "discriminator": null,
-                    "dns_config": null,
-                    "dns_policy": "ClusterFirst",
-                    "enable_service_links": null,
-                    "ephemeral_containers": null,
-                    "host_aliases": null,
-                    "host_ipc": null,
-                    "host_network": null,
-                    "host_pid": null,
-                    "hostname": null,
-                    "image_pull_secrets": null,
-                    "init_containers": null,
                     "local_vars_configuration": "",
                     "node_name": null,
                     "node_selector": null,
@@ -3525,7 +3400,7 @@
                     "priority": null,
                     "priority_class_name": null,
                     "readiness_gates": null,
-                    "restart_policy": "Never",
+                    "restart_policy": "Always",
                     "runtime_class_name": null,
                     "scheduler_name": "default-scheduler",
                     "security_context": {
@@ -3550,53 +3425,85 @@
                     "termination_grace_period_seconds": 30,
                     "tolerations": null,
                     "topology_spread_constraints": null,
-                    "volumes": null
+                    "volumes": [
+                        {
+                            "aws_elastic_block_store": null,
+                            "azure_disk": null,
+                            "azure_file": null,
+                            "cephfs": null,
+                            "cinder": null,
+                            "config_map": null,
+                            "csi": null,
+                            "discriminator": null,
+                            "downward_api": null,
+                            "empty_dir": null,
+                            "ephemeral": null,
+                            "fc": null,
+                            "flex_volume": null,
+                            "flocker": null,
+                            "gce_persistent_disk": null,
+                            "git_repo": null,
+                            "glusterfs": null,
+                            "host_path": null,
+                            "iscsi": null,
+                            "local_vars_configuration": "",
+                            "name": "www",
+                            "nfs": null,
+                            "persistent_volume_claim": {
+                                "claim_name": "nginx-pvc",
+                                "discriminator": null,
+                                "local_vars_configuration": "",
+                                "read_only": null
+                            },
+                            "photon_persistent_disk": null,
+                            "portworx_volume": null,
+                            "projected": null,
+                            "quobyte": null,
+                            "rbd": null,
+                            "scale_io": null,
+                            "secret": null,
+                            "storageos": null,
+                            "vsphere_volume": null
+                        }
+                    ]
                 }
-            },
-            "ttl_seconds_after_finished": null
+            }
         },
         "status": {
-            "active": null,
-            "completed_indexes": null,
-            "completion_time": "2022-01-31T04:12:13Z",
-            "conditions": [
-                {
-                    "discriminator": null,
-                    "last_probe_time": "2022-01-31T04:12:13Z",
-                    "last_transition_time": "2022-01-31T04:12:13Z",
-                    "local_vars_configuration": "",
-                    "message": null,
-                    "reason": null,
-                    "status": "True",
-                    "type": "Complete"
-                }
-            ],
+            "available_replicas": 2,
+            "conditions": null,
             "discriminator": null,
-            "failed": null,
+            "fully_labeled_replicas": 2,
             "local_vars_configuration": "",
-            "start_time": "2022-01-31T04:11:12Z",
-            "succeeded": 1
+            "observed_generation": 1,
+            "ready_replicas": 2,
+            "replicas": 2
         },
         "type": ""
     },
     {
         "apiVersion": "v1",
         "api_version": null,
+        "data": {
+            "ca.crt": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUM1ekNDQWMrZ0F3SUJBZ0lCQURBTkJna3Foa2lHOXcwQkFRc0ZBREFWTVJNd0VRWURWUVFERXdwcmRXSmwKY201bGRHVnpNQjRYRFRJeU1ERXlOekUyTlRZeU5Gb1hEVE15TURFeU5URTJOVFl5TkZvd0ZURVRNQkVHQTFVRQpBeE1LYTNWaVpYSnVaWFJsY3pDQ0FTSXdEUVlKS29aSWh2Y05BUUVCQlFBRGdnRVBBRENDQVFvQ2dnRUJBSlJHCmdSNERvRXZUZTZ2VVhGRklqUmxVT3BLRjFqVDQxVzNuNUFyU0ltcSs4SmpCZXBaN1pRaDMxcS9XZ1pVbkZOUjMKaXhHT1Y1eG94d2E1eTJMQThBQTVRNmNlaXp6eTYzZ0gvVDJaM09oSmZJZVdYNTNGZi9lZzEvU0FNZmxpN25MYQpFcEhxa215YTZwU0FCUHhHOXpTWFMvR3BOdFoyZXNlMTJRRWZsOW9tcCs5c3hOdVdMRFd4c3I3ODFPSWlnMm9RCml5MlBsR2k4NkhHVk15OWZ2Z3V3TG9yRDNwSDVGQmhSaHJJYWkzZ3czY05CNUdqbmNHYnNlbnlYM3dxaVErb1YKSkoyZFFSZW05c1Y5TFlCbUFxV3lHdHNQUWZhRlIwWGlSUXVoS2ZJWTNSQXBPaytZRmRhckR6OGRwaE9VMXFyLwpNWVY5aldtdnl1em5BR2FnU3MwQ0F3RUFBYU5DTUVBd0RnWURWUjBQQVFIL0JBUURBZ0trTUE4R0ExVWRFd0VCCi93UUZNQU1CQWY4d0hRWURWUjBPQkJZRUZQSEF6WjYxckkxaUZhdzhRWUZNZGJrdGRSTTBNQTBHQ1NxR1NJYjMKRFFFQkN3VUFBNElCQVFBczQrQkZzdnpiMHJNcGZGTG5KNGY5SUY1L3JETVJjTUVVcFIxOTk5bnpqa2lzS2FMawpmVHB6cW1Ka2tsYjhEUllUMjVtb2ZwU05kSmI1RjJ5aVhjZ3J3Z0hwV1hTaHZVdTV0c2ZmeG1hbUViaXRUR1dhCnprYUJMaU42YStiQ0NJNWRTNEEwRVpZeGtPNGxpZG9mOHR2VUxpem5CTDU3M0hJRXhuM2RJNHozWFg2TEdMQ28KZk9Jdjl3MFBMTHN3eVRBT1l5eGo2QXBndk9lNDd1RCtaVXl1enByY0VaN0pYRFRuL0JYUjJjUjZVWTVhcGRZNApPUFZNRnpySmNMUEpSM3BPdHNiZUNIOGcxaWt6SkZua2xvSm8xK0t4MzZFY21jc05vZ3lvK09VUCtyd3kvYm5ICmQvMDJRZmcwQnFnRHRXSFhGK0ZZZ3pFR2hQdS92eWUyRkdjdQotLS0tLUVORCBDRVJUSUZJQ0FURS0tLS0tCg==",
+            "namespace": "ZGVmYXVsdA==",
+            "token": "ZXlKaGJHY2lPaUpTVXpJMU5pSXNJbXRwWkNJNkluRXpURUZaYUhSNFRsSlRlREpMZEhOUmIyMHRaa2xsUW0xMFlqTXdUbGhvYzJ4MlVubEtWMHh2ZW1jaWZRLmV5SnBjM01pT2lKcmRXSmxjbTVsZEdWekwzTmxjblpwWTJWaFkyTnZkVzUwSWl3aWEzVmlaWEp1WlhSbGN5NXBieTl6WlhKMmFXTmxZV05qYjNWdWRDOXVZVzFsYzNCaFkyVWlPaUprWldaaGRXeDBJaXdpYTNWaVpYSnVaWFJsY3k1cGJ5OXpaWEoyYVdObFlXTmpiM1Z1ZEM5elpXTnlaWFF1Ym1GdFpTSTZJbVJsWm1GMWJIUXRkRzlyWlc0dE5YSXliV0lpTENKcmRXSmxjbTVsZEdWekxtbHZMM05sY25acFkyVmhZMk52ZFc1MEwzTmxjblpwWTJVdFlXTmpiM1Z1ZEM1dVlXMWxJam9pWkdWbVlYVnNkQ0lzSW10MVltVnlibVYwWlhNdWFXOHZjMlZ5ZG1salpXRmpZMjkxYm5RdmMyVnlkbWxqWlMxaFkyTnZkVzUwTG5WcFpDSTZJakExTXpOak56bGpMVEkwTVRrdE5HTTNZeTA0WlRCa0xXWmtaV1pqT1RBNE5UTXhZaUlzSW5OMVlpSTZJbk41YzNSbGJUcHpaWEoyYVdObFlXTmpiM1Z1ZERwa1pXWmhkV3gwT21SbFptRjFiSFFpZlEuS0J5dmw1aHhERDhzVWpBQ2h1WXIzTzRjVFk5VFh6U21wd09BNDA1LTdzbjRPbkl1VG9OOXQxOHZienlwNlFuV0pqSDZ5ZE5sRDBYNzNqLUVtbURUVGRXWEVXU2JpSGFrdVNmT2lQMHJnbE1JV1dDRWF6VFpJS0tjSzlMeUIweTNaTnF4c2J6cXhTU25tZzhVWWJPZlVJd0RxYm1uTGotYUJ0TlhndlBrM0FZYW1yMm9fc3ZmZnFJeEY3ZlBmelNOb1BqZWhIQmV4X29EU0JKQjhrMFZVRzJLbHg3V1JjVXFlTHcyMzhvdXZrZlNlOFRWQzllX3JmaDNFMmZNSVo4bGpqN29PYmZIanRGQUJJcGhDb1RaYVBPVlNhbnJ1Q3gxdThWNWpfQmVZR3JZLWtUSjZ2RXVIUTFqY01obFRfTzZ6ZmYwZVZQOXV5VGwzbVc1VW5DNk9B"
+        },
         "discriminator": null,
-        "kind": "PersistentVolume",
+        "immutable": null,
+        "kind": "Secret",
         "local_vars_configuration": "",
         "metadata": {
             "annotations": {
-                "pv.kubernetes.io/provisioned-by": "rancher.io/local-path"
+                "kubernetes.io/service-account.name": "default",
+                "kubernetes.io/service-account.uid": "0533c79c-2419-4c7c-8e0d-fdefc908531b"
             },
             "cluster_name": null,
-            "creation_timestamp": "2022-01-27T17:01:38Z",
+            "creation_timestamp": "2022-01-27T16:58:01Z",
             "deletion_grace_period_seconds": null,
             "deletion_timestamp": null,
             "discriminator": null,
-            "finalizers": [
-                "kubernetes.io/pv-protection"
-            ],
+            "finalizers": null,
             "generate_name": null,
             "generation": null,
             "labels": null,
@@ -3607,180 +3514,58 @@
                     "discriminator": null,
                     "fields_type": "FieldsV1",
                     "fields_v1": {
-                        "f:status": {
-                            "f:phase": {}
-                        }
+                        "f:data": {
+                            ".": {},
+                            "f:ca.crt": {},
+                            "f:namespace": {},
+                            "f:token": {}
+                        },
+                        "f:metadata": {
+                            "f:annotations": {
+                                ".": {},
+                                "f:kubernetes.io/service-account.name": {},
+                                "f:kubernetes.io/service-account.uid": {}
+                            }
+                        },
+                        "f:type": {}
                     },
                     "local_vars_configuration": "",
                     "manager": "kube-controller-manager",
                     "operation": "Update",
-                    "time": "2022-01-27T17:01:38Z"
-                },
-                {
-                    "api_version": "v1",
-                    "discriminator": null,
-                    "fields_type": "FieldsV1",
-                    "fields_v1": {
-                        "f:metadata": {
-                            "f:annotations": {
-                                ".": {},
-                                "f:pv.kubernetes.io/provisioned-by": {}
-                            }
-                        },
-                        "f:spec": {
-                            "f:accessModes": {},
-                            "f:capacity": {
-                                ".": {},
-                                "f:storage": {}
-                            },
-                            "f:claimRef": {
-                                ".": {},
-                                "f:apiVersion": {},
-                                "f:kind": {},
-                                "f:name": {},
-                                "f:namespace": {},
-                                "f:resourceVersion": {},
-                                "f:uid": {}
-                            },
-                            "f:hostPath": {
-                                ".": {},
-                                "f:path": {},
-                                "f:type": {}
-                            },
-                            "f:nodeAffinity": {
-                                ".": {},
-                                "f:required": {
-                                    ".": {},
-                                    "f:nodeSelectorTerms": {}
-                                }
-                            },
-                            "f:persistentVolumeReclaimPolicy": {},
-                            "f:storageClassName": {},
-                            "f:volumeMode": {}
-                        }
-                    },
-                    "local_vars_configuration": "",
-                    "manager": "local-path-provisioner",
-                    "operation": "Update",
-                    "time": "2022-01-27T17:01:38Z"
+                    "time": "2022-01-27T16:58:01Z"
                 }
             ],
-            "name": "pvc-6801b99e-d658-4095-967b-b035c520886f",
-            "namespace": null,
+            "name": "default-token-5r2mb",
+            "namespace": "default",
             "owner_references": null,
-            "resource_version": "867",
+            "resource_version": "460",
             "self_link": null,
-            "uid": "3033ba7b-1db9-4454-813e-49beabf77538"
+            "uid": "54583fda-ffd7-4be2-bbba-3a8c1e7e622d"
         },
-        "spec": {
-            "access_modes": [
-                "ReadWriteOnce"
-            ],
-            "aws_elastic_block_store": null,
-            "azure_disk": null,
-            "azure_file": null,
-            "capacity": {
-                "storage": "32Mi"
-            },
-            "cephfs": null,
-            "cinder": null,
-            "claim_ref": {
-                "api_version": "v1",
-                "discriminator": null,
-                "field_path": null,
-                "kind": "PersistentVolumeClaim",
-                "local_vars_configuration": "",
-                "name": "nginx-pvc",
-                "namespace": "default",
-                "resource_version": "822",
-                "uid": "6801b99e-d658-4095-967b-b035c520886f"
-            },
-            "csi": null,
-            "discriminator": null,
-            "fc": null,
-            "flex_volume": null,
-            "flocker": null,
-            "gce_persistent_disk": null,
-            "glusterfs": null,
-            "host_path": {
-                "discriminator": null,
-                "local_vars_configuration": "",
-                "path": "/var/local-path-provisioner/pvc-6801b99e-d658-4095-967b-b035c520886f_default_nginx-pvc",
-                "type": "DirectoryOrCreate"
-            },
-            "iscsi": null,
-            "local": null,
-            "local_vars_configuration": "",
-            "mount_options": null,
-            "nfs": null,
-            "node_affinity": {
-                "discriminator": null,
-                "local_vars_configuration": "",
-                "required": {
-                    "discriminator": null,
-                    "local_vars_configuration": "",
-                    "node_selector_terms": [
-                        {
-                            "discriminator": null,
-                            "local_vars_configuration": "",
-                            "match_expressions": [
-                                {
-                                    "discriminator": null,
-                                    "key": "kubernetes.io/hostname",
-                                    "local_vars_configuration": "",
-                                    "operator": "In",
-                                    "values": [
-                                        "kind-control-plane"
-                                    ]
-                                }
-                            ],
-                            "match_fields": null
-                        }
-                    ]
-                }
-            },
-            "persistent_volume_reclaim_policy": "Delete",
-            "photon_persistent_disk": null,
-            "portworx_volume": null,
-            "quobyte": null,
-            "rbd": null,
-            "scale_io": null,
-            "storage_class_name": "standard",
-            "storageos": null,
-            "volume_mode": "Filesystem",
-            "vsphere_volume": null
-        },
-        "status": {
-            "discriminator": null,
-            "local_vars_configuration": "",
-            "message": null,
-            "phase": "Bound",
-            "reason": null
-        },
+        "string_data": null,
         "type": ""
     },
     {
         "apiVersion": "v1",
         "api_version": null,
+        "data": {
+            "PASSWORD": "dGVzdDEyM3B3",
+            "USERNAME": "dGVzdHM="
+        },
         "discriminator": null,
-        "kind": "PersistentVolumeClaim",
+        "immutable": null,
+        "kind": "Secret",
         "local_vars_configuration": "",
         "metadata": {
             "annotations": {
-                "kubectl.kubernetes.io/last-applied-configuration": "{\"apiVersion\":\"v1\",\"kind\":\"PersistentVolumeClaim\",\"metadata\":{\"annotations\":{},\"name\":\"nginx-pvc\",\"namespace\":\"default\"},\"spec\":{\"accessModes\":[\"ReadWriteOnce\"],\"resources\":{\"requests\":{\"storage\":\"32Mi\"}}}}\n",
-                "pv.kubernetes.io/bind-completed": "yes",
-                "pv.kubernetes.io/bound-by-controller": "yes",
-                "volume.beta.kubernetes.io/storage-provisioner": "rancher.io/local-path",
-                "volume.kubernetes.io/selected-node": "kind-control-plane"
+                "kubectl.kubernetes.io/last-applied-configuration": "{\"apiVersion\":\"v1\",\"data\":{\"PASSWORD\":\"dGVzdDEyM3B3\",\"USERNAME\":\"dGVzdHM=\"},\"kind\":\"Secret\",\"metadata\":{\"annotations\":{},\"name\":\"nginx-sec\",\"namespace\":\"default\"}}\n"
             },
             "cluster_name": null,
             "creation_timestamp": "2022-01-27T17:01:16Z",
             "deletion_grace_period_seconds": null,
             "deletion_timestamp": null,
             "discriminator": null,
-            "finalizers": [
-                "kubernetes.io/pvc-protection"
-            ],
+            "finalizers": null,
             "generate_name": null,
             "generation": null,
             "labels": null,
@@ -3791,112 +3576,147 @@
                     "discriminator": null,
                     "fields_type": "FieldsV1",
                     "fields_v1": {
-                        "f:metadata": {
-                            "f:annotations": {
-                                "f:volume.kubernetes.io/selected-node": {}
-                            }
-                        }
-                    },
-                    "local_vars_configuration": "",
-                    "manager": "kube-scheduler",
-                    "operation": "Update",
-                    "time": "2022-01-27T17:01:16Z"
-                },
-                {
-                    "api_version": "v1",
-                    "discriminator": null,
-                    "fields_type": "FieldsV1",
-                    "fields_v1": {
+                        "f:data": {
+                            ".": {},
+                            "f:PASSWORD": {},
+                            "f:USERNAME": {}
+                        },
                         "f:metadata": {
                             "f:annotations": {
                                 ".": {},
                                 "f:kubectl.kubernetes.io/last-applied-configuration": {}
                             }
                         },
-                        "f:spec": {
-                            "f:accessModes": {},
-                            "f:resources": {
-                                "f:requests": {
-                                    ".": {},
-                                    "f:storage": {}
-                                }
-                            },
-                            "f:volumeMode": {}
-                        }
+                        "f:type": {}
                     },
                     "local_vars_configuration": "",
                     "manager": "kubectl-client-side-apply",
                     "operation": "Update",
                     "time": "2022-01-27T17:01:16Z"
-                },
+                }
+            ],
+            "name": "nginx-sec",
+            "namespace": "default",
+            "owner_references": null,
+            "resource_version": "807",
+            "self_link": null,
+            "uid": "d0bcdd60-83c4-48d2-b4cd-6b824dc95317"
+        },
+        "string_data": null,
+        "type": ""
+    },
+    {
+        "apiVersion": "v1",
+        "api_version": null,
+        "discriminator": null,
+        "kind": "Service",
+        "local_vars_configuration": "",
+        "metadata": {
+            "annotations": null,
+            "cluster_name": null,
+            "creation_timestamp": "2022-01-27T16:57:42Z",
+            "deletion_grace_period_seconds": null,
+            "deletion_timestamp": null,
+            "discriminator": null,
+            "finalizers": null,
+            "generate_name": null,
+            "generation": null,
+            "labels": {
+                "component": "apiserver",
+                "provider": "kubernetes"
+            },
+            "local_vars_configuration": "",
+            "managed_fields": [
                 {
                     "api_version": "v1",
                     "discriminator": null,
                     "fields_type": "FieldsV1",
                     "fields_v1": {
                         "f:metadata": {
-                            "f:annotations": {
-                                "f:pv.kubernetes.io/bind-completed": {},
-                                "f:pv.kubernetes.io/bound-by-controller": {},
-                                "f:volume.beta.kubernetes.io/storage-provisioner": {}
+                            "f:labels": {
+                                ".": {},
+                                "f:component": {},
+                                "f:provider": {}
                             }
                         },
                         "f:spec": {
-                            "f:volumeName": {}
-                        },
-                        "f:status": {
-                            "f:accessModes": {},
-                            "f:capacity": {
+                            "f:clusterIP": {},
+                            "f:ipFamilyPolicy": {},
+                            "f:ports": {
                                 ".": {},
-                                "f:storage": {}
+                                "k:{\"port\":443,\"protocol\":\"TCP\"}": {
+                                    ".": {},
+                                    "f:name": {},
+                                    "f:port": {},
+                                    "f:protocol": {},
+                                    "f:targetPort": {}
+                                }
                             },
-                            "f:phase": {}
+                            "f:sessionAffinity": {},
+                            "f:type": {}
                         }
                     },
                     "local_vars_configuration": "",
-                    "manager": "kube-controller-manager",
+                    "manager": "kube-apiserver",
                     "operation": "Update",
-                    "time": "2022-01-27T17:01:38Z"
+                    "time": "2022-01-27T16:57:42Z"
                 }
             ],
-            "name": "nginx-pvc",
+            "name": "kubernetes",
             "namespace": "default",
             "owner_references": null,
-            "resource_version": "870",
+            "resource_version": "218",
             "self_link": null,
-            "uid": "6801b99e-d658-4095-967b-b035c520886f"
+            "uid": "ac6047a2-e177-43a9-9cad-5ff9c9f18d28"
         },
         "spec": {
-            "access_modes": [
-                "ReadWriteOnce"
+            "allocate_load_balancer_node_ports": null,
+            "cluster_i_ps": [
+                "10.96.0.1"
             ],
-            "data_source": null,
+            "cluster_ip": "10.96.0.1",
             "discriminator": null,
+            "external_i_ps": null,
+            "external_name": null,
+            "external_traffic_policy": null,
+            "health_check_node_port": null,
+            "internal_traffic_policy": null,
+            "ip_families": [
+                "IPv4"
+            ],
+            "ip_family_policy": "SingleStack",
+            "load_balancer_class": null,
+            "load_balancer_ip": null,
+            "load_balancer_source_ranges": null,
             "local_vars_configuration": "",
-            "resources": {
-                "discriminator": null,
-                "limits": null,
-                "local_vars_configuration": "",
-                "requests": {
-                    "storage": "32Mi"
+            "ports": [
+                {
+                    "app_protocol": null,
+                    "discriminator": null,
+                    "local_vars_configuration": "",
+                    "name": "https",
+                    "node_port": null,
+                    "port": 443,
+                    "protocol": "TCP",
+                    "target_port": 6443
                 }
-            },
+            ],
+            "publish_not_ready_addresses": null,
             "selector": null,
-            "storage_class_name": "standard",
-            "volume_mode": "Filesystem",
-            "volume_name": "pvc-6801b99e-d658-4095-967b-b035c520886f"
+            "session_affinity": "None",
+            "session_affinity_config": null,
+            "topology_keys": null,
+            "type": "ClusterIP"
         },
         "status": {
-            "access_modes": [
-                "ReadWriteOnce"
-            ],
-            "capacity": {
-                "storage": "32Mi"
-            },
             "conditions": null,
             "discriminator": null,
-            "local_vars_configuration": "",
-            "phase": "Bound"
+            "load_balancer": {
+                "discriminator": null,
+                "ingress": null,
+                "local_vars_configuration": ""
+            },
+            "local_vars_configuration": ""
         },
         "type": ""
     }

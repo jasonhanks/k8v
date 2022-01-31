@@ -11,4 +11,4 @@ cd $SCRIPT_DIR/../
 
 
 # Run the application interface
-python3 -mpytest --capture=tee-sys --verbose  "$@"
+python3 -mpytest --capture=tee-sys -vv "$@"

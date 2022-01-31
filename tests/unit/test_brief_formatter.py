@@ -29,65 +29,66 @@ class TestBriefFormatter:
             )
             self.resources.append(resource)
 
+    def test_configmap(self):
+        pass
+
     def test_output(self):
         """Validate the default resource fixtures are formatted correctly."""
 
         expected = """configmap/default/kube-root-ca.crt
 configmap/default/nginx-cm
-secret/default/default-token-5r2mb
-secret/default/nginx-sec
-service/default/kubernetes
-replicaset/default/nginx-deployment-7b6fcd488c
+cronjob/default/list-resources
 deployment/default/nginx-deployment
+job/default/list-resources
+persistentvolumeclaim/default/nginx-pvc
 pod/default/list-resources-8xvpb
 pod/default/nginx-deployment-7b6fcd488c-5q8nt
 pod/default/nginx-deployment-7b6fcd488c-7kdrw
-cronjob/default/list-resources
-job/default/list-resources
-persistentvolume/pvc-6801b99e-d658-4095-967b-b035c520886f
-persistentvolumeclaim/default/nginx-pvc
+replicaset/default/nginx-deployment-7b6fcd488c
+secret/default/default-token-5r2mb
+secret/default/nginx-sec
+service/default/kubernetes
 """
 
         for num, resource in enumerate(self.resources):
             self.viewer.print_resource(resource, num, len(self.resources) - 1, "")
 
-        # validate the printed output
-        assert expected == self.config.file.getvalue()
+        assert self.config.file.getvalue() == expected
 
     def test_output_with_related(self):
         """Validate the default resource fixtures are formatted correctly with related resources."""
 
         expected = """configmap/default/kube-root-ca.crt
 configmap/default/nginx-cm
-secret/default/default-token-5r2mb
-secret/default/nginx-sec
-service/default/kubernetes
-replicaset/default/nginx-deployment-7b6fcd488c
-        pod/default/list-resources-8xvpb
-        pod/default/nginx-deployment-7b6fcd488c-5q8nt
+cronjob/default/list-resources
 deployment/default/nginx-deployment
         replicaset/default/nginx-deployment-7b6fcd488c
-                pod/default/list-resources-8xvpb
                 pod/default/nginx-deployment-7b6fcd488c-5q8nt
+                pod/default/nginx-deployment-7b6fcd488c-7kdrw
+job/default/list-resources
+persistentvolumeclaim/default/nginx-pvc
 pod/default/list-resources-8xvpb
 pod/default/nginx-deployment-7b6fcd488c-5q8nt
 pod/default/nginx-deployment-7b6fcd488c-7kdrw
-cronjob/default/list-resources
-job/default/list-resources
-persistentvolume/pvc-6801b99e-d658-4095-967b-b035c520886f
-persistentvolumeclaim/default/nginx-pvc
+replicaset/default/nginx-deployment-7b6fcd488c
+        pod/default/nginx-deployment-7b6fcd488c-5q8nt
+        pod/default/nginx-deployment-7b6fcd488c-7kdrw
+secret/default/default-token-5r2mb
+secret/default/nginx-sec
+service/default/kubernetes
 """
 
         # setup "related" resources to verify formatter output
         self.config.related = True
-        self.resources[5]._related = [
+        self.resources[9]._related = [
             self.resources[7],
             self.resources[8],
         ]  # replicaset has pods
-        self.resources[6]._related = [self.resources[5]]  # deployment has replicaset
+        self.resources[3]._related = [self.resources[9]]  # deployment has replicaset
 
         for num, resource in enumerate(self.resources):
             self.viewer.print_resource(resource, num, len(self.resources) - 1, "")
 
-        # validate the printed output
-        assert expected == self.config.file.getvalue()
+        lines = self.config.file.getvalue().split("\n")
+        for num, expect in enumerate(expected.split("\n")):
+            assert expect == lines[num]

@@ -73,18 +73,18 @@ class Config:
         elif len(self.resources) == 0:
             self.resources = [
                 k8v.resource_types.ResourceType.CONFIG_MAP,
-                k8v.resource_types.ResourceType.SECRETS,
-                k8v.resource_types.ResourceType.SERVICES,
-                k8v.resource_types.ResourceType.INGRESS,
-                k8v.resource_types.ResourceType.DAEMON_SETS,
-                k8v.resource_types.ResourceType.STATEFUL_SETS,
-                k8v.resource_types.ResourceType.REPLICA_SETS,
-                k8v.resource_types.ResourceType.DEPLOYMENTS,
-                k8v.resource_types.ResourceType.PODS,
                 k8v.resource_types.ResourceType.CRONJOBS,
+                k8v.resource_types.ResourceType.DAEMON_SETS,
+                k8v.resource_types.ResourceType.DEPLOYMENTS,
+                k8v.resource_types.ResourceType.INGRESS,
                 k8v.resource_types.ResourceType.JOBS,
                 k8v.resource_types.ResourceType.PERSISTENT_VOLUME,
                 k8v.resource_types.ResourceType.PERSISTENT_VOLUME_CLAIM,
+                k8v.resource_types.ResourceType.PODS,
+                k8v.resource_types.ResourceType.REPLICA_SETS,
+                k8v.resource_types.ResourceType.SECRETS,
+                k8v.resource_types.ResourceType.SERVICES,
+                k8v.resource_types.ResourceType.STATEFUL_SETS,
             ]
 
         # setup the formatter to use
