@@ -151,7 +151,7 @@ pod/kube-system/kube-proxy-7pjmw
         self.test_persistentvolumeclaim()  # should be the same
 
     def test_pods(self):
-        data = self.load_and_display("tests/fixtures/pods.pickle", True)
+        data = self.load_and_display("tests/fixtures/pods.pickle")
         for num, resource in enumerate(data):
             self.viewer.print_resource(resource, num, len(data), "")
         assert (
@@ -194,7 +194,7 @@ pod/default/nginx-deployment-7b6fcd488c-vrgrx
         )
 
     def test_secrets(self):
-        data = self.load_and_display("tests/fixtures/secrets.pickle", True)
+        data = self.load_and_display("tests/fixtures/secrets.pickle")
         for num, resource in enumerate(data):
             self.viewer.print_resource(resource, num, len(data), "")
         assert (
