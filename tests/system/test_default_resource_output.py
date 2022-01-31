@@ -19,7 +19,7 @@ class TestDefaultResourceOutput:
         self.viewer.config.output = "brief"
         self.viewer.view()
         lines = self.viewer.config.file.getvalue().split("\n")
-        assert len(lines) == 14
+        assert len(lines) == 15
         assert "configmap/default/kube-root-ca.crt" == lines[0]
         assert "configmap/default/nginx-cm" == lines[1]
         assert "cronjob/default/list-resources" == lines[2]
@@ -38,7 +38,7 @@ class TestDefaultResourceOutput:
         """Validate the *default* output for the default resources."""
         self.viewer.view()
         lines = self.viewer.config.file.getvalue().split("\n")
-        assert len(lines) == 14
+        assert len(lines) == 15
         assert lines[0] == "configmap/default/kube-root-ca.crt (data=[ca.crt])"
         assert lines[1] == "configmap/default/nginx-cm (data=[ENV, app])"
         assert lines[2] == "cronjob/default/list-resources ()"
@@ -120,7 +120,11 @@ class TestDefaultResourceOutput:
         assert m.group(0) == lines[12]
         assert m.group(1) is not None
 
-        assert lines[13] == ""
+        assert (
+            lines[13]
+            == "service/default/nginx (type=ClusterIP cluster_ip=10.96.33.145 ports=[80=80/TCP ])"
+        )
+        assert lines[14] == ""
 
     def test_json_output(self):
         """Validate the *JSON* output for the default resources."""
@@ -131,7 +135,7 @@ class TestDefaultResourceOutput:
         data = json.loads(self.viewer.config.file.getvalue())
 
         # validate some of the records to make sure it's working properly
-        assert len(data) == 13
+        assert len(data) == 14
 
         assert "ConfigMap" == data[0]["kind"]
         assert "kube-root-ca.crt" == data[0]["metadata"]["name"]

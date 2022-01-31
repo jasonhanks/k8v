@@ -1,9 +1,7 @@
 import pytest
 import io
-import json
 import munch
 import pickle
-import yaml
 
 import k8v
 
