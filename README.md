@@ -80,12 +80,12 @@ The following output types are supported:
 * *brief* - one line per matched resource
 * *wide* - one line per resource including informative details
 * *json* - a JSON formatted list of matching resources that can be processed by other tools that can parse JSON
+* *pickle* - a binary format containing a list of matching resources common in Python
 
 
+### Default format
 
-### Default output
-
-The default output will show each resource with one line per resource that includes useful information about
+The default format will show each resource with one line per resource that includes useful information about
 that resource. If the *-a* or *--all-related* parameter is specified then each related resource will show up with
 indentation to represent a relationship between them.
 
@@ -103,12 +103,12 @@ This allows you to see a lot of information in a hierarchy quickly with filterin
 
 
 
-### Brief output
+### Brief format
 
-The brief output will simply list each of the matching resources one per line and can be used to quickly find
+The brief format will simply list each of the matching resources one per line and can be used to quickly find
 a set of resources that match some specific criteria (namespace, search query, excluded query, etc.).
 
-This output is generated in such a way that it can be used to drive scripted or automated processes and will 
+This format is generated in such a way that it can be used to drive scripted or automated processes and will 
 only report individual resources that match the input search criteria and nothing else. 
 
     # list each default resource in the *metallb* namespace
@@ -145,9 +145,9 @@ using another tool to process the output:
 
 
 
-### Full output
+### Full format
 
-The full output is currently the same as the default view but will show more detailed *related* resources 
+The full format is currently the same as the default view but will show more detailed *related* resources 
 visually indented below the resource instead of summarizing them.
 
 This will includes many resource types such as ConfigMap, Ingress, NetworkPolicy, Secret, Service, etc. 
@@ -155,9 +155,9 @@ that are currently only summarized for the parent resource.
 
 
 
-### JSON output
+### JSON format
 
-The JSON output will generate a valid JSON list containing each matching resources within the list. This 
+The JSON format will generate a valid JSON list containing each matching resources within the list. This 
 output can then be used by various tools that understand the JSON format (such as *jq* shown below).
 
 
@@ -198,6 +198,15 @@ output can then be used by various tools that understand the JSON format (such a
     "session_affinity": "None",
     "type": "LoadBalancer"
     }
+
+
+
+### Pickle format
+
+The Pickle format is a binary serialization format commonly used in Python programs to read or write objects
+to files. This currently used for serializing test data for the automated tests.
+
+For more information see: https://docs.python.org/3/library/pickle.html
 
 
 
