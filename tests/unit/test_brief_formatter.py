@@ -39,8 +39,11 @@ secret/default/nginx-sec
 service/default/kubernetes
 replicaset/default/nginx-deployment-7b6fcd488c
 deployment/default/nginx-deployment
+pod/default/list-resources-8xvpb
 pod/default/nginx-deployment-7b6fcd488c-5q8nt
 pod/default/nginx-deployment-7b6fcd488c-7kdrw
+cronjob/default/list-resources
+job/default/list-resources
 persistentvolume/pvc-6801b99e-d658-4095-967b-b035c520886f
 persistentvolumeclaim/default/nginx-pvc
 """
@@ -60,14 +63,17 @@ secret/default/default-token-5r2mb
 secret/default/nginx-sec
 service/default/kubernetes
 replicaset/default/nginx-deployment-7b6fcd488c
+        pod/default/list-resources-8xvpb
         pod/default/nginx-deployment-7b6fcd488c-5q8nt
-        pod/default/nginx-deployment-7b6fcd488c-7kdrw
 deployment/default/nginx-deployment
         replicaset/default/nginx-deployment-7b6fcd488c
+                pod/default/list-resources-8xvpb
                 pod/default/nginx-deployment-7b6fcd488c-5q8nt
-                pod/default/nginx-deployment-7b6fcd488c-7kdrw
+pod/default/list-resources-8xvpb
 pod/default/nginx-deployment-7b6fcd488c-5q8nt
 pod/default/nginx-deployment-7b6fcd488c-7kdrw
+cronjob/default/list-resources
+job/default/list-resources
 persistentvolume/pvc-6801b99e-d658-4095-967b-b035c520886f
 persistentvolumeclaim/default/nginx-pvc
 """

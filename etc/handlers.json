@@ -1,42 +1,114 @@
 {
-
     "AppsV1Api": {
-        "daemonset": { "type": "V1DaemonSet", "all": "list_daemon_set_for_all_namespaces", "ns": "list_namespaced_daemon_set" },
-        "deployment": { "type": "V1Deployment", "all": "list_deployment_for_all_namespaces", "ns": "list_namespaced_deployment" },
-        "replicaset": { "type": "V1ReplicaSet", "all": "list_replica_set_for_all_namespaces", "ns": "list_namespaced_replica_set" },
-        "statefulset": { "type": "V1StatefulSet", "all": "list_stateful_set_for_all_namespaces", "ns": "list_namespaced_stateful_set" }
+        "daemonset": {
+            "type": "V1DaemonSet",
+            "all": "list_daemon_set_for_all_namespaces",
+            "ns": "list_namespaced_daemon_set"
+        },
+        "deployment": {
+            "type": "V1Deployment",
+            "all": "list_deployment_for_all_namespaces",
+            "ns": "list_namespaced_deployment"
+        },
+        "replicaset": {
+            "type": "V1ReplicaSet",
+            "all": "list_replica_set_for_all_namespaces",
+            "ns": "list_namespaced_replica_set"
+        },
+        "statefulset": {
+            "type": "V1StatefulSet",
+            "all": "list_stateful_set_for_all_namespaces",
+            "ns": "list_namespaced_stateful_set"
+        }
     },
-
     "BatchV1Api": {
+        "cronjob": {
+            "type": "V1CronJob",
+            "all": "list_cron_job_for_all_namespaces",
+            "ns": "list_namespaced_cron_job"
+        },
+        "job": {
+            "type": "V1Job",
+            "all": "list_job_for_all_namespaces",
+            "ns": "list_namespaced_job"
+        }
     },
-
     "CoreV1Api": {
-        "configmap": { "type": "V1ConfigMap", "all": "list_config_map_for_all_namespaces", "ns": "list_namespaced_config_map" },
-        "persistentvolume": { "type": "V1PersistentVolume", "all": "list_persistent_volume" },
-        "persistentvolumeclaim": { "type": "V1PersistentVolumeClaim", "all": "list_persistent_volume_claim_for_all_namespaces", "ns": "list_namespaced_persistent_volume_claim" },
-        "pod": { "type": "V1Pod", "all": "list_pod_for_all_namespaces", "ns": "list_namespaced_pod" },
-        "secret": { "type": "V1Secret", "all": "list_secret_for_all_namespaces", "ns": "list_namespaced_secret" },
-        "service": { "type": "V1Service", "all": "list_service_for_all_namespaces", "ns": "list_namespaced_service" },
-        "serviceaccount": { "type": "V1ServiceAccount", "all": "list_service_account_for_all_namespaces", "ns": "list_namespaced_service_account" }
+        "configmap": {
+            "type": "V1ConfigMap",
+            "all": "list_config_map_for_all_namespaces",
+            "ns": "list_namespaced_config_map"
+        },
+        "persistentvolume": {
+            "type": "V1PersistentVolume",
+            "all": "list_persistent_volume"
+        },
+        "persistentvolumeclaim": {
+            "type": "V1PersistentVolumeClaim",
+            "all": "list_persistent_volume_claim_for_all_namespaces",
+            "ns": "list_namespaced_persistent_volume_claim"
+        },
+        "pod": {
+            "type": "V1Pod",
+            "all": "list_pod_for_all_namespaces",
+            "ns": "list_namespaced_pod"
+        },
+        "secret": {
+            "type": "V1Secret",
+            "all": "list_secret_for_all_namespaces",
+            "ns": "list_namespaced_secret"
+        },
+        "service": {
+            "type": "V1Service",
+            "all": "list_service_for_all_namespaces",
+            "ns": "list_namespaced_service"
+        },
+        "serviceaccount": {
+            "type": "V1ServiceAccount",
+            "all": "list_service_account_for_all_namespaces",
+            "ns": "list_namespaced_service_account"
+        }
     },
-
     "NetworkingV1Api": {
-        "ingress": { "type": "V1Ingress", "all": "list_ingress_for_all_namespaces", "ns": "list_namespaced_ingress" },
-        "networkpolicy": { "type": "V1NetworkPolicy", "all": "list_network_policy_for_all_namespaces", "ns": "list_namespaced_network_policy" }
+        "ingress": {
+            "type": "V1Ingress",
+            "all": "list_ingress_for_all_namespaces",
+            "ns": "list_namespaced_ingress"
+        },
+        "networkpolicy": {
+            "type": "V1NetworkPolicy",
+            "all": "list_network_policy_for_all_namespaces",
+            "ns": "list_namespaced_network_policy"
+        }
     },
-
     "RbacAuthorizationV1Api": {
-        "clusterrole": { "src": "api_rbac_v1", "type": "V1ClusterRole", "all": "list_cluster_role" },
-        "clusterrolebinding": { "src": "api_rbac_v1", "type": "V1ClusterRoleBinding", "all": "list_cluster_role_binding" },
-        "role": { "src": "api_rbac_v1", "type": "V1Role", "all": "list_role_for_all_namespaces", "ns": "list_namespaced_role" },
-        "rolebinding": { "src": "api_rbac_v1", "type": "V1RoleBinding", "all": "list_role_binding_for_all_namespaces", "ns": "list_namespaced_role_binding" }
+        "clusterrole": {
+            "src": "api_rbac_v1",
+            "type": "V1ClusterRole",
+            "all": "list_cluster_role"
+        },
+        "clusterrolebinding": {
+            "src": "api_rbac_v1",
+            "type": "V1ClusterRoleBinding",
+            "all": "list_cluster_role_binding"
+        },
+        "role": {
+            "src": "api_rbac_v1",
+            "type": "V1Role",
+            "all": "list_role_for_all_namespaces",
+            "ns": "list_namespaced_role"
+        },
+        "rolebinding": {
+            "src": "api_rbac_v1",
+            "type": "V1RoleBinding",
+            "all": "list_role_binding_for_all_namespaces",
+            "ns": "list_namespaced_role_binding"
+        }
     },
-
     "StorageV1Api": {
         "csidriver": {},
         "csinode": {},
         "storageclass": {},
         "volumeattachment": {}
     }
-
 }

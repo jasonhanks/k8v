@@ -81,6 +81,8 @@ class Config:
                 k8v.resource_types.ResourceType.REPLICA_SETS,
                 k8v.resource_types.ResourceType.DEPLOYMENTS,
                 k8v.resource_types.ResourceType.PODS,
+                k8v.resource_types.ResourceType.CRONJOBS,
+                k8v.resource_types.ResourceType.JOBS,
                 k8v.resource_types.ResourceType.PERSISTENT_VOLUME,
                 k8v.resource_types.ResourceType.PERSISTENT_VOLUME_CLAIM,
             ]

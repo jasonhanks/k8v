@@ -1262,6 +1262,472 @@
         "metadata": {
             "annotations": null,
             "cluster_name": null,
+            "creation_timestamp": "2022-01-31T04:11:12Z",
+            "deletion_grace_period_seconds": null,
+            "deletion_timestamp": null,
+            "discriminator": null,
+            "finalizers": null,
+            "generate_name": "list-resources-",
+            "generation": null,
+            "labels": {
+                "controller-uid": "b3aa0bb1-708a-4ed0-bf59-f041024404d0",
+                "job-name": "list-resources"
+            },
+            "local_vars_configuration": "",
+            "managed_fields": [
+                {
+                    "api_version": "v1",
+                    "discriminator": null,
+                    "fields_type": "FieldsV1",
+                    "fields_v1": {
+                        "f:metadata": {
+                            "f:generateName": {},
+                            "f:labels": {
+                                ".": {},
+                                "f:controller-uid": {},
+                                "f:job-name": {}
+                            },
+                            "f:ownerReferences": {
+                                ".": {},
+                                "k:{\"uid\":\"b3aa0bb1-708a-4ed0-bf59-f041024404d0\"}": {
+                                    ".": {},
+                                    "f:apiVersion": {},
+                                    "f:blockOwnerDeletion": {},
+                                    "f:controller": {},
+                                    "f:kind": {},
+                                    "f:name": {},
+                                    "f:uid": {}
+                                }
+                            }
+                        },
+                        "f:spec": {
+                            "f:containers": {
+                                "k:{\"name\":\"list-resources\"}": {
+                                    ".": {},
+                                    "f:command": {},
+                                    "f:image": {},
+                                    "f:imagePullPolicy": {},
+                                    "f:name": {},
+                                    "f:resources": {},
+                                    "f:terminationMessagePath": {},
+                                    "f:terminationMessagePolicy": {}
+                                }
+                            },
+                            "f:dnsPolicy": {},
+                            "f:enableServiceLinks": {},
+                            "f:restartPolicy": {},
+                            "f:schedulerName": {},
+                            "f:securityContext": {},
+                            "f:terminationGracePeriodSeconds": {}
+                        }
+                    },
+                    "local_vars_configuration": "",
+                    "manager": "kube-controller-manager",
+                    "operation": "Update",
+                    "time": "2022-01-31T04:11:12Z"
+                },
+                {
+                    "api_version": "v1",
+                    "discriminator": null,
+                    "fields_type": "FieldsV1",
+                    "fields_v1": {
+                        "f:status": {
+                            "f:conditions": {
+                                "k:{\"type\":\"ContainersReady\"}": {
+                                    ".": {},
+                                    "f:lastProbeTime": {},
+                                    "f:lastTransitionTime": {},
+                                    "f:reason": {},
+                                    "f:status": {},
+                                    "f:type": {}
+                                },
+                                "k:{\"type\":\"Initialized\"}": {
+                                    ".": {},
+                                    "f:lastProbeTime": {},
+                                    "f:lastTransitionTime": {},
+                                    "f:reason": {},
+                                    "f:status": {},
+                                    "f:type": {}
+                                },
+                                "k:{\"type\":\"Ready\"}": {
+                                    ".": {},
+                                    "f:lastProbeTime": {},
+                                    "f:lastTransitionTime": {},
+                                    "f:reason": {},
+                                    "f:status": {},
+                                    "f:type": {}
+                                }
+                            },
+                            "f:containerStatuses": {},
+                            "f:hostIP": {},
+                            "f:phase": {},
+                            "f:podIP": {},
+                            "f:podIPs": {
+                                ".": {},
+                                "k:{\"ip\":\"10.244.0.10\"}": {
+                                    ".": {},
+                                    "f:ip": {}
+                                }
+                            },
+                            "f:startTime": {}
+                        }
+                    },
+                    "local_vars_configuration": "",
+                    "manager": "kubelet",
+                    "operation": "Update",
+                    "time": "2022-01-31T04:11:41Z"
+                }
+            ],
+            "name": "list-resources-8xvpb",
+            "namespace": "default",
+            "owner_references": [
+                {
+                    "api_version": "batch/v1",
+                    "block_owner_deletion": true,
+                    "controller": true,
+                    "discriminator": null,
+                    "kind": "Job",
+                    "local_vars_configuration": "",
+                    "name": "list-resources",
+                    "uid": "b3aa0bb1-708a-4ed0-bf59-f041024404d0"
+                }
+            ],
+            "resource_version": "502449",
+            "self_link": null,
+            "uid": "a5de814f-6100-4fb2-bd00-cf326a88f4bf"
+        },
+        "spec": {
+            "active_deadline_seconds": null,
+            "affinity": null,
+            "automount_service_account_token": null,
+            "containers": [
+                {
+                    "args": null,
+                    "command": [
+                        "ls",
+                        "-alhF",
+                        "/"
+                    ],
+                    "discriminator": null,
+                    "env": null,
+                    "env_from": null,
+                    "image": "ubuntu:latest",
+                    "image_pull_policy": "Always",
+                    "lifecycle": null,
+                    "liveness_probe": null,
+                    "local_vars_configuration": "",
+                    "name": "list-resources",
+                    "ports": null,
+                    "readiness_probe": null,
+                    "resources": {
+                        "discriminator": null,
+                        "limits": null,
+                        "local_vars_configuration": "",
+                        "requests": null
+                    },
+                    "security_context": null,
+                    "startup_probe": null,
+                    "stdin": null,
+                    "stdin_once": null,
+                    "termination_message_path": "/dev/termination-log",
+                    "termination_message_policy": "File",
+                    "tty": null,
+                    "volume_devices": null,
+                    "volume_mounts": [
+                        {
+                            "discriminator": null,
+                            "local_vars_configuration": "",
+                            "mount_path": "/var/run/secrets/kubernetes.io/serviceaccount",
+                            "mount_propagation": null,
+                            "name": "kube-api-access-6k895",
+                            "read_only": true,
+                            "sub_path": null,
+                            "sub_path_expr": null
+                        }
+                    ],
+                    "working_dir": null
+                }
+            ],
+            "discriminator": null,
+            "dns_config": null,
+            "dns_policy": "ClusterFirst",
+            "enable_service_links": true,
+            "ephemeral_containers": null,
+            "host_aliases": null,
+            "host_ipc": null,
+            "host_network": null,
+            "host_pid": null,
+            "hostname": null,
+            "image_pull_secrets": null,
+            "init_containers": null,
+            "local_vars_configuration": "",
+            "node_name": "kind-control-plane",
+            "node_selector": null,
+            "overhead": null,
+            "preemption_policy": "PreemptLowerPriority",
+            "priority": 0,
+            "priority_class_name": null,
+            "readiness_gates": null,
+            "restart_policy": "Never",
+            "runtime_class_name": null,
+            "scheduler_name": "default-scheduler",
+            "security_context": {
+                "discriminator": null,
+                "fs_group": null,
+                "fs_group_change_policy": null,
+                "local_vars_configuration": "",
+                "run_as_group": null,
+                "run_as_non_root": null,
+                "run_as_user": null,
+                "se_linux_options": null,
+                "seccomp_profile": null,
+                "supplemental_groups": null,
+                "sysctls": null,
+                "windows_options": null
+            },
+            "service_account": "default",
+            "service_account_name": "default",
+            "set_hostname_as_fqdn": null,
+            "share_process_namespace": null,
+            "subdomain": null,
+            "termination_grace_period_seconds": 30,
+            "tolerations": [
+                {
+                    "discriminator": null,
+                    "effect": "NoExecute",
+                    "key": "node.kubernetes.io/not-ready",
+                    "local_vars_configuration": "",
+                    "operator": "Exists",
+                    "toleration_seconds": 300,
+                    "value": null
+                },
+                {
+                    "discriminator": null,
+                    "effect": "NoExecute",
+                    "key": "node.kubernetes.io/unreachable",
+                    "local_vars_configuration": "",
+                    "operator": "Exists",
+                    "toleration_seconds": 300,
+                    "value": null
+                }
+            ],
+            "topology_spread_constraints": null,
+            "volumes": [
+                {
+                    "aws_elastic_block_store": null,
+                    "azure_disk": null,
+                    "azure_file": null,
+                    "cephfs": null,
+                    "cinder": null,
+                    "config_map": null,
+                    "csi": null,
+                    "discriminator": null,
+                    "downward_api": null,
+                    "empty_dir": null,
+                    "ephemeral": null,
+                    "fc": null,
+                    "flex_volume": null,
+                    "flocker": null,
+                    "gce_persistent_disk": null,
+                    "git_repo": null,
+                    "glusterfs": null,
+                    "host_path": null,
+                    "iscsi": null,
+                    "local_vars_configuration": "",
+                    "name": "kube-api-access-6k895",
+                    "nfs": null,
+                    "persistent_volume_claim": null,
+                    "photon_persistent_disk": null,
+                    "portworx_volume": null,
+                    "projected": {
+                        "default_mode": 420,
+                        "discriminator": null,
+                        "local_vars_configuration": "",
+                        "sources": [
+                            {
+                                "config_map": null,
+                                "discriminator": null,
+                                "downward_api": null,
+                                "local_vars_configuration": "",
+                                "secret": null,
+                                "service_account_token": {
+                                    "audience": null,
+                                    "discriminator": null,
+                                    "expiration_seconds": 3607,
+                                    "local_vars_configuration": "",
+                                    "path": "token"
+                                }
+                            },
+                            {
+                                "config_map": {
+                                    "discriminator": null,
+                                    "items": [
+                                        {
+                                            "discriminator": null,
+                                            "key": "ca.crt",
+                                            "local_vars_configuration": "",
+                                            "mode": null,
+                                            "path": "ca.crt"
+                                        }
+                                    ],
+                                    "local_vars_configuration": "",
+                                    "name": "kube-root-ca.crt",
+                                    "optional": null
+                                },
+                                "discriminator": null,
+                                "downward_api": null,
+                                "local_vars_configuration": "",
+                                "secret": null,
+                                "service_account_token": null
+                            },
+                            {
+                                "config_map": null,
+                                "discriminator": null,
+                                "downward_api": {
+                                    "discriminator": null,
+                                    "items": [
+                                        {
+                                            "discriminator": null,
+                                            "field_ref": {
+                                                "api_version": "v1",
+                                                "discriminator": null,
+                                                "field_path": "metadata.namespace",
+                                                "local_vars_configuration": ""
+                                            },
+                                            "local_vars_configuration": "",
+                                            "mode": null,
+                                            "path": "namespace",
+                                            "resource_field_ref": null
+                                        }
+                                    ],
+                                    "local_vars_configuration": ""
+                                },
+                                "local_vars_configuration": "",
+                                "secret": null,
+                                "service_account_token": null
+                            }
+                        ]
+                    },
+                    "quobyte": null,
+                    "rbd": null,
+                    "scale_io": null,
+                    "secret": null,
+                    "storageos": null,
+                    "vsphere_volume": null
+                }
+            ]
+        },
+        "status": {
+            "conditions": [
+                {
+                    "discriminator": null,
+                    "last_probe_time": null,
+                    "last_transition_time": "2022-01-31T04:11:12Z",
+                    "local_vars_configuration": "",
+                    "message": null,
+                    "reason": "PodCompleted",
+                    "status": "True",
+                    "type": "Initialized"
+                },
+                {
+                    "discriminator": null,
+                    "last_probe_time": null,
+                    "last_transition_time": "2022-01-31T04:11:41Z",
+                    "local_vars_configuration": "",
+                    "message": null,
+                    "reason": "PodCompleted",
+                    "status": "False",
+                    "type": "Ready"
+                },
+                {
+                    "discriminator": null,
+                    "last_probe_time": null,
+                    "last_transition_time": "2022-01-31T04:11:41Z",
+                    "local_vars_configuration": "",
+                    "message": null,
+                    "reason": "PodCompleted",
+                    "status": "False",
+                    "type": "ContainersReady"
+                },
+                {
+                    "discriminator": null,
+                    "last_probe_time": null,
+                    "last_transition_time": "2022-01-31T04:11:12Z",
+                    "local_vars_configuration": "",
+                    "message": null,
+                    "reason": null,
+                    "status": "True",
+                    "type": "PodScheduled"
+                }
+            ],
+            "container_statuses": [
+                {
+                    "container_id": "containerd://cbda7290f3fb743c2b7368c4be3a52d97bbcedad10b7edec126bf35e3d686fd9",
+                    "discriminator": null,
+                    "image": "docker.io/library/ubuntu:latest",
+                    "image_id": "docker.io/library/ubuntu@sha256:b5a61709a9a44284d88fb12e5c48db0409cfad5b69d4ff8224077c57302df9cf",
+                    "last_state": {
+                        "discriminator": null,
+                        "local_vars_configuration": "",
+                        "running": null,
+                        "terminated": null,
+                        "waiting": null
+                    },
+                    "local_vars_configuration": "",
+                    "name": "list-resources",
+                    "ready": false,
+                    "restart_count": 0,
+                    "started": false,
+                    "state": {
+                        "discriminator": null,
+                        "local_vars_configuration": "",
+                        "running": null,
+                        "terminated": {
+                            "container_id": "containerd://cbda7290f3fb743c2b7368c4be3a52d97bbcedad10b7edec126bf35e3d686fd9",
+                            "discriminator": null,
+                            "exit_code": 0,
+                            "finished_at": "2022-01-31T04:11:39Z",
+                            "local_vars_configuration": "",
+                            "message": null,
+                            "reason": "Completed",
+                            "signal": null,
+                            "started_at": "2022-01-31T04:11:39Z"
+                        },
+                        "waiting": null
+                    }
+                }
+            ],
+            "discriminator": null,
+            "ephemeral_container_statuses": null,
+            "host_ip": "172.18.0.2",
+            "init_container_statuses": null,
+            "local_vars_configuration": "",
+            "message": null,
+            "nominated_node_name": null,
+            "phase": "Succeeded",
+            "pod_i_ps": [
+                {
+                    "discriminator": null,
+                    "ip": "10.244.0.10",
+                    "local_vars_configuration": ""
+                }
+            ],
+            "pod_ip": "10.244.0.10",
+            "qos_class": "BestEffort",
+            "reason": null,
+            "start_time": "2022-01-31T04:11:12Z"
+        },
+        "type": ""
+    },
+    {
+        "apiVersion": "v1",
+        "api_version": null,
+        "discriminator": null,
+        "kind": "Pod",
+        "local_vars_configuration": "",
+        "metadata": {
+            "annotations": null,
+            "cluster_name": null,
             "creation_timestamp": "2022-01-27T17:01:16Z",
             "deletion_grace_period_seconds": null,
             "deletion_timestamp": null,
@@ -2609,6 +3075,507 @@
             "qos_class": "BestEffort",
             "reason": null,
             "start_time": "2022-01-27T17:01:39Z"
+        },
+        "type": ""
+    },
+    {
+        "apiVersion": "batch/v1",
+        "api_version": null,
+        "discriminator": null,
+        "kind": "CronJob",
+        "local_vars_configuration": "",
+        "metadata": {
+            "annotations": {
+                "kubectl.kubernetes.io/last-applied-configuration": "{\"apiVersion\":\"batch/v1\",\"kind\":\"CronJob\",\"metadata\":{\"annotations\":{},\"name\":\"list-resources\",\"namespace\":\"default\"},\"spec\":{\"concurrencyPolicy\":\"Forbid\",\"jobTemplate\":{\"spec\":{\"activeDeadlineSeconds\":60,\"backoffLimit\":1,\"suspend\":true,\"template\":{\"spec\":{\"containers\":[{\"command\":[\"ls\",\"-alhF\",\"/\"],\"image\":\"ubuntu:latest\",\"name\":\"list-resources\"}],\"restartPolicy\":\"Never\"}},\"ttlSecondsAfterFinished\":10}},\"schedule\":\"0 0 * * *\"}}\n"
+            },
+            "cluster_name": null,
+            "creation_timestamp": "2022-01-31T04:08:58Z",
+            "deletion_grace_period_seconds": null,
+            "deletion_timestamp": null,
+            "discriminator": null,
+            "finalizers": null,
+            "generate_name": null,
+            "generation": null,
+            "labels": null,
+            "local_vars_configuration": "",
+            "managed_fields": [
+                {
+                    "api_version": "batch/v1",
+                    "discriminator": null,
+                    "fields_type": "FieldsV1",
+                    "fields_v1": {
+                        "f:metadata": {
+                            "f:annotations": {
+                                ".": {},
+                                "f:kubectl.kubernetes.io/last-applied-configuration": {}
+                            }
+                        },
+                        "f:spec": {
+                            "f:concurrencyPolicy": {},
+                            "f:failedJobsHistoryLimit": {},
+                            "f:jobTemplate": {
+                                "f:spec": {
+                                    "f:activeDeadlineSeconds": {},
+                                    "f:backoffLimit": {},
+                                    "f:suspend": {},
+                                    "f:template": {
+                                        "f:spec": {
+                                            "f:containers": {
+                                                "k:{\"name\":\"list-resources\"}": {
+                                                    ".": {},
+                                                    "f:command": {},
+                                                    "f:image": {},
+                                                    "f:imagePullPolicy": {},
+                                                    "f:name": {},
+                                                    "f:resources": {},
+                                                    "f:terminationMessagePath": {},
+                                                    "f:terminationMessagePolicy": {}
+                                                }
+                                            },
+                                            "f:dnsPolicy": {},
+                                            "f:restartPolicy": {},
+                                            "f:schedulerName": {},
+                                            "f:securityContext": {},
+                                            "f:terminationGracePeriodSeconds": {}
+                                        }
+                                    },
+                                    "f:ttlSecondsAfterFinished": {}
+                                }
+                            },
+                            "f:schedule": {},
+                            "f:successfulJobsHistoryLimit": {},
+                            "f:suspend": {}
+                        }
+                    },
+                    "local_vars_configuration": "",
+                    "manager": "kubectl-client-side-apply",
+                    "operation": "Update",
+                    "time": "2022-01-31T04:08:58Z"
+                }
+            ],
+            "name": "list-resources",
+            "namespace": "default",
+            "owner_references": null,
+            "resource_version": "502338",
+            "self_link": null,
+            "uid": "5011197a-c7e2-4c39-83d7-3ca61cca6c62"
+        },
+        "spec": {
+            "concurrency_policy": "Forbid",
+            "discriminator": null,
+            "failed_jobs_history_limit": 1,
+            "job_template": {
+                "discriminator": null,
+                "local_vars_configuration": "",
+                "metadata": {
+                    "annotations": null,
+                    "cluster_name": null,
+                    "creation_timestamp": null,
+                    "deletion_grace_period_seconds": null,
+                    "deletion_timestamp": null,
+                    "discriminator": null,
+                    "finalizers": null,
+                    "generate_name": null,
+                    "generation": null,
+                    "labels": null,
+                    "local_vars_configuration": "",
+                    "managed_fields": null,
+                    "name": null,
+                    "namespace": null,
+                    "owner_references": null,
+                    "resource_version": null,
+                    "self_link": null,
+                    "uid": null
+                },
+                "spec": {
+                    "active_deadline_seconds": 60,
+                    "backoff_limit": 1,
+                    "completion_mode": null,
+                    "completions": null,
+                    "discriminator": null,
+                    "local_vars_configuration": "",
+                    "manual_selector": null,
+                    "parallelism": null,
+                    "selector": null,
+                    "suspend": true,
+                    "template": {
+                        "discriminator": null,
+                        "local_vars_configuration": "",
+                        "metadata": {
+                            "annotations": null,
+                            "cluster_name": null,
+                            "creation_timestamp": null,
+                            "deletion_grace_period_seconds": null,
+                            "deletion_timestamp": null,
+                            "discriminator": null,
+                            "finalizers": null,
+                            "generate_name": null,
+                            "generation": null,
+                            "labels": null,
+                            "local_vars_configuration": "",
+                            "managed_fields": null,
+                            "name": null,
+                            "namespace": null,
+                            "owner_references": null,
+                            "resource_version": null,
+                            "self_link": null,
+                            "uid": null
+                        },
+                        "spec": {
+                            "active_deadline_seconds": null,
+                            "affinity": null,
+                            "automount_service_account_token": null,
+                            "containers": [
+                                {
+                                    "args": null,
+                                    "command": [
+                                        "ls",
+                                        "-alhF",
+                                        "/"
+                                    ],
+                                    "discriminator": null,
+                                    "env": null,
+                                    "env_from": null,
+                                    "image": "ubuntu:latest",
+                                    "image_pull_policy": "Always",
+                                    "lifecycle": null,
+                                    "liveness_probe": null,
+                                    "local_vars_configuration": "",
+                                    "name": "list-resources",
+                                    "ports": null,
+                                    "readiness_probe": null,
+                                    "resources": {
+                                        "discriminator": null,
+                                        "limits": null,
+                                        "local_vars_configuration": "",
+                                        "requests": null
+                                    },
+                                    "security_context": null,
+                                    "startup_probe": null,
+                                    "stdin": null,
+                                    "stdin_once": null,
+                                    "termination_message_path": "/dev/termination-log",
+                                    "termination_message_policy": "File",
+                                    "tty": null,
+                                    "volume_devices": null,
+                                    "volume_mounts": null,
+                                    "working_dir": null
+                                }
+                            ],
+                            "discriminator": null,
+                            "dns_config": null,
+                            "dns_policy": "ClusterFirst",
+                            "enable_service_links": null,
+                            "ephemeral_containers": null,
+                            "host_aliases": null,
+                            "host_ipc": null,
+                            "host_network": null,
+                            "host_pid": null,
+                            "hostname": null,
+                            "image_pull_secrets": null,
+                            "init_containers": null,
+                            "local_vars_configuration": "",
+                            "node_name": null,
+                            "node_selector": null,
+                            "overhead": null,
+                            "preemption_policy": null,
+                            "priority": null,
+                            "priority_class_name": null,
+                            "readiness_gates": null,
+                            "restart_policy": "Never",
+                            "runtime_class_name": null,
+                            "scheduler_name": "default-scheduler",
+                            "security_context": {
+                                "discriminator": null,
+                                "fs_group": null,
+                                "fs_group_change_policy": null,
+                                "local_vars_configuration": "",
+                                "run_as_group": null,
+                                "run_as_non_root": null,
+                                "run_as_user": null,
+                                "se_linux_options": null,
+                                "seccomp_profile": null,
+                                "supplemental_groups": null,
+                                "sysctls": null,
+                                "windows_options": null
+                            },
+                            "service_account": null,
+                            "service_account_name": null,
+                            "set_hostname_as_fqdn": null,
+                            "share_process_namespace": null,
+                            "subdomain": null,
+                            "termination_grace_period_seconds": 30,
+                            "tolerations": null,
+                            "topology_spread_constraints": null,
+                            "volumes": null
+                        }
+                    },
+                    "ttl_seconds_after_finished": 10
+                }
+            },
+            "local_vars_configuration": "",
+            "schedule": "0 0 * * *",
+            "starting_deadline_seconds": null,
+            "successful_jobs_history_limit": 3,
+            "suspend": false
+        },
+        "status": {
+            "active": null,
+            "discriminator": null,
+            "last_schedule_time": null,
+            "last_successful_time": null,
+            "local_vars_configuration": ""
+        },
+        "type": ""
+    },
+    {
+        "apiVersion": "batch/v1",
+        "api_version": null,
+        "discriminator": null,
+        "kind": "Job",
+        "local_vars_configuration": "",
+        "metadata": {
+            "annotations": {
+                "kubectl.kubernetes.io/last-applied-configuration": "{\"apiVersion\":\"batch/v1\",\"kind\":\"Job\",\"metadata\":{\"annotations\":{},\"name\":\"list-resources\",\"namespace\":\"default\"},\"spec\":{\"backoffLimit\":1,\"template\":{\"spec\":{\"containers\":[{\"command\":[\"ls\",\"-alhF\",\"/\"],\"image\":\"ubuntu:latest\",\"name\":\"list-resources\"}],\"restartPolicy\":\"Never\"}}}}\n"
+            },
+            "cluster_name": null,
+            "creation_timestamp": "2022-01-31T04:11:12Z",
+            "deletion_grace_period_seconds": null,
+            "deletion_timestamp": null,
+            "discriminator": null,
+            "finalizers": null,
+            "generate_name": null,
+            "generation": null,
+            "labels": {
+                "controller-uid": "b3aa0bb1-708a-4ed0-bf59-f041024404d0",
+                "job-name": "list-resources"
+            },
+            "local_vars_configuration": "",
+            "managed_fields": [
+                {
+                    "api_version": "batch/v1",
+                    "discriminator": null,
+                    "fields_type": "FieldsV1",
+                    "fields_v1": {
+                        "f:metadata": {
+                            "f:annotations": {
+                                ".": {},
+                                "f:kubectl.kubernetes.io/last-applied-configuration": {}
+                            }
+                        },
+                        "f:spec": {
+                            "f:backoffLimit": {},
+                            "f:completions": {},
+                            "f:parallelism": {},
+                            "f:template": {
+                                "f:spec": {
+                                    "f:containers": {
+                                        "k:{\"name\":\"list-resources\"}": {
+                                            ".": {},
+                                            "f:command": {},
+                                            "f:image": {},
+                                            "f:imagePullPolicy": {},
+                                            "f:name": {},
+                                            "f:resources": {},
+                                            "f:terminationMessagePath": {},
+                                            "f:terminationMessagePolicy": {}
+                                        }
+                                    },
+                                    "f:dnsPolicy": {},
+                                    "f:restartPolicy": {},
+                                    "f:schedulerName": {},
+                                    "f:securityContext": {},
+                                    "f:terminationGracePeriodSeconds": {}
+                                }
+                            }
+                        }
+                    },
+                    "local_vars_configuration": "",
+                    "manager": "kubectl-client-side-apply",
+                    "operation": "Update",
+                    "time": "2022-01-31T04:11:12Z"
+                },
+                {
+                    "api_version": "batch/v1",
+                    "discriminator": null,
+                    "fields_type": "FieldsV1",
+                    "fields_v1": {
+                        "f:status": {
+                            "f:completionTime": {},
+                            "f:conditions": {},
+                            "f:startTime": {},
+                            "f:succeeded": {}
+                        }
+                    },
+                    "local_vars_configuration": "",
+                    "manager": "kube-controller-manager",
+                    "operation": "Update",
+                    "time": "2022-01-31T04:12:13Z"
+                }
+            ],
+            "name": "list-resources",
+            "namespace": "default",
+            "owner_references": null,
+            "resource_version": "502498",
+            "self_link": null,
+            "uid": "b3aa0bb1-708a-4ed0-bf59-f041024404d0"
+        },
+        "spec": {
+            "active_deadline_seconds": null,
+            "backoff_limit": 1,
+            "completion_mode": null,
+            "completions": 1,
+            "discriminator": null,
+            "local_vars_configuration": "",
+            "manual_selector": null,
+            "parallelism": 1,
+            "selector": {
+                "discriminator": null,
+                "local_vars_configuration": "",
+                "match_expressions": null,
+                "match_labels": {
+                    "controller-uid": "b3aa0bb1-708a-4ed0-bf59-f041024404d0"
+                }
+            },
+            "suspend": null,
+            "template": {
+                "discriminator": null,
+                "local_vars_configuration": "",
+                "metadata": {
+                    "annotations": null,
+                    "cluster_name": null,
+                    "creation_timestamp": null,
+                    "deletion_grace_period_seconds": null,
+                    "deletion_timestamp": null,
+                    "discriminator": null,
+                    "finalizers": null,
+                    "generate_name": null,
+                    "generation": null,
+                    "labels": {
+                        "controller-uid": "b3aa0bb1-708a-4ed0-bf59-f041024404d0",
+                        "job-name": "list-resources"
+                    },
+                    "local_vars_configuration": "",
+                    "managed_fields": null,
+                    "name": null,
+                    "namespace": null,
+                    "owner_references": null,
+                    "resource_version": null,
+                    "self_link": null,
+                    "uid": null
+                },
+                "spec": {
+                    "active_deadline_seconds": null,
+                    "affinity": null,
+                    "automount_service_account_token": null,
+                    "containers": [
+                        {
+                            "args": null,
+                            "command": [
+                                "ls",
+                                "-alhF",
+                                "/"
+                            ],
+                            "discriminator": null,
+                            "env": null,
+                            "env_from": null,
+                            "image": "ubuntu:latest",
+                            "image_pull_policy": "Always",
+                            "lifecycle": null,
+                            "liveness_probe": null,
+                            "local_vars_configuration": "",
+                            "name": "list-resources",
+                            "ports": null,
+                            "readiness_probe": null,
+                            "resources": {
+                                "discriminator": null,
+                                "limits": null,
+                                "local_vars_configuration": "",
+                                "requests": null
+                            },
+                            "security_context": null,
+                            "startup_probe": null,
+                            "stdin": null,
+                            "stdin_once": null,
+                            "termination_message_path": "/dev/termination-log",
+                            "termination_message_policy": "File",
+                            "tty": null,
+                            "volume_devices": null,
+                            "volume_mounts": null,
+                            "working_dir": null
+                        }
+                    ],
+                    "discriminator": null,
+                    "dns_config": null,
+                    "dns_policy": "ClusterFirst",
+                    "enable_service_links": null,
+                    "ephemeral_containers": null,
+                    "host_aliases": null,
+                    "host_ipc": null,
+                    "host_network": null,
+                    "host_pid": null,
+                    "hostname": null,
+                    "image_pull_secrets": null,
+                    "init_containers": null,
+                    "local_vars_configuration": "",
+                    "node_name": null,
+                    "node_selector": null,
+                    "overhead": null,
+                    "preemption_policy": null,
+                    "priority": null,
+                    "priority_class_name": null,
+                    "readiness_gates": null,
+                    "restart_policy": "Never",
+                    "runtime_class_name": null,
+                    "scheduler_name": "default-scheduler",
+                    "security_context": {
+                        "discriminator": null,
+                        "fs_group": null,
+                        "fs_group_change_policy": null,
+                        "local_vars_configuration": "",
+                        "run_as_group": null,
+                        "run_as_non_root": null,
+                        "run_as_user": null,
+                        "se_linux_options": null,
+                        "seccomp_profile": null,
+                        "supplemental_groups": null,
+                        "sysctls": null,
+                        "windows_options": null
+                    },
+                    "service_account": null,
+                    "service_account_name": null,
+                    "set_hostname_as_fqdn": null,
+                    "share_process_namespace": null,
+                    "subdomain": null,
+                    "termination_grace_period_seconds": 30,
+                    "tolerations": null,
+                    "topology_spread_constraints": null,
+                    "volumes": null
+                }
+            },
+            "ttl_seconds_after_finished": null
+        },
+        "status": {
+            "active": null,
+            "completed_indexes": null,
+            "completion_time": "2022-01-31T04:12:13Z",
+            "conditions": [
+                {
+                    "discriminator": null,
+                    "last_probe_time": "2022-01-31T04:12:13Z",
+                    "last_transition_time": "2022-01-31T04:12:13Z",
+                    "local_vars_configuration": "",
+                    "message": null,
+                    "reason": null,
+                    "status": "True",
+                    "type": "Complete"
+                }
+            ],
+            "discriminator": null,
+            "failed": null,
+            "local_vars_configuration": "",
+            "start_time": "2022-01-31T04:11:12Z",
+            "succeeded": 1
         },
         "type": ""
     },

@@ -36,8 +36,11 @@ secret/default/nginx-sec (data=[PASSWORD, USERNAME])
 service/default/kubernetes (labels=[component=apiserver provider=kubernetes] type=ClusterIP cluster_ip=10.96.0.1 ports=[443=6443/TCP ])
 replicaset/default/nginx-deployment-7b6fcd488c (labels=[app=nginx pod-template-hash=7b6fcd488c] replicas=2/2 avail=2 generation=1)
 deployment/default/nginx-deployment (labels=[app=nginx] replicas=2/2 upd=2 avail=2 strategy=RollingUpdate max_surge=25% max_unavailable=25% generation=1)
+pod/default/list-resources-8xvpb (labels=[controller-uid=b3aa0bb1-708a-4ed0-bf59-f041024404d0 job-name=list-resources] sa=default )
 pod/default/nginx-deployment-7b6fcd488c-5q8nt (labels=[app=nginx pod-template-hash=7b6fcd488c] sa=default configmaps=[['nginx-cm']] pvcs=[['nginx-pvc']])
 pod/default/nginx-deployment-7b6fcd488c-7kdrw (labels=[app=nginx pod-template-hash=7b6fcd488c] sa=default configmaps=[['nginx-cm']] pvcs=[['nginx-pvc']])
+cronjob/default/list-resources ()
+job/default/list-resources (labels=[controller-uid=b3aa0bb1-708a-4ed0-bf59-f041024404d0 job-name=list-resources] )
 persistentvolume/pvc-6801b99e-d658-4095-967b-b035c520886f (storage_class=standard access_modes=['ReadWriteOnce'] capacity=32Mi reclaim=Delete)
 persistentvolumeclaim/default/nginx-pvc (access_modes=standard storage_class=['ReadWriteOnce'] capacity=32Mi volume=pvc-6801b99e-d658-4095-967b-b035c520886f phase=Bound)
 """
@@ -63,8 +66,11 @@ deployment/default/nginx-deployment (labels=[app=nginx] replicas=2/2 upd=2 avail
         replicaset/default/nginx-deployment-7b6fcd488c (labels=[app=nginx pod-template-hash=7b6fcd488c] replicas=2/2 avail=2 generation=1)
                 pod/default/nginx-deployment-7b6fcd488c-5q8nt (labels=[app=nginx pod-template-hash=7b6fcd488c] sa=default configmaps=[['nginx-cm']] pvcs=[['nginx-pvc']])
                 pod/default/nginx-deployment-7b6fcd488c-7kdrw (labels=[app=nginx pod-template-hash=7b6fcd488c] sa=default configmaps=[['nginx-cm']] pvcs=[['nginx-pvc']])
+pod/default/list-resources-8xvpb (labels=[controller-uid=b3aa0bb1-708a-4ed0-bf59-f041024404d0 job-name=list-resources] sa=default )
 pod/default/nginx-deployment-7b6fcd488c-5q8nt (labels=[app=nginx pod-template-hash=7b6fcd488c] sa=default configmaps=[['nginx-cm']] pvcs=[['nginx-pvc']])
 pod/default/nginx-deployment-7b6fcd488c-7kdrw (labels=[app=nginx pod-template-hash=7b6fcd488c] sa=default configmaps=[['nginx-cm']] pvcs=[['nginx-pvc']])
+cronjob/default/list-resources ()
+job/default/list-resources (labels=[controller-uid=b3aa0bb1-708a-4ed0-bf59-f041024404d0 job-name=list-resources] )
 persistentvolume/pvc-6801b99e-d658-4095-967b-b035c520886f (storage_class=standard access_modes=['ReadWriteOnce'] capacity=32Mi reclaim=Delete)
 persistentvolumeclaim/default/nginx-pvc (access_modes=standard storage_class=['ReadWriteOnce'] capacity=32Mi volume=pvc-6801b99e-d658-4095-967b-b035c520886f phase=Bound)
 """
@@ -72,8 +78,8 @@ persistentvolumeclaim/default/nginx-pvc (access_modes=standard storage_class=['R
         # setup "related" resources to verify formatter output
         self.config.related = True
         self.resources[5]._related = [
-            self.resources[7],
             self.resources[8],
+            self.resources[9],
         ]  # replicaset has pods
         self.resources[6]._related = [self.resources[5]]  # deployment has replicaset
 

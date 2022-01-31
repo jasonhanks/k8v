@@ -1,0 +1,13 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: list-resources
+spec:
+  template:
+    spec:
+      containers:
+      - name: list-resources
+        image:  ubuntu:latest
+        command: ["ls", "-alhF", "/"]
+      restartPolicy: Never
+  backoffLimit: 1

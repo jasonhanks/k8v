@@ -1,0 +1,22 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: list-resources
+  namespace: default
+spec:
+  concurrencyPolicy: Forbid
+  schedule: '0 0 * * *' # cron spec of time, here, midnight
+  jobTemplate:
+    spec:
+      suspend: true
+      ttlSecondsAfterFinished: 10  # Cleanup (Job, Pods, etc.) every 24h
+      backoffLimit: 1
+      activeDeadlineSeconds: 60
+                                 # "waiting for rollout" variant specified below
+      template:
+        spec:
+          restartPolicy: Never
+          containers:
+            - name: list-resources
+              image: ubuntu:latest
+              command: ["ls", "-alhF", "/"]
