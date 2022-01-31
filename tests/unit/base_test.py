@@ -11,7 +11,7 @@ class BaseTest:
                 except EOFError:
                     break
 
-    def load_and_display(self, filename, display=False):
+    def load_fixture(self, filename, display=False):
         data = list(self.load_all(filename))
         if display:
             print()

@@ -17,9 +17,7 @@ class TestDefaultFormatter(BaseTest):
         self.printer = k8v.printer.Printer(self.config)
 
     def test_configmaps(self):
-        self.printer.print_all(
-            self.load_and_display("tests/fixtures/configmaps.pickle")
-        )
+        self.printer.print_all(self.load_fixture("tests/fixtures/configmaps.pickle"))
         assert (
             self.config.file.getvalue()
             == """configmap/default/kube-root-ca.crt (data=[ca.crt])
@@ -32,7 +30,7 @@ configmap/default/nginx-cm (data=[ENV, app])
         self.test_configmaps()  # should be the same
 
     def test_cronjobs(self):
-        self.printer.print_all(self.load_and_display("tests/fixtures/cronjobs.pickle"))
+        self.printer.print_all(self.load_fixture("tests/fixtures/cronjobs.pickle"))
         assert (
             self.config.file.getvalue()
             == """cronjob/default/list-resources ()
@@ -44,7 +42,7 @@ configmap/default/nginx-cm (data=[ENV, app])
         self.test_cronjobs()  # should be the same
 
     def test_daemonsets(self):
-        data = self.load_and_display("tests/fixtures/daemonsets.pickle")
+        data = self.load_fixture("tests/fixtures/daemonsets.pickle")
         self.printer.print_all([data[0], data[2]])
         assert (
             self.config.file.getvalue()
@@ -55,9 +53,7 @@ daemonset/kube-system/kube-proxy (labels=[k8s-app=kube-proxy] )
 
     def test_daemonsets_related(self):
         self.config.related = True
-        self.printer.print_all(
-            self.load_and_display("tests/fixtures/daemonsets.pickle")
-        )
+        self.printer.print_all(self.load_fixture("tests/fixtures/daemonsets.pickle"))
         assert (
             self.config.file.getvalue()
             == """daemonset/kube-system/kindnet (labels=[app=kindnet k8s-app=kindnet tier=node] )
@@ -71,7 +67,7 @@ pod/kube-system/kube-proxy-7pjmw (labels=[controller-revision-hash=6bc6858f58 k8
 
     def test_deployments(self):
         self.printer.print_all(
-            [self.load_and_display("tests/fixtures/deployments.pickle")[0]]
+            [self.load_fixture("tests/fixtures/deployments.pickle")[0]]
         )
         assert (
             self.config.file.getvalue()
@@ -82,7 +78,7 @@ pod/kube-system/kube-proxy-7pjmw (labels=[controller-revision-hash=6bc6858f58 k8
     def test_deployments_related(self):
         self.config.related = True
         self.printer.print_all(
-            [self.load_and_display("tests/fixtures/deployments.pickle")[0]]
+            [self.load_fixture("tests/fixtures/deployments.pickle")[0]]
         )
         assert (
             self.config.file.getvalue()
@@ -94,7 +90,7 @@ pod/kube-system/kube-proxy-7pjmw (labels=[controller-revision-hash=6bc6858f58 k8
         )
 
     def test_jobs(self):
-        self.printer.print_all(self.load_and_display("tests/fixtures/jobs.pickle"))
+        self.printer.print_all(self.load_fixture("tests/fixtures/jobs.pickle"))
         assert (
             self.config.file.getvalue()
             == """job/default/list-resources (labels=[controller-uid=bcc11bfb-8c46-4878-b24f-41d025d028f8 job-name=list-resources] )
@@ -107,7 +103,7 @@ pod/kube-system/kube-proxy-7pjmw (labels=[controller-revision-hash=6bc6858f58 k8
 
     def test_persistentvolume(self):
         self.printer.print_all(
-            self.load_and_display("tests/fixtures/persistentvolumes.pickle")
+            self.load_fixture("tests/fixtures/persistentvolumes.pickle")
         )
         assert "persistentvolume/pvc-" in self.config.file.getvalue()
 
@@ -117,7 +113,7 @@ pod/kube-system/kube-proxy-7pjmw (labels=[controller-revision-hash=6bc6858f58 k8
 
     def test_persistentvolumeclaim(self):
         self.printer.print_all(
-            self.load_and_display("tests/fixtures/persistentvolumeclaims.pickle")
+            self.load_fixture("tests/fixtures/persistentvolumeclaims.pickle")
         )
         assert (
             self.config.file.getvalue()
@@ -130,7 +126,7 @@ pod/kube-system/kube-proxy-7pjmw (labels=[controller-revision-hash=6bc6858f58 k8
         self.test_persistentvolumeclaim()  # should be the same
 
     def test_pods(self):
-        self.printer.print_all(self.load_and_display("tests/fixtures/pods.pickle"))
+        self.printer.print_all(self.load_fixture("tests/fixtures/pods.pickle"))
         assert (
             self.config.file.getvalue()
             == """pod/default/list-resources-4rcts (labels=[controller-uid=bcc11bfb-8c46-4878-b24f-41d025d028f8 job-name=list-resources] sa=default )
@@ -144,9 +140,7 @@ pod/default/nginx-deployment-7b6fcd488c-vrgrx (labels=[app=nginx pod-template-ha
         self.test_pods()  # should be the same
 
     def test_replicaset(self):
-        self.printer.print_all(
-            self.load_and_display("tests/fixtures/replicasets.pickle")
-        )
+        self.printer.print_all(self.load_fixture("tests/fixtures/replicasets.pickle"))
         assert (
             self.config.file.getvalue()
             == """replicaset/default/nginx-deployment-7b6fcd488c (labels=[app=nginx pod-template-hash=7b6fcd488c] replicas=2/2 avail=2 generation=1)
@@ -157,9 +151,7 @@ pod/default/nginx-deployment-7b6fcd488c-vrgrx (labels=[app=nginx pod-template-ha
 
     def test_replicaset_related(self):
         self.config.related = True
-        self.printer.print_all(
-            self.load_and_display("tests/fixtures/replicasets.pickle")
-        )
+        self.printer.print_all(self.load_fixture("tests/fixtures/replicasets.pickle"))
         assert (
             self.config.file.getvalue()
             == """replicaset/default/nginx-deployment-7b6fcd488c (labels=[app=nginx pod-template-hash=7b6fcd488c] replicas=2/2 avail=2 generation=1)
@@ -171,7 +163,7 @@ pod/default/nginx-deployment-7b6fcd488c-vrgrx (labels=[app=nginx pod-template-ha
         )
 
     def test_secrets(self):
-        self.printer.print_all(self.load_and_display("tests/fixtures/secrets.pickle"))
+        self.printer.print_all(self.load_fixture("tests/fixtures/secrets.pickle"))
         assert (
             self.config.file.getvalue()
             == """secret/default/default-token-5r2mb (data=[ca.crt, namespace, token])
@@ -184,7 +176,7 @@ secret/default/nginx-sec (data=[PASSWORD, USERNAME])
         self.test_secrets()  # should be the same
 
     def test_services(self):
-        self.printer.print_all(self.load_and_display("tests/fixtures/services.pickle"))
+        self.printer.print_all(self.load_fixture("tests/fixtures/services.pickle"))
         assert (
             self.config.file.getvalue()
             == """service/default/kubernetes (labels=[component=apiserver provider=kubernetes] type=ClusterIP cluster_ip=10.96.0.1 ports=[443=6443/TCP ])

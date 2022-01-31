@@ -19,7 +19,7 @@ class TestJsonFormatter(BaseTest):
         self.printer = k8v.printer.Printer(self.config)
 
     def test_configmaps(self):
-        data = self.load_and_display("tests/fixtures/configmaps.pickle")
+        data = self.load_fixture("tests/fixtures/configmaps.pickle")
         self.printer.print_all(data)
 
         # convert the output from JSON to a munchified object
@@ -36,25 +36,16 @@ class TestJsonFormatter(BaseTest):
         self.test_configmaps()  # should be the same
 
     def test_cronjobs(self):
-        data = self.load_and_display("tests/fixtures/cronjobs.pickle")
+        data = self.load_fixture("tests/fixtures/cronjobs.pickle")
         self.printer.print_all(data)
 
-        # convert the output from JSON to a munchified object
-        obj = munch.munchify(json.loads(self.config.file.getvalue()))
+        # convert from json to a list
+        resources = munch.munchify(json.loads(self.config.file.getvalue()))
 
-        assert len(obj) == len(data)
-        assert data[0].metadata.name == obj[0].metadata.name
-        assert obj[0].metadata.name == "list-resources"
-        assert obj[0].spec.suspend == True
-        assert obj[0].spec.schedule == "0 0 * * *"
-        assert obj[0].spec.job_template.spec.ttl_seconds_after_finished == 10
-        assert obj[0].spec.job_template.spec.backoff_limit == 1
-        assert obj[0].spec.job_template.spec.active_deadline_seconds == 60
-        assert obj[0].spec.job_template.spec.template.spec.restart_policy == "Never"
-        assert (
-            obj[0].spec.job_template.spec.template.spec.containers[0].name
-            == "list-resources"
-        )
+        # compare the converted objects to the originals from pickle
+        assert len(resources) == len(data)
+        for num, resource in enumerate(data):
+            assert resource == data[num]
 
     def test_cronjobs_related(self):
         self.config.related = True
