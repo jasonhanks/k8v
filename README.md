@@ -1,4 +1,4 @@
-# k8v
+# k8v is a Kubernetes cluster viewer
 
 k8v is a command line utility used to view resources in a Kubernetes cluster. It allows the user to view 
 multiple resources at once, optionally in a related hierarchy, as well as provide advanced filtering capabilities.
@@ -43,7 +43,7 @@ on the command line after you specifiy all other options:
 
 Resources can also be excluded by substring from the matched results using the -e | --exclude option:
 
-    # search all namespaces for resources that have *nginx* 
+    # search all namespaces for resources that have *nginx* while excluding unwanted resources
     $ k8v -A -ob -i nginx -e 7b6fcd488c
     configmap/default/nginx-cm
     deployment/default/nginx-deployment
