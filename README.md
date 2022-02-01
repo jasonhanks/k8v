@@ -12,7 +12,7 @@ visibility into a Kubernetes cluster. It will not make changes to a Kubernetes c
 
 This tool provides a number of ways to search for resources and filter the results. This includes the ability to 
 search for resources across all namespaces, or a list of namespaces, match label selectors, or search by *name* 
-for resources that should be included or excluded in the results.
+(substring match) for resources that should be included or excluded in the results.
 
 Filtering strings for a *name* can be specified using the -i | --include option or simply passing arguments
 on the command line after you specifiy all other options:
@@ -41,17 +41,15 @@ on the command line after you specifiy all other options:
     service/default/nginx
 
 
-Resources can also be excluded from the matched results using the -e | --exclude option:
+Resources can also be excluded by substring from the matched results using the -e | --exclude option:
 
     # search all namespaces for resources that have *nginx* 
-    $ k8v -A -ob -i nginx
+    $ k8v -A -ob -i nginx -e 7b6fcd488c
     configmap/default/nginx-cm
     deployment/default/nginx-deployment
     persistentvolumeclaim/default/nginx-pvc
-    pod/default/nginx-deployment-7b6fcd488c-5zm67
-    pod/default/nginx-deployment-7b6fcd488c-j9tkn
-    replicaset/default/nginx-deployment-7b6fcd488c
     secret/default/nginx-sec
+    service/default/nginx
 
 
 ## Resource types
