@@ -51,8 +51,12 @@ class Config:
     verbose: bool = False
 
     def load(self):
+        # determine how to write to our output (Pickle is binary)
         if self.filename is not None:
-            self.file = open(self.filename, "w")
+            if self.output in ["pickle", "p"]:
+                self.file = open(self.filename, "wb")
+            else:
+                self.file = open(self.filename, "w")
         try:
             schemes = json.load(open("etc/color-schemes.json"))["schemes"]
             if self.colors in schemes:
@@ -97,10 +101,5 @@ class Config:
             self.formatter = k8v.formatters.json_formatter.JsonFormatter(self)
         elif self.output in ["pickle", "p"]:
             self.formatter = k8v.formatters.pickle_formatter.PickleFormatter(self)
-            if self.filename is None:
-                raise Exception(
-                    f"--filename must be specified when using --output=pickle"
-                )
-            self.file = open(self.filename, "wb")
         else:
             self.formatter = k8v.formatters.default_formatter.DefaultFormatter(self)
