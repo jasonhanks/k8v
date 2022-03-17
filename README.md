@@ -242,7 +242,7 @@ the latest version is: jasonhanks/k8s:latest
 ## Kubernetes configuration
 
 In order to specify the Kubernetes configuration with the Docker container you must pass it a volume 
-with the desired cluster configuration overriding /app/.kube/config inside the container. 
+with the desired cluster configuration overriding /root/.kube/config inside the container. 
 
 See the Usage section for examples.
 
@@ -252,13 +252,13 @@ See the Usage section for examples.
 Here are a few various examples of how to use the container to run the utility:
 
     # view the usage for the tool using specified KUBECONFIG file
-    docker run -it --rm -v /etc/rancher/k3s/k3s.yaml:/app/.kube/config jasonhanks/k8v:latest
+    docker run -it --rm -v /etc/rancher/k3s/k3s.yaml:/root/.kube/config jasonhanks/k8v:latest
 
     # view *brief* listing of all default resources all namespaces
-    docker run -it --rm -v ~/.kube:/app/.kube jasonhanks/k8v:latest -A -o brief
+    docker run -it --rm -v ~/.kube:/root/.kube jasonhanks/k8v:latest -A -o brief
 
     # view all *services* and *pod* resources in the specified namespace
-    docker run -it --rm -v ~/.kube:/app/.kube jasonhanks/k8v:latest -n nginx -r pod -r service
+    docker run -it --rm -v ~/.kube:/root/.kube jasonhanks/k8v:latest -n nginx -r pod -r service
 
     # view all default resources matching the specififed search query
-    docker run -it --rm -v ~/.kube:/app/.kube jasonhanks/k8v:latest nginx
+    docker run -it --rm -v ~/.kube:/root/.kube jasonhanks/k8v:latest nginx
